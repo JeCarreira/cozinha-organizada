@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cozinha Organizada</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f0ebe0;--bg2:#e8e0d0;--bg3:#dfd5c0;
+  --ink:#1c1410;--ink2:#3a2e20;--ink3:#6a5840;--ink4:#9a8870;
+  --acc:#5a3e1e;--acc2:#7a5c2e;--acc3:#f5ede0;
+  --rose:#7a3040;--rose2:#a05060;--rose3:#f8ece8;
+  --sage:#3a5030;--sage2:#5a7a48;--sage3:#e8f0e0;
+  --gold:#7a6020;--gold2:#a08030;--gold3:#f5f0d8;
+  --bd:rgba(28,20,16,.12);--bd2:rgba(28,20,16,.22);--bd3:rgba(28,20,16,.4);
+  --fw:"Playfair Display",Georgia,serif;
+  --fb:"Cormorant Garamond",Georgia,serif;
+}
+body{font-family:var(--fb);color:var(--ink);font-size:15px;line-height:1.65;min-height:100vh;
+  background-color:var(--bg);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23n)' opacity='0.055'/%3E%3C/svg%3E");
+}
+#lv{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+.lbox{background:rgba(240,235,224,.95);border:1px solid var(--bd2);padding:44px 40px;width:100%;max-width:420px;text-align:center;box-shadow:0 8px 40px rgba(28,20,16,.1)}
+.lorn{font-size:.88rem;letter-spacing:.28em;color:var(--gold2);margin-bottom:10px;opacity:.7}
+.llogo{font-family:var(--fw);font-size:1.75rem;font-weight:900;color:var(--ink);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
+.llogo em{color:var(--acc2);font-style:italic;font-weight:400;font-size:1.5rem;text-transform:none}
+.lsub{font-family:var(--fb);font-size:.88rem;color:var(--ink3);margin-bottom:26px;font-style:italic;line-height:1.6}
+.llbl{font-family:var(--fw);font-size:.6rem;text-transform:uppercase;letter-spacing:.12em;color:var(--ink3);display:block;text-align:left;margin-bottom:5px}
+.linp{width:100%;font-family:var(--fb);font-size:.95rem;padding:11px 13px;border:1.5px solid var(--bd2);background:rgba(255,255,255,.6);color:var(--ink);outline:none;margin-bottom:8px;font-style:italic;transition:border-color .15s}
+.linp:focus{border-color:var(--acc2);background:rgba(255,255,255,.85)}
+.lhint{font-family:var(--fb);font-size:.75rem;color:var(--ink4);margin-bottom:16px;font-style:italic}
+.lbtn{width:100%;font-family:var(--fw);font-size:.75rem;font-weight:700;padding:13px;border:none;background:var(--ink);color:var(--bg);cursor:pointer;text-transform:uppercase;letter-spacing:.12em;margin-bottom:9px;transition:background .15s}
+.lbtn:hover{background:var(--ink2)}
+.lbtn2{width:100%;font-family:var(--fw);font-size:.7rem;font-weight:700;padding:10px;border:1.5px solid var(--bd2);background:transparent;color:var(--ink2);cursor:pointer;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;transition:all .15s}
+.lbtn2:hover{background:var(--bg3)}
+.lforgot{font-family:var(--fb);font-size:.78rem;color:var(--acc2);cursor:pointer;font-style:italic;text-decoration:underline;display:block;margin-top:4px}
+.tnav{background:rgba(28,20,16,.94);border-bottom:2px solid var(--gold2);position:sticky;top:0;z-index:100;backdrop-filter:blur(8px)}
+.tni{display:flex;align-items:stretch;overflow-x:auto;scrollbar-width:none}
+.tni::-webkit-scrollbar{display:none}
+.tnl{font-family:var(--fw);font-size:.88rem;font-weight:900;color:var(--bg);white-space:nowrap;padding:0 18px;display:flex;align-items:center;border-right:1px solid rgba(255,255,255,.08);flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
+.tnl em{color:var(--gold2);font-style:italic;font-weight:400;font-size:.78rem;text-transform:none;margin-left:4px}
+.tab{font-family:var(--fw);font-size:.66rem;font-weight:700;padding:15px 13px;border:none;background:transparent;color:rgba(240,235,224,.45);cursor:pointer;white-space:nowrap;text-transform:uppercase;letter-spacing:.07em;transition:all .15s;border-bottom:2px solid transparent;margin-bottom:-2px;flex-shrink:0}
+.tab:hover{color:var(--bg);background:rgba(255,255,255,.05)}
+.tab.on{color:var(--bg);background:rgba(160,128,48,.18);border-bottom-color:var(--gold2)}
+.tab.p-tab{color:rgba(248,236,232,.5)}
+.tab.p-tab.on{border-bottom-color:var(--rose2);background:rgba(122,48,64,.2);color:var(--rose3)}
+.tne{margin-left:auto;display:flex;align-items:center;gap:10px;padding:0 14px;border-left:1px solid rgba(255,255,255,.08);flex-shrink:0}
+.tns{font-family:var(--fw);font-size:.58rem;color:var(--gold2);display:none;text-transform:uppercase;letter-spacing:.08em}
+.tns.on{display:block}
+.tnc{font-family:var(--fw);font-size:.6rem;color:rgba(240,235,224,.28);text-transform:uppercase;letter-spacing:.06em}
+.page{max-width:980px;margin:0 auto;padding:28px 22px}
+.sec{display:none}.sec.on{display:block}
+.ey{font-family:var(--fw);font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink4);margin-bottom:4px}
+.ptit{font-family:var(--fw);font-size:2rem;font-weight:900;line-height:1.05;color:var(--ink);margin-bottom:6px}
+.ptit em{font-style:italic;color:var(--acc);font-weight:400}
+.ptit.personal em{color:var(--rose)}
+.rule{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+.rule::before,.rule::after{content:"";flex:1;height:1px;background:var(--bd2)}
+.rule span{color:var(--gold2);font-size:.78rem;letter-spacing:.16em}
+.s4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.stc{background:rgba(240,235,224,.75);border:1px solid var(--bd2);padding:13px 15px;text-align:center;position:relative}
+.stc::before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);width:24px;height:2px;background:var(--acc)}
+.stc.gd::before{background:var(--gold2)}.stc.ro::before{background:var(--rose)}
+.stl{font-family:var(--fw);font-size:.57rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px}
+.stv{font-family:var(--fw);font-size:1.5rem;font-weight:900;color:var(--ink);line-height:1}
+.sts{font-family:var(--fb);font-size:.65rem;color:var(--ink4);margin-top:3px;font-style:italic}
+.card{background:rgba(240,235,224,.78);border:1px solid var(--bd2);padding:18px 20px;margin-bottom:14px;position:relative}
+.cc{position:absolute;top:0;right:0;width:18px;height:18px;background:var(--bg);clip-path:polygon(100% 0,100% 100%,0 100%);border-left:1px solid var(--bd2);border-bottom:1px solid var(--bd2)}
+.ct{font-family:var(--fw);font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.ct hr{flex:1;border:none;border-top:1px solid var(--bd2)}
+.dark-card{background:rgba(28,20,16,.88);border:1px solid rgba(255,255,255,.06);padding:20px 24px;margin-bottom:14px}
+.btn{font-family:var(--fw);font-size:.65rem;font-weight:700;padding:8px 14px;border:1.5px solid var(--bd3);background:transparent;color:var(--ink);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.08em;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:var(--bg3)}.btn:disabled{opacity:.4;cursor:not-allowed}
+.b-dk{background:var(--ink);color:var(--bg);border-color:var(--ink)}.b-dk:hover{background:var(--ink2)}
+.b-ro{background:var(--rose);color:var(--bg);border-color:var(--rose)}.b-ro:hover{background:var(--rose2)}
+.b-sg{background:var(--sage);color:var(--bg);border-color:var(--sage)}.b-sg:hover{background:var(--sage2)}
+.b-gd{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.b-sm{font-size:.6rem;padding:6px 10px}
+input[type=text],input[type=number],input[type=date],select,textarea{font-family:var(--fb);font-size:.88rem;padding:9px 11px;border:1.5px solid var(--bd2);background:rgba(255,255,255,.5);color:var(--ink);outline:none;width:100%;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--acc2);background:rgba(255,255,255,.75)}
+input::placeholder{color:var(--ink4);font-style:italic}
+textarea{resize:vertical;min-height:56px}
+input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255,255,255,.4)}
+.ir{display:flex;gap:7px;margin-bottom:13px;flex-wrap:wrap;align-items:flex-end}
+.ir input,.ir select{width:auto;flex:1;min-width:80px}
+.ir input[type=number]{max-width:65px}.ir .btn{flex-shrink:0}
+.fl{margin-bottom:10px}
+.fl label{font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);display:block;margin-bottom:4px;font-weight:700}
+.dv{font-family:var(--fw);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:var(--ink4);margin:15px 0 8px;display:flex;align-items:center;gap:8px}
+.dv::before,.dv::after{content:"";flex:1;height:1px;background:var(--bd2)}
+.sgr{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:7px}
+.si{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:rgba(255,255,255,.45);border:1px solid var(--bd);gap:7px;transition:border-color .15s}
+.si:hover{border-color:var(--bd2)}.si.low{background:rgba(248,236,232,.7);border-color:rgba(122,48,64,.3)}
+.sn{font-size:.87rem;color:var(--ink);flex:1;line-height:1.3}
+.su{font-family:var(--fw);font-size:.56rem;color:var(--ink4);display:block;text-transform:uppercase;letter-spacing:.05em}
+.qc{display:flex;align-items:center;gap:3px}
+.qb{width:22px;height:22px;border:1px solid var(--bd2);background:rgba(255,255,255,.5);cursor:pointer;font-size:.88rem;display:flex;align-items:center;justify-content:center;color:var(--ink2);transition:all .15s}
+.qb:hover{background:var(--ink);color:var(--bg)}
+.qv{font-family:var(--fw);font-size:.83rem;font-weight:700;min-width:22px;text-align:center;color:var(--ink)}
+.xb{background:none;border:none;cursor:pointer;color:var(--ink4);font-size:.72rem;padding:1px 3px;transition:color .15s}
+.xb:hover{color:var(--rose)}
+/* EMENTA */
+.week-hdr{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.wk-date-box{display:flex;flex-direction:column;gap:3px}
+.wk-date-box span{font-family:var(--fw);font-size:.57rem;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4)}
+.wk-date-box input{padding:7px 9px;font-size:.8rem;max-width:145px}
+.meal-btns{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:12px}
+.mb2{font-family:var(--fw);font-size:.58rem;font-weight:700;padding:5px 10px;border:1.5px solid var(--bd2);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.07em}
+.mb2:hover{color:var(--ink)}.mb2.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.plano-wrap{overflow-x:auto;margin-bottom:8px}
+.plano-grid{display:grid;gap:1px;background:var(--bd2);min-width:550px}
+.ph{background:var(--ink);color:rgba(240,235,224,.8);font-family:var(--fw);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:8px 6px;text-align:center}
+.ph.fr{background:var(--gold)}.ph.we{background:var(--acc)}
+.pl{background:rgba(223,213,192,.7);font-family:var(--fw);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:7px 9px;color:var(--ink3);white-space:nowrap;display:flex;align-items:center}
+.pc2{background:rgba(255,255,255,.4);padding:6px 7px;cursor:pointer;transition:background .12s;min-height:46px;display:flex;flex-direction:column;gap:2px}
+.pc2:hover{background:rgba(240,235,224,.9)}.pc2.has{background:rgba(235,228,210,.85)}.pc2.ia{background:rgba(232,240,224,.75)}
+.pc2 .ce{color:var(--ink4);font-size:.68rem;font-style:normal;font-family:var(--fb)}
+.pc2 .cm{font-family:var(--fb);font-size:.76rem;color:var(--ink);font-style:italic;line-height:1.3}
+.pc2 .ct2{font-family:var(--fw);font-size:.52rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:1px 4px;display:inline-block;margin-bottom:1px}
+.tag-fam{background:var(--gold3);color:var(--gold)}.tag-2{background:var(--rose3);color:var(--rose)}
+/* TEMÁTICOS */
+.tgr{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.tc{border:1.5px solid var(--bd2);padding:18px;position:relative;overflow:hidden}
+.tc::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%}
+.tc.sx{background:rgba(245,240,216,.65)}.tc.sx::before{background:var(--gold2)}
+.tc.sb{background:rgba(248,236,232,.65)}.tc.sb::before{background:var(--rose)}
+.tc h3{font-family:var(--fw);font-size:.86rem;font-weight:900;text-transform:uppercase;letter-spacing:.07em;margin-bottom:2px}
+.tc.sx h3{color:var(--gold)}.tc.sb h3{color:var(--rose)}
+.tc p{font-family:var(--fb);font-size:.7rem;color:var(--ink4);margin-bottom:10px;font-style:italic}
+.tem-search{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+.tem-search input{flex:1;min-width:120px;font-size:.82rem;padding:7px 9px}
+.tem-list{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.tem-item{background:rgba(255,255,255,.45);border:1px solid var(--bd);padding:8px 11px;cursor:pointer;transition:all .15s}
+.tem-item:hover{background:rgba(240,235,224,.9);border-color:var(--bd2)}
+.ti-title{font-family:var(--fw);font-size:.82rem;font-weight:700;color:var(--ink);margin-bottom:1px}
+.ti-desc{font-family:var(--fb);font-size:.76rem;color:var(--ink3);font-style:italic}
+.tem-detail{background:rgba(255,255,255,.55);border:1px solid var(--bd2);padding:13px 15px;display:none}
+.tem-detail.open{display:block}
+.td-title{font-family:var(--fw);font-size:.9rem;font-weight:900;color:var(--ink);margin-bottom:6px}
+.td-body{font-family:var(--fb);font-size:.84rem;color:var(--ink3);line-height:1.65;font-style:italic;white-space:pre-line}
+/* SUGESTÕES */
+.suts{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:13px;padding-bottom:12px;border-bottom:1.5px solid var(--bd2)}
+.sut{font-family:var(--fw);font-size:.62rem;font-weight:700;padding:7px 12px;border:1.5px solid var(--bd2);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.07em}
+.sut:hover{color:var(--ink)}.sut.on{background:var(--acc);color:var(--bg);border-color:var(--acc)}
+.sug-filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.sf{font-family:var(--fw);font-size:.57rem;font-weight:700;padding:4px 9px;border:1px solid var(--bd2);background:transparent;color:var(--ink4);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.05em;border-radius:20px}
+.sf:hover{color:var(--ink)}.sf.on{background:var(--acc3);color:var(--acc);border-color:var(--acc)}
+.sugr{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.sgc{background:rgba(255,255,255,.48);border:1px solid var(--bd2);padding:15px 17px;cursor:pointer;transition:all .15s;position:relative}
+.sgc:hover{background:rgba(240,235,224,.92);border-color:var(--bd3)}
+.sgc.open{border-color:var(--acc2);background:rgba(240,235,224,.95)}
+.sgi{font-size:18px;margin-bottom:7px;display:block}
+.sgn{font-family:var(--fw);font-size:.95rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.sgd{font-family:var(--fb);font-size:.8rem;color:var(--ink3);line-height:1.45;margin-bottom:6px;font-style:italic}
+.sgts{display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px}
+.tg{font-family:var(--fw);font-size:.57rem;font-weight:700;padding:2px 6px;background:rgba(255,255,255,.55);border:1px solid var(--bd2);color:var(--ink4);text-transform:uppercase;letter-spacing:.05em}
+.sug-rec{font-family:var(--fb);font-size:.82rem;color:var(--ink2);line-height:1.65;border-top:1px solid var(--bd2);padding-top:10px;margin-top:8px;white-space:pre-line;display:none}
+.sgc.open .sug-rec{display:block}
+.sug-close{font-family:var(--fw);font-size:.58rem;color:var(--ink4);margin-top:8px;cursor:pointer;text-decoration:underline;display:none}
+.sgc.open .sug-close{display:block}
+/* LISTA */
+.loja-sec{margin-bottom:10px}
+.lhdr{font-family:var(--fw);font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.12em;padding:7px 12px 5px;border:1px solid var(--bd2);border-bottom:none;display:flex;align-items:center;gap:7px}
+.lhdr-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.lhdr-name{flex:1}
+.lhdr-del{background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--ink4);padding:0 3px}
+.lhdr-del:hover{color:var(--rose)}
+.li2{border:1px solid var(--bd2);overflow:hidden}
+.li3{display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid var(--bd);background:rgba(255,255,255,.38);font-size:.88rem;transition:background .1s}
+.li3:last-child{border-bottom:none}.li3:hover{background:rgba(240,235,224,.8)}
+.li3 input[type=checkbox]{width:13px;height:13px;cursor:pointer;accent-color:var(--ink);flex-shrink:0}
+.lin{flex:1;font-family:var(--fb);color:var(--ink);font-style:italic}
+.liq2{font-family:var(--fw);font-size:.65rem;color:var(--ink4);text-transform:uppercase}
+.li3.done .lin{text-decoration:line-through;color:var(--ink4);font-style:normal}
+/* PREP */
+.pc{background:rgba(255,255,255,.38);border:1px solid var(--bd);border-left:3px solid var(--ink);padding:10px 13px;margin-bottom:7px}
+.pd{font-family:var(--fw);font-size:.56rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:2px}
+.pt3{font-family:var(--fw);font-size:.88rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.pdsc{font-family:var(--fb);font-size:.82rem;color:var(--ink3);line-height:1.5;font-style:italic}
+.pts{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+/* ABA PESSOAL */
+.pfam-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:10px;margin-bottom:16px}
+.pfam-card{background:rgba(255,255,255,.42);border:1px solid var(--bd2);padding:15px 17px;cursor:pointer;transition:all .15s;text-align:center}
+.pfam-card:hover{background:rgba(240,235,224,.9);border-color:var(--bd3)}
+.pfam-ico{font-size:22px;margin-bottom:6px;display:block}
+.pfam-n{font-family:var(--fw);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:2px}
+.pfam-d{font-family:var(--fb);font-size:.75rem;color:var(--ink4);font-style:italic}
+/* QUIZ */
+.quiz-prog{display:flex;gap:3px;margin-bottom:18px}
+.qpd{height:4px;flex:1;background:var(--bd2);transition:background .2s}
+.qpd.done{background:var(--rose)}
+.quiz-q{font-family:var(--fw);font-size:1rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.quiz-sub{font-family:var(--fb);font-size:.85rem;color:var(--ink3);font-style:italic;margin-bottom:13px}
+.qopts{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:13px}
+.qopt{padding:10px 12px;border:1.5px solid var(--bd2);background:rgba(255,255,255,.45);cursor:pointer;text-align:center;font-family:var(--fb);font-size:.85rem;color:var(--ink);transition:all .15s;font-style:italic}
+.qopt:hover{background:rgba(240,235,224,.85)}.qopt.sel{border-color:var(--rose);background:var(--rose3);color:var(--rose);font-style:normal}
+.quiz-inp{width:100%;font-family:var(--fb);font-size:.9rem;padding:10px;border:1.5px solid var(--bd2);background:rgba(255,255,255,.5);color:var(--ink);outline:none;margin-bottom:6px;font-style:italic}
+.quiz-inp:focus{border-color:var(--rose)}
+/* FOTO */
+.foto-slot{position:relative;border:2px dashed var(--bd2);background:rgba(255,255,255,.35);cursor:pointer;transition:all .15s;aspect-ratio:1;display:flex;align-items:center;justify-content:center;overflow:hidden;border-radius:3px}
+.foto-slot:hover{border-color:var(--rose);background:rgba(248,236,232,.5)}
+.foto-slot.has-foto{border-style:solid;border-color:var(--rose);background:transparent}
+.foto-slot-ph{text-align:center;pointer-events:none}
+.foto-slot-img{width:100%;height:100%;object-fit:cover;display:block}
+.foto-slot-del{position:absolute;top:5px;right:5px;background:var(--rose);color:white;border:none;width:22px;height:22px;border-radius:50%;cursor:pointer;font-size:.75rem;display:flex;align-items:center;justify-content:center;z-index:2}
+.foto-tab-btn{font-family:var(--fw);font-size:.62rem;font-weight:700;padding:7px 13px;border:1.5px solid var(--bd2);background:transparent;color:var(--ink3);cursor:pointer;transition:all .15s;text-transform:uppercase;letter-spacing:.07em}
+.foto-tab-btn:hover{color:var(--ink)}.foto-tab-btn.on{background:var(--rose);color:var(--bg);border-color:var(--rose)}
+.foto-tab-content{font-family:var(--fb);font-size:.9rem;color:var(--ink2);line-height:1.8}
+.analise-section{background:rgba(255,255,255,.45);border:1px solid var(--bd2);padding:14px 16px;margin-bottom:10px}
+.analise-title{font-family:var(--fw);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--rose);margin-bottom:8px}
+.analise-body{font-family:var(--fb);font-size:.88rem;color:var(--ink2);line-height:1.75;white-space:pre-line}
+.exercicio-item{background:rgba(255,255,255,.45);border:1px solid var(--bd2);border-left:3px solid var(--sage);padding:12px 14px;margin-bottom:8px}
+.ex-titulo{font-family:var(--fw);font-size:.82rem;font-weight:700;color:var(--sage);margin-bottom:3px}
+.ex-desc{font-family:var(--fb);font-size:.83rem;color:var(--ink3);font-style:italic;line-height:1.5}
+.ex-link{font-family:var(--fw);font-size:.62rem;color:var(--rose);text-decoration:none;display:inline-block;margin-top:5px;border-bottom:1px solid rgba(122,48,64,.3)}
+.ex-link:hover{color:var(--rose2)}
+.ementa-dia{background:rgba(255,255,255,.42);border:1px solid var(--bd2);padding:11px 14px;margin-bottom:7px}
+.ementa-dia-titulo{font-family:var(--fw);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin-bottom:8px}
+.ementa-ref{display:flex;gap:8px;margin-bottom:5px;align-items:flex-start}
+.ementa-ref-lbl{font-family:var(--fw);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--ink4);min-width:80px;padding-top:2px}
+.ementa-ref-val{font-family:var(--fb);font-size:.85rem;color:var(--ink);font-style:italic;line-height:1.4}
+.ai-loading{text-align:center;padding:32px;color:var(--rose)}
+.ai-loading-spinner{font-size:1.5rem;animation:spin 1.2s linear infinite;display:block;margin-bottom:10px}
+@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.ai-loading-txt{font-family:var(--fw);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--rose)}
+/* TRACKER */
+.trgr{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:13px}
+.ten{background:rgba(255,255,255,.42);border:1px solid var(--bd2);padding:12px 14px}
+.tdate{font-family:var(--fw);font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rose);margin-bottom:5px}
+.tval{font-family:var(--fw);font-size:1.3rem;font-weight:900;color:var(--ink);line-height:1}
+.tunit{font-family:var(--fb);font-size:.72rem;color:var(--ink4);font-style:italic}
+.tnot{font-family:var(--fb);font-size:.76rem;color:var(--ink3);font-style:italic;margin-top:3px;line-height:1.4}
+.edots{display:flex;gap:4px;margin-top:5px}
+.edot{width:13px;height:13px;border-radius:50%;background:var(--bg3);border:1px solid var(--bd2)}
+.edot.on{background:var(--rose)}
+/* MODAL */
+.mbg{display:none;background:rgba(28,20,16,.55);position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:16px}
+.mbg.on{display:flex}
+.mod{background:var(--bg);border:1.5px solid var(--bd3);padding:26px;width:100%;max-width:520px;position:relative;box-shadow:0 8px 40px rgba(28,20,16,.15);max-height:90vh;overflow-y:auto}
+.mod::before,.mod::after{content:"";position:absolute;width:13px;height:13px;border-color:var(--gold2);border-style:solid}
+.mod::before{top:-2px;left:-2px;border-width:2px 0 0 2px}
+.mod::after{bottom:-2px;right:-2px;border-width:0 2px 2px 0}
+.mod h3{font-family:var(--fw);font-size:1rem;font-weight:900;color:var(--ink);margin-bottom:13px;text-transform:uppercase;letter-spacing:.06em}
+.mod-input{width:100%;font-family:var(--fb);font-size:.9rem;padding:9px 11px;border:1.5px solid var(--bd2);background:rgba(255,255,255,.6);color:var(--ink);outline:none;margin-bottom:10px}
+.mod select,.mod select option{font-family:var(--fb);font-size:.88rem;padding:9px 11px;border:1.5px solid var(--bd2);background:rgba(255,255,255,.5);width:100%;outline:none;color:var(--ink);margin-bottom:10px}
+.mbtns{display:flex;gap:7px;justify-content:flex-end}
+.itbl{width:100%;border-collapse:collapse}
+.itbl tr{border-bottom:1px solid var(--bd)}.itbl tr:last-child{border-bottom:none}
+.itbl td{padding:7px 0;font-size:.87rem;vertical-align:top}
+.itbl td:first-child{font-family:var(--fw);font-size:.68rem;width:108px;color:var(--ink4);text-transform:uppercase;letter-spacing:.05em;font-weight:700}
+.empty{font-family:var(--fb);font-size:.82rem;color:var(--ink4);padding:6px 0;font-style:italic}
+.badge{font-family:var(--fw);font-size:.56rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border:1px solid currentColor}
+.b-acc2{color:var(--acc);background:var(--acc3)}.b-gd2{color:var(--gold);background:var(--gold3)}.b-ro2{color:var(--rose);background:var(--rose3)}
+.pm-card{background:rgba(255,255,255,.42);border:1px solid var(--bd2);padding:13px 15px}
+.pm-card.rbl{border-left:3px solid var(--rose)}.pm-card.sbl{border-left:3px solid var(--sage)}
+.pmt{font-family:var(--fw);font-size:.61rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--rose);margin-bottom:3px}
+.pmt.sg{color:var(--sage)}
+.pmn{font-family:var(--fw);font-size:.9rem;font-weight:700;color:var(--ink);margin-bottom:3px}
+.pmd{font-family:var(--fb);font-size:.79rem;color:var(--ink3);font-style:italic;line-height:1.4}
+.pmts{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.pt-p,.pt-s,.pt-g{font-family:var(--fw);font-size:.56rem;font-weight:700;padding:2px 5px;text-transform:uppercase;letter-spacing:.05em}
+.pt-p{background:var(--rose3);color:var(--rose)}.pt-s{background:var(--sage3);color:var(--sage)}.pt-g{background:var(--gold3);color:var(--gold)}
+.cor-opt{transition:transform .15s;border-radius:2px}
+.cor-opt:hover{transform:scale(1.15)}
+.cor-opt.sel{outline:3px solid var(--ink);outline-offset:2px}
+.toast{position:fixed;bottom:20px;right:20px;background:var(--ink);color:var(--bg);padding:10px 16px;font-family:var(--fw);font-size:.66rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;z-index:300;transform:translateY(60px);opacity:0;transition:all .22s;max-width:260px}
+.toast.on{transform:translateY(0);opacity:1}.toast.sv{background:var(--sage)}.toast.ro{background:var(--rose)}
+@media(max-width:768px){.s4{grid-template-columns:repeat(2,1fr)}.tgr{grid-template-columns:1fr}.page{padding:18px 14px}.ptit{font-size:1.65rem}}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+<!-- LOGIN -->
+<div id="lv">
+  <div class="lbox">
+    <div class="lorn">✦ ✦ ✦</div>
+    <div class="llogo">Cozinha <em>Organizada</em></div>
+    <p class="lsub">O teu livro de receitas familiar.<br>Planeamento, stock, nutrição e ementas.</p>
+    <label class="llbl">Código de família</label>
+    <input id="ci" class="linp" type="text" placeholder="ex: SILVA2024" maxlength="20"/>
+    <p class="lhint">Usa o mesmo código em todos os dispositivos.</p>
+    <button class="lbtn" onclick="doLogin()">— Entrar —</button>
+    <button class="lbtn2" onclick="g('cm').classList.add('on')">Criar nova conta</button>
+    <span class="lforgot" onclick="showForgot()">Esqueci o meu código</span>
+  </div>
+</div>
+<!-- MODAIS LOGIN -->
+<div class="mbg" id="cm">
+  <div class="mod"><h3>Criar conta</h3>
+    <div class="fl"><label>Nome da família</label><input class="mod-input" type="text" id="cr-n" placeholder="ex: Família Costa"/></div>
+    <div class="fl"><label>Código</label><input class="mod-input" type="text" id="cr-c" placeholder="ex: COSTA2024" maxlength="20"/></div>
+    <p style="font-family:var(--fb);font-size:.8rem;color:var(--ink4);font-style:italic;margin-bottom:13px">Guarda este código — é o teu acesso em todos os dispositivos.</p>
+    <div class="mbtns"><button class="btn b-sm" onclick="g('cm').classList.remove('on')">Cancelar</button><button class="btn b-dk b-sm" onclick="doCreate()">Criar e entrar</button></div>
+  </div>
+</div>
+<div class="mbg" id="fm">
+  <div class="mod"><h3>Recuperar código</h3>
+    <p style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:11px;line-height:1.6">O código fica guardado automaticamente no browser após o primeiro login.</p>
+    <p style="font-family:var(--fw);font-size:.75rem;color:var(--ink);margin-bottom:13px">Código neste dispositivo: <strong id="fcs" style="color:var(--acc)">—</strong></p>
+    <div class="mbtns"><button class="btn b-sm" onclick="g('fm').classList.remove('on')">Fechar</button></div>
+  </div>
+</div>
+<!-- MODAL EMENTA EDIT -->
+<div class="mbg" id="mm">
+  <div class="mod"><h3 id="mt">Editar refeição</h3>
+    <input class="mod-input" type="text" id="mi" placeholder="ex: Frango grelhado com arroz..."/>
+    <div class="mbtns"><button class="btn b-sm" onclick="g('mm').classList.remove('on')">Cancelar</button><button class="btn b-dk b-sm" onclick="saveMeal()">Guardar</button></div>
+  </div>
+</div>
+<!-- MODAL NOVA LOJA -->
+<div class="mbg" id="nlm">
+  <div class="mod" style="max-width:360px"><h3>Nova loja</h3>
+    <div class="fl"><label>Nome da loja</label><input class="mod-input" type="text" id="nl-nome" placeholder="ex: Aldi, Froiz, Feira..."/></div>
+    <div class="fl"><label>Escolhe uma cor</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:5px" id="cor-grid"></div>
+    </div>
+    <div class="mbtns" style="margin-top:12px"><button class="btn b-sm" onclick="g('nlm').classList.remove('on')">Cancelar</button><button class="btn b-dk b-sm" onclick="addLoja()">Adicionar</button></div>
+  </div>
+</div>
+<!-- MODAL QUIZ -->
+<div class="mbg" id="qm">
+  <div class="mod" style="max-width:560px">
+    <h3 id="qm-title">Criar aba personalizada</h3>
+    <div class="quiz-prog" id="quiz-prog"></div>
+    <div id="quiz-body"></div>
+  </div>
+</div>
+<!-- MODAL SUGESTÃO / RECEITA COMPLETA -->
+<div class="mbg" id="sm">
+  <div class="mod" style="max-width:580px"><h3 id="smtit"></h3>
+    <div id="smb" style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);line-height:1.7;white-space:pre-line"></div>
+    <div class="mbtns" style="margin-top:12px"><button class="btn b-sm" onclick="g('sm').classList.remove('on')">Fechar</button></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="av" style="display:none">
+  <div class="tnav">
+    <div class="tni">
+      <div class="tnl">Cozinha <em>organizada</em></div>
+      <button class="tab on" data-s="resumo" onclick="nav('resumo')">Resumo</button>
+      <button class="tab" data-s="stock" onclick="nav('stock')">Stock</button>
+      <button class="tab" data-s="ementa" onclick="nav('ementa')">Ementa</button>
+      <button class="tab" data-s="tematicos" onclick="nav('tematicos')">Temáticos</button>
+      <button class="tab" data-s="sugestoes" onclick="nav('sugestoes')">Sugestões IA</button>
+      <button class="tab" data-s="lista" onclick="nav('lista')">Compras</button>
+      <button class="tab" data-s="mealprep" onclick="nav('mealprep')">Meal Prep</button>
+      <button class="tab p-tab" data-s="pessoal" onclick="nav('pessoal')">✦ Aba Pessoal</button>
+      <div class="tne"><span class="tns" id="sv">✓ guardado</span><span class="tnc" id="fc"></span></div>
+    </div>
+  </div>
+  <div class="page">
+    <!-- RESUMO -->
+    <div id="s-resumo" class="sec on">
+      <div class="ey">Visão geral</div><div class="ptit">Bom dia, <em>família</em></div><div class="rule"><span>✦</span></div>
+      <div id="rm" style="background:rgba(245,240,216,.75);border-left:3px solid var(--gold2);padding:10px 15px;font-family:var(--fb);font-size:.88rem;color:var(--gold);font-style:italic;margin-bottom:13px;line-height:1.5;display:none"></div>
+      <div class="s4">
+        <div class="stc"><div class="stl">Semana</div><div class="stv" id="rwk">—</div><div class="sts">ciclo dia 6→6</div></div>
+        <div class="stc"><div class="stl">Stock baixo</div><div class="stv" id="rlo">—</div><div class="sts">a repor</div></div>
+        <div class="stc"><div class="stl">Refeições</div><div class="stv" id="rre">0</div><div class="sts">planeadas</div></div>
+        <div class="stc gd"><div class="stl">Orçamento</div><div class="stv">~150€</div><div class="sts">meta semanal</div></div>
+      </div>
+      <div class="dark-card">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+          <div><div style="font-family:var(--fw);font-size:.57rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(240,235,224,.4);margin-bottom:5px">Esta Sexta-Feira</div><div style="font-family:var(--fw);font-size:1.05rem;font-weight:700;color:var(--bg);font-style:italic" id="rsx">—</div><div style="font-family:var(--fb);font-size:.7rem;color:rgba(240,235,224,.5);margin-top:2px;font-style:italic">jantar temático em família</div></div>
+          <div style="border-left:1px solid rgba(255,255,255,.08);padding-left:20px"><div style="font-family:var(--fw);font-size:.57rem;text-transform:uppercase;letter-spacing:.12em;color:rgba(240,235,224,.4);margin-bottom:5px">Sábado à Noite</div><div style="font-family:var(--fw);font-size:1.05rem;font-weight:700;color:var(--gold3);font-style:italic">Petiscos a dois</div><div style="font-family:var(--fb);font-size:.7rem;color:rgba(240,235,224,.5);margin-top:2px;font-style:italic">depois dos filhos adormecidos</div></div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:13px">
+        <div class="card"><div class="cc"></div><div class="ct">Família <hr></div><table class="itbl"><tr><td>Adulto A</td><td>Almoça e janta · marmita · saúde</td></tr><tr><td>Adulto B</td><td>Só janta · leva lanche</td></tr><tr><td>Adulto C</td><td>Só janta · leva lanche</td></tr><tr><td>Criança 1</td><td>Só sopa · lanche escola</td></tr><tr><td>Criança 2</td><td>Janta + lanche · reduzir doces</td></tr></table></div>
+        <div class="card"><div class="cc"></div><div class="ct">Compras <hr></div><table class="itbl"><tr><td>Talho</td><td>1× mês · porcionar e congelar</td></tr><tr><td>E.Leclerc</td><td>Sábado · seco + higiene</td></tr><tr><td>Mercado</td><td>Frutas e legumes frescos</td></tr><tr><td>Ciclo</td><td>Dia 6 ao dia 6</td></tr></table></div>
+      </div>
+    </div>
+    <!-- STOCK -->
+    <div id="s-stock" class="sec">
+      <div class="ey">Inventário</div><div class="ptit"><em>Stock</em> da casa</div><div class="rule"><span>✦</span></div>
+      <div class="ir"><input type="text" id="stn" placeholder="Nome do produto..."/><select id="stc"><option value="despensa">Despensa</option><option value="congelador">Congelador</option><option value="frigorifico">Frigorífico</option><option value="frutas">Frutas/Legumes</option></select><input type="number" id="stq" value="1" min="0" style="max-width:65px"/><input type="text" id="stu" value="un" style="max-width:56px"/><button class="btn b-dk" onclick="addStock()">+ Adicionar</button></div>
+      <div id="sa"></div>
+    </div>
+    <!-- EMENTA -->
+    <div id="s-ementa" class="sec">
+      <div class="ey">Planeamento</div><div class="ptit"><em>Ementa</em> semanal</div><div class="rule"><span>✦</span></div>
+      <div class="week-hdr">
+        <div class="wk-date-box"><span>Semana de</span><input type="date" id="wk-s" onchange="renderEmenta()"/></div>
+        <div style="font-family:var(--fw);font-size:.75rem;color:var(--ink3);padding-top:20px">→</div>
+        <div class="wk-date-box"><span>Até</span><input type="date" id="wk-e" onchange="renderEmenta()"/></div>
+        <div style="flex:1"></div>
+        <button class="btn b-dk b-sm" id="bia" onclick="gerarIA()">✦ Gerar com IA</button>
+        <button class="btn b-sm" onclick="limparEmenta()">Limpar</button>
+      </div>
+      <div class="meal-btns" id="meal-btns"></div>
+      <div class="plano-wrap"><div class="plano-grid" id="plano-grid"></div></div>
+      <p style="font-family:var(--fb);font-size:.7rem;color:var(--ink4);margin-top:8px;font-style:italic">Clica para editar · Verde = IA · Amarelo = sexta família · Rosa = sábado a dois</p>
+    </div>
+    <!-- TEMÁTICOS -->
+    <div id="s-tematicos" class="sec">
+      <div class="ey">Momentos especiais</div><div class="ptit">Noites <em>temáticas</em></div><div class="rule"><span>✦</span></div>
+      <div class="tgr">
+        <div class="tc sx"><h3>Sexta-feira em família</h3><p>dezenas de temas com base no stock</p>
+          <div class="tem-search">
+            <input type="text" id="sx-srch" placeholder="Filtrar temas..." oninput="renderTemas('sx')"/>
+            <button class="btn b-sm b-gd" onclick="temAleatorio('sx')">↻ Aleatório</button>
+          </div>
+          <div class="tem-list" id="sx-list"></div>
+          <div class="tem-detail" id="sx-det"></div>
+        </div>
+        <div class="tc sb"><h3>Sábado à noite a dois</h3><p>petiscos e jantares especiais com o stock</p>
+          <div class="tem-search">
+            <input type="text" id="sb-srch" placeholder="Filtrar ideias..." oninput="renderTemas('sb')"/>
+            <button class="btn b-sm b-ro" onclick="temAleatorio('sb')">↻ Aleatório</button>
+          </div>
+          <div class="tem-list" id="sb-list"></div>
+          <div class="tem-detail" id="sb-det"></div>
+        </div>
+      </div>
+    </div>
+    <!-- SUGESTÕES IA -->
+    <div id="s-sugestoes" class="sec">
+      <div class="ey">Com base no teu stock</div><div class="ptit">Sugestões <em>da IA</em></div><div class="rule"><span>✦</span></div>
+      <div class="suts">
+        <button class="sut on" data-t="lanches" onclick="setST('lanches')">Lanches</button>
+        <button class="sut" data-t="sobremesas" onclick="setST('sobremesas')">Sobremesas</button>
+        <button class="sut" data-t="bolos" onclick="setST('bolos')">Bolos & Snacks</button>
+        <button class="sut" data-t="receitas" onclick="setST('receitas')">Receitas completas</button>
+      </div>
+      <div class="card" style="margin-bottom:12px"><div class="cc"></div>
+        <p id="sgd" style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:9px">Sugestões de <strong style="color:var(--ink);font-style:normal">lanches</strong> com receita completa e quantidades — tudo com base no stock.</p>
+        <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px">
+          <input type="text" id="sgx" placeholder="Preferência? (sem açúcar, rápido, criança...)"/>
+          <button class="btn b-dk" id="bsg" onclick="mostrarSugs()">✦ Ver todas as sugestões</button>
+        </div>
+        <div class="sug-filters" id="sug-fltrs"></div>
+      </div>
+      <p style="font-family:var(--fb);font-size:.8rem;color:var(--ink3);font-style:italic;margin-bottom:10px">Clica em qualquer card para ver a receita completa com quantidades exactas.</p>
+      <div id="sga"></div>
+    </div>
+    <!-- LISTA -->
+    <div id="s-lista" class="sec">
+      <div class="ey">Mercado</div><div class="ptit">Lista de <em>compras</em></div><div class="rule"><span>✦</span></div>
+      <div class="ir">
+        <input type="text" id="lin" placeholder="Produto..."/>
+        <input type="text" id="liq" placeholder="Qtd" style="max-width:72px"/>
+        <select id="lil" style="max-width:150px"></select>
+        <button class="btn b-dk" onclick="addLista()">+ Adicionar</button>
+        <button class="btn b-sm" onclick="g('nlm').classList.add('on');renderCorGrid()">+ Nova loja</button>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-bottom:12px"><button class="btn b-sm" onclick="limparLista()">Limpar comprados</button></div>
+      <div id="la"></div>
+    </div>
+    <!-- MEAL PREP -->
+    <div id="s-mealprep" class="sec">
+      <div class="ey">Organização</div><div class="ptit">Meal <em>Prep</em></div><div class="rule"><span>✦</span></div>
+      <div class="card"><div class="cc"></div><div class="ct">Sábado de manhã <hr> <span class="badge b-acc2">após compras</span></div>
+        <div class="pc"><div class="pd">Mensal · Talho</div><div class="pt3">Porcionar e congelar toda a carne</div><div class="pdsc">Sacos etiquetados logo após o talho. Na semana só tiras o saco na véspera.</div><div class="pts"><span class="tg">mensal</span><span class="tg">congelador</span></div></div>
+        <div class="pc" style="border-left-color:var(--gold)"><div class="pd">Semanal · Bimby</div><div class="pt3">Leguminosas e cereais base</div><div class="pdsc">Feijão/grão/lentilhas na Bimby + arroz base. Em caixas no frio — 4 dias.</div><div class="pts"><span class="tg">Bimby</span><span class="tg">4 dias</span></div></div>
+      </div>
+      <div class="card"><div class="cc"></div><div class="ct">Domingo <hr> <span class="badge b-gd2">preparação</span></div>
+        <div class="pc" style="border-left-color:var(--gold)"><div class="pd">Criança 1 · Bimby</div><div class="pt3">Sopa da semana toda</div><div class="pdsc">Sopa grande na Bimby. Frio + congelar excedente.</div><div class="pts"><span class="tg">Bimby</span><span class="tg">criança 1</span></div></div>
+        <div class="pc"><div class="pd">Adulto A + marmita</div><div class="pt3">2 proteínas base da semana</div><div class="pdsc">Frango desfiado Bimby + filetes airfryer. Marmita monta-se em 10 min.</div><div class="pts"><span class="tg">Bimby</span><span class="tg">airfryer</span></div></div>
+        <div class="pc" style="border-left-color:var(--rose)"><div class="pd">Lanches em lote</div><div class="pt3">5 doses por pessoa ao domingo</div><div class="pdsc">Iogurte + fruta × 5, ovos airfryer × 6, queijo porcionado.</div><div class="pts"><span class="tg">stock</span><span class="tg">airfryer</span></div></div>
+      </div>
+    </div>
+    <!-- ABA PESSOAL -->
+    <div id="s-pessoal" class="sec">
+      <div class="ey">Nutrição individual</div><div class="ptit personal">Aba <em>pessoal</em></div><div class="rule"><span>✦</span></div>
+      <div id="pessoal-picker">
+        <p style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:14px">Escolhe a tua aba ou cria uma nova com plano personalizado.</p>
+        <div class="pfam-grid" id="pfam-grid"></div>
+        <button class="btn b-ro" onclick="iniciarQuiz()">+ Criar nova aba pessoal</button>
+      </div>
+      <div id="pessoal-ativa" style="display:none">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+          <div>
+            <div style="font-family:var(--fw);font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink4);margin-bottom:3px">A ver aba de</div>
+            <div style="font-family:var(--fw);font-size:1.4rem;font-weight:900;color:var(--ink)" id="pa-titulo">—</div>
+            <div style="font-family:var(--fb);font-size:.82rem;color:var(--rose);font-style:italic" id="pa-obj-lbl">—</div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap">
+            <button class="btn b-sm b-ro" onclick="toggleFoto()">📷 Análise corporal</button>
+            <button class="btn b-sm" onclick="voltarPicker()">← Trocar</button>
+            <button class="btn b-sm" style="color:var(--rose);border-color:rgba(122,48,64,.3)" onclick="eliminarAba()">✕ Eliminar aba</button>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px">
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Objetivo</div><div style="font-family:var(--fw);font-size:.85rem;font-weight:900;color:var(--rose);line-height:1.2" id="pa-obj-s">—</div></div>
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Último peso</div><div class="stv" id="pa-peso">—</div><div class="sts">kg</div></div>
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Energia</div><div class="stv" id="pa-energia">—</div><div class="sts">hoje</div></div>
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Registos</div><div class="stv" id="pa-regs">0</div><div class="sts">total</div></div>
+        </div>
+        <!-- foto -->
+        <div id="foto-section" style="display:none;margin-bottom:14px">
+          <div class="card" style="background:rgba(248,236,232,.6);border-color:rgba(122,48,64,.2)"><div class="cc"></div>
+            <div class="ct" style="color:var(--rose)">Análise corporal com IA — análise real das fotos <hr></div>
+            <p style="font-family:var(--fb);font-size:.85rem;color:var(--ink3);font-style:italic;margin-bottom:14px;line-height:1.6">Adiciona até 4 fotos (frente, perfil esquerdo, perfil direito, costas). A IA analisa composição corporal, distribuição de gordura, postura e zonas prioritárias com olhar crítico e profissional.</p>
+
+            <!-- grid de fotos -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px" id="foto-grid">
+              <div class="foto-slot" id="fslot-0" onclick="triggerFoto(0)">
+                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Frente</div></div>
+                <img class="foto-slot-img" id="fimg-0" style="display:none"/>
+                <button class="foto-slot-del" id="fdel-0" onclick="event.stopPropagation();delFoto(0)" style="display:none">✕</button>
+              </div>
+              <div class="foto-slot" id="fslot-1" onclick="triggerFoto(1)">
+                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Perfil esq.</div></div>
+                <img class="foto-slot-img" id="fimg-1" style="display:none"/>
+                <button class="foto-slot-del" id="fdel-1" onclick="event.stopPropagation();delFoto(1)" style="display:none">✕</button>
+              </div>
+              <div class="foto-slot" id="fslot-2" onclick="triggerFoto(2)">
+                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Perfil dir.</div></div>
+                <img class="foto-slot-img" id="fimg-2" style="display:none"/>
+                <button class="foto-slot-del" id="fdel-2" onclick="event.stopPropagation();delFoto(2)" style="display:none">✕</button>
+              </div>
+              <div class="foto-slot" id="fslot-3" onclick="triggerFoto(3)">
+                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Costas</div></div>
+                <img class="foto-slot-img" id="fimg-3" style="display:none"/>
+                <button class="foto-slot-del" id="fdel-3" onclick="event.stopPropagation();delFoto(3)" style="display:none">✕</button>
+              </div>
+            </div>
+            <input type="file" id="foto-input-hidden" accept="image/*" style="display:none" onchange="loadFotoSlot(this)"/>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
+              <button class="btn b-ro" id="btn-analisar" onclick="analisarFotos()">✦ Analisar fotos — análise real com IA</button>
+              <button class="btn b-sm" onclick="limparTodasFotos()">Limpar fotos</button>
+            </div>
+
+            <!-- resultado análise -->
+            <div id="foto-resultado" style="display:none">
+              <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+                <button class="foto-tab-btn on" onclick="switchFotoTab('analise',this)">Análise corporal</button>
+                <button class="foto-tab-btn" onclick="switchFotoTab('ementa',this)">Plano alimentar</button>
+                <button class="foto-tab-btn" onclick="switchFotoTab('exercicio',this)">Plano de exercício</button>
+                <button class="foto-tab-btn" onclick="switchFotoTab('tempo',this)">Cronograma</button>
+              </div>
+              <div id="ftab-analise" class="foto-tab-content"></div>
+              <div id="ftab-ementa" class="foto-tab-content" style="display:none"></div>
+              <div id="ftab-exercicio" class="foto-tab-content" style="display:none"></div>
+              <div id="ftab-tempo" class="foto-tab-content" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <!-- conselho nutricionista -->
+        <div id="nutri-cons" style="display:none;background:rgba(248,236,232,.55);border:1px solid rgba(122,48,64,.2);border-left:3px solid var(--rose);padding:14px 16px;font-family:var(--fb);font-size:.9rem;color:var(--rose2);font-style:italic;line-height:1.65;margin-bottom:14px;white-space:pre-line"></div>
+        <!-- sub-tabs -->
+        <div style="display:flex;gap:6px;margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid var(--bd2);flex-wrap:wrap">
+          <button class="btn b-sm b-ro" id="pt1" onclick="pTab('plano')">Plano do dia</button>
+          <button class="btn b-sm" id="pt2" onclick="pTab('tracker')">Tracker progresso</button>
+          <button class="btn b-sm" id="pt3" onclick="pTab('receitas')">Receitas para mim</button>
+        </div>
+        <div id="p-plano"><div id="plano-content"></div></div>
+        <div id="p-tracker" style="display:none">
+          <div class="card"><div class="cc"></div><div class="ct">Registar hoje <hr></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:11px">
+              <div class="fl"><label>Peso (kg)</label><input type="number" id="trp" placeholder="ex: 65.5" step="0.1"/></div>
+              <div class="fl"><label>Medida cintura (cm)</label><input type="number" id="trc" placeholder="ex: 75" step="0.5"/></div>
+              <div class="fl"><label>Energia (1–5)</label><input type="number" id="tre" placeholder="1–5" min="1" max="5"/></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">
+              <div class="fl"><label>Data</label><input type="date" id="trd"/></div>
+              <div class="fl"><label>Como dormi (1–5)</label><input type="number" id="trds" placeholder="1–5" min="1" max="5"/></div>
+            </div>
+            <div class="fl"><label>Nota do dia</label><textarea id="trn" placeholder="O que comi? Como me senti? Exercício? Dificuldades?"></textarea></div>
+            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px">
+              <button class="btn b-ro" onclick="addTracker()">+ Guardar registo</button>
+              <button class="btn b-sm" onclick="exportTracker()">Exportar CSV</button>
+            </div>
+          </div>
+          <div id="trl"></div>
+        </div>
+        <div id="p-receitas" style="display:none">
+          <div class="card" style="margin-bottom:12px"><div class="cc"></div>
+            <p id="p-rec-desc" style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:9px">Receitas personalizadas com o teu stock e objetivo — com quantidades exactas e modo de preparação.</p>
+            <button class="btn b-ro" id="bjr" onclick="gerarReceitas()">✦ Gerar receitas para mim</button>
+          </div>
+          <div id="jra" style="text-align:center;padding:36px;color:var(--ink4)"><div style="font-family:var(--fw);font-size:3rem;font-style:italic;opacity:.1;margin-bottom:7px">✦</div><p style="font-family:var(--fb);font-size:.85rem;font-style:italic">Carrega para gerar.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+var g=function(i){return document.getElementById(i);};
+var nid=600;var nx=function(){return ++nid;};
+var cST='lanches';var eK=null;var abaAtiva=null;var abas=[];
+var novaCorLoja='#3a5030';var quizData={};var quizStep=0;var quizResps=[];
+var activeMealTypes=['PA','Lanche M','Almoço','Lanche T','Jantar'];
+var ALL_MEAL_TYPES=['PA','Lanche M','Almoço','Lanche T','Jantar','Ceia'];
+
+var state={
+  stock:{
+    despensa:[{id:1,n:'Arroz',q:3,u:'kg',m:1},{id:2,n:'Massa',q:2,u:'kg',m:1},{id:3,n:'Feijão (lata)',q:4,u:'un',m:2},{id:4,n:'Grão (lata)',q:3,u:'un',m:2},{id:5,n:'Lentilhas',q:1,u:'kg',m:1},{id:6,n:'Azeite',q:1,u:'L',m:1},{id:7,n:'Tomate pelado',q:4,u:'un',m:2},{id:8,n:'Sal',q:1,u:'un',m:1}],
+    congelador:[{id:20,n:'Frango (peito)',q:2,u:'kg',m:1},{id:21,n:'Carne picada',q:1,u:'kg',m:1},{id:22,n:'Hambúrgueres',q:6,u:'un',m:2},{id:23,n:'Peixe (filetes)',q:1,u:'kg',m:1},{id:24,n:'Pão marmita',q:8,u:'un',m:4}],
+    frigorifico:[{id:30,n:'Ovos',q:12,u:'un',m:6},{id:31,n:'Leite',q:2,u:'L',m:1},{id:32,n:'Iogurtes',q:8,u:'un',m:4},{id:33,n:'Queijo fatiado',q:1,u:'un',m:1}],
+    frutas:[{id:40,n:'Maçãs',q:6,u:'un',m:3},{id:41,n:'Bananas',q:5,u:'un',m:3},{id:42,n:'Cenouras',q:4,u:'un',m:2},{id:43,n:'Batatas',q:2,u:'kg',m:1}]
+  },
+  ementa:{},
+  lista:[{id:100,n:'Frango peito',q:'1kg',l:'talho',done:false},{id:101,n:'Carne picada',q:'500g',l:'talho',done:false},{id:102,n:'Ovos',q:'1 dúzia',l:'leclerc',done:false},{id:103,n:'Iogurtes',q:'8un',l:'leclerc',done:true},{id:104,n:'Maçãs',q:'1kg',l:'mercado',done:false}],
+  lojas:[{id:'leclerc',nome:'E.Leclerc Drive',cor:'#3a5030'},{id:'talho',nome:'Talho',cor:'#7a3040'},{id:'mercado',nome:'Mercado',cor:'#7a5c2e'}]
+};
+
+var SEXTAS=[
+  {t:'Pizza caseira',d:'Tomate pelado (stock) como molho',r:'INGREDIENTES (5p): 2 massas pizza, 1 lata tomate pelado (stock), 400g queijo fatiado (stock), oregãos, 3c.s azeite (stock).\n\nMOLHO: refogar 2 dentes alho em azeite 1min, adicionar tomate pelado, esmagar, temperar, cozer 5min.\nMONTAGEM: abrir massa, barrar molho, queijo, toppings. Forno 220°C 12-15min.\nDICA: cada um monta a sua própria pizza.'},
+  {t:'Hambúrgueres caseiros',d:'Carne picada do congelador + pão marmita',r:'INGREDIENTES (5p): 600g carne picada (stock), 5 pães marmita (stock), 10 fatias queijo (stock), 1 ovo, alho, sal.\n\nMISTO: misturar carne + 1 dente alho picado + sal + pimenta + 1 ovo. Formar 5 hambúrgueres.\nAIRFRYER: 180°C 12min, virar a meio.\nSERVIR: pão tostado + hambúrguer + queijo derretido.'},
+  {t:'Massa à bolonhesa',d:'Carne + tomate pelado — tudo do stock',r:'INGREDIENTES (5p): 500g massa (stock), 400g carne picada (stock), 2 latas tomate pelado (stock), 1 cebola, 3 dentes alho, 3c.s azeite (stock).\n\nMOLHO: refogar cebola e alho 5min. Juntar carne, saltear 5min. Adicionar tomate, temperar. Cozer 20min.\nMASSA: cozer al dente. Juntar tudo e servir.'},
+  {t:'Frango assado com batatas',d:'Frango e batatas do stock no forno 1h',r:'INGREDIENTES (5p): 1.5kg frango (stock), 1kg batatas (stock), 3 cenouras (stock), 4c.s azeite, alho, limão, ervas.\n\nMARINADA: alho + azeite + sumo limão + ervas. Cobrir frango e deixar 30min mínimo (ou de véspera).\nFORNO: batatas + cenouras em cubos no fundo. Frango por cima. 180°C 1h, virar a meio.'},
+  {t:'Peixe no forno',d:'Filetes do congelador com legumes — 35min',r:'INGREDIENTES (5p): 800g filetes peixe (stock), 800g batatas (stock), 3 cenouras (stock), 4c.s azeite, alho, limão.\n\nPREP: batatas e cenouras fatiadas no fundo do tabuleiro, temperar com azeite e sal.\nFISH: peixe por cima, limão + alho + azeite.\nFORNO: 180°C 30-35min.'},
+  {t:'Omelete gigante',d:'Ovos, queijo e cenoura — 15min no fogão',r:'INGREDIENTES (5p): 10 ovos (stock), 100g queijo (stock), 2 cenouras raladas (stock), 50ml leite (stock), 1c.s azeite, sal.\n\nBATER: ovos + leite + sal. Misturar cenoura ralada e queijo.\nFRIGIDEIRA: azeite em lume médio, verter mistura, tapar 8-10min. Dobrar ao meio.'},
+  {t:'Crepes família',d:'Crepes doces e salgados — cada um recheie o seu',r:'INGREDIENTES (5p — ~15 crepes): 4 ovos (stock), 400ml leite (stock), 200g farinha, 1 pitada sal, 1c.s manteiga.\n\nBIMBY: todos ingredientes 30seg vel.5. Repousar 15min.\nFRIGIDEIRA: antiaderente com manteiga, 1min por lado.\nRECHEIOS: queijo fatiado (salgado) ou banana + mel (doce).'},
+  {t:'Tacos de frango',d:'Frango Bimby desfiado + feijão + pão marmita',r:'INGREDIENTES (5p): 600g frango (stock), 1 lata feijão (stock), 1 lata tomate pelado (stock), pão marmita (stock), cominhos, sal.\n\nBIMBY FRANGO: 600g frango + 300ml água + sal + cominhos, 25min Varoma vel.1. Desfiar.\nFEIJÃO TEMPERADO: escorrer + temperar com azeite + sal + cominhos. MONTAR à mesa.'},
+  {t:'Risotto de frango',d:'Arroz cremoso com frango da despensa',r:'INGREDIENTES (5p): 400g arroz (stock), 400g frango (stock), 1L caldo (stock), 1 cebola, 2 dentes alho, 50g queijo (stock), 3c.s azeite.\n\nREFOGAR: cebola + alho 3min. Frango em pedaços 5min. Juntar arroz, saltear 2min.\nCALDO: adicionar aos poucos (200ml de cada vez), mexendo sempre 20min total.'},
+  {t:'Lasanha caseira',d:'Com carne picada e tomate — tudo do stock',r:'INGREDIENTES (5p): 500g carne picada (stock), 2 latas tomate pelado (stock), 500ml leite (stock), 3c.s farinha, 100g queijo (stock), folhas lasanha.\n\nBOLONHESA: carne + tomate + temperos 20min.\nBECHAMEL: 500ml leite + 3c.s farinha + sal — mexer até engrossar.\nCAMADAS: massa/bolonhesa/bechamel. FORNO: 180°C 30min.'},
+  {t:'Frango com arroz de tomate',d:'Prato único reconfortante — tudo do stock',r:'INGREDIENTES (5p): 600g frango (stock), 300g arroz (stock), 1 lata tomate pelado (stock), cebola, alho, 2c.s azeite (stock).\n\nFRIGIDEIRA: frango em pedaços com alho + cebola 5min. Adicionar tomate esmagado. Juntar arroz + 600ml água + sal. Tapar, cozer 18min em lume brando.'},
+  {t:'Açorda portuguesa',d:'Pão marmita + ovos + alho — clássico português',r:'INGREDIENTES (5p): 6 fatias pão marmita (stock), 5 ovos (stock), 700ml caldo (stock), 4 dentes alho, coentros/salsa, 4c.s azeite.\n\nCOZER: caldo a ferver. Juntar pão em pedaços, deixar amolecer 3min, mexer. Escalfar ovos dentro (4min). TEMPERAR: alho picado + azeite generoso por cima.'},
+  {t:'Frittata de legumes',d:'Omelete italiana ao forno com batata e cenoura',r:'INGREDIENTES (5p): 8 ovos (stock), 3 batatas cozidas (stock), 2 cenouras (stock), 80g queijo (stock), azeite, sal.\n\nMISTURA: bater ovos + sal. Misturar batatas fatiadas + cenoura ralada.\nFORNO: frigideira de forno com azeite, verter mistura + queijo por cima. 180°C 20min até firme.'},
+  {t:'Caldeirada de peixe',d:'Peixe com batatas e legumes — prato de mar',r:'INGREDIENTES (5p): 800g filetes peixe (stock), 800g batatas (stock), 1 lata tomate pelado (stock), cebola, alho, louro, 3c.s azeite.\n\nCAMADAS: cebola + alho refogados, depois camadas batata fatiada / peixe / tomate. Temperar. Cobrir com água, tapar. Lume médio 30min.'},
+  {t:'Hot dogs de frango',d:'Frango desfiado em pão marmita — as crianças adoram',r:'INGREDIENTES (5p): 600g frango desfiado Bimby (stock), 10 metades pão marmita (stock), 1 lata tomate pelado para molho (stock), queijo (stock).\n\nFRANGO: Bimby 25min Varoma. MOLHO: tomate + oregãos + sal 5min. MONTAR: pão + frango + molho + queijo. Forno 5min para gratinar.'},
+  {t:'Frango no wok',d:'Frango com cenoura e arroz — diferente e rápido',r:'INGREDIENTES (5p): 500g frango em tiras (stock), 3 cenouras em palitos (stock), 300g arroz (stock), 3c.s azeite, alho, sal.\n\nARROZ: cozer na Bimby. FRANGO: saltear em azeite bem quente 5min. Juntar cenoura + alho + sal. Saltear 5min mais. Servir sobre arroz.'},
+  {t:'Sopa rica de feijão',d:'Feijão e legumes — Bimby 25min',r:'INGREDIENTES (5p): 2 latas feijão (stock), 3 batatas (stock), 2 cenouras (stock), 1L caldo (stock), alho, 3c.s azeite.\n\nBIMBY: cenoura + batata + alho 10seg vel.5. Juntar feijão + caldo + sal. 25min 100°C vel.1. Triturar metade para engrossar. Fio de azeite.'},
+  {t:'Empadas de atum',d:'Massa simples com atum ou feijão — forno',r:'INGREDIENTES (5p): 300g farinha, 150ml azeite (stock), 50ml leite (stock), 2 latas atum OU 1 lata feijão (stock), 2 ovos (stock).\n\nMASSA: farinha + azeite + leite + 1 ovo + sal até não pegar. RECHEIO: atum escorrido ou feijão temperado. FORNO: forminhas com massa, recheio e tampa de massa. 180°C 25min.'},
+  {t:'Massa de forno',d:'Massa + carne + queijo — gratinada no forno',r:'INGREDIENTES (5p): 400g massa (stock), 300g carne picada (stock), 1 lata tomate pelado (stock), 100g queijo (stock), azeite.\n\nBOLONHESA: carne + tomate 15min. MASSA: cozer al dente. MISTURAR: massa + bolonhesa num tabuleiro. Queijo por cima. FORNO: 180°C 20min até gratinar.'},
+  {t:'Batata frita + frango airfryer',d:'O clássico das crianças — airfryer em lote',r:'INGREDIENTES (5p): 1.2kg batatas (stock), 600g frango peito (stock), 2 ovos (stock) para empanar, 4c.s farinha, azeite, sal.\n\nBATATAS: airfryer 180°C 25min com fio azeite, sacudir a meio.\nFRANGO: fatiar, passar ovo batido + farinha + sal. Airfryer 200°C 15min.'}
+];
+
+var SABADOS=[
+  {t:'Tábua clássica portuguesa',d:'Queijo, pão, ovos e cenoura do stock',r:'INGREDIENTES: 200g queijo fatiado (stock), 4 fatias pão marmita tostado (stock), 4 ovos cozidos (airfryer 13min 130°C), cenouras cruas em palitos (stock), iogurte com mel para mergulhar (stock).\n\nMONTAR tábua com tudo. Apresentar bonito — a apresentação é metade do prazer.',b:'Vinho tinto português',s:'Apaga as luzes principais, acende uma vela — a atmosfera transforma tudo.'},
+  {t:'Ovos mexidos cremosos',d:'Ovos e queijo do stock — reconfortante',r:'INGREDIENTES: 6 ovos (stock), 80g queijo fatiado (stock), 6 fatias pão marmita (stock), 1c.s manteiga, sal, pimenta.\n\nOVOS CREMOSOS: em frigideira com manteiga em lume BAIXO, mexer constantemente — não secar! Queijo no fim. TOSTAS: pão tostado. Servir imediatamente.',b:'Vinho branco ou espumante',s:'Desliga o telemóvel por uma hora — só vocês dois.'},
+  {t:'Fondue de queijo',d:'Queijo derretido para mergulhar pão',r:'INGREDIENTES: 300g queijo fatiado (stock), 100ml leite (stock), 1c.s farinha, 1 dente alho, pão marmita em cubos tostados (stock).\n\nEsfregar taça com alho. QUEIJO: derreter em lume muito brando com leite e farinha, mexendo sempre. Servir na taça, mergulhar cubos de pão.',b:'Vinho branco encorpado',s:'Uma taça partilhada — é tão simples quanto isso.'},
+  {t:'Jantar leve de peixe',d:'Filetes do congelador com arroz Bimby',r:'INGREDIENTES: 400g filetes peixe (stock), 200g arroz (stock), 2 cenouras (stock), limão, azeite, ervas.\n\nARROZ BIMBY: 200g arroz + 600ml água + sal, 13min 100°C vel.1.\nPEIXE: temperar com limão + sal + ervas. Frigideira antiaderente com fio azeite, 4min por lado.',b:'Vinho branco seco',s:'Uma refeição leve mas especial — boa para o sono depois.'},
+  {t:'Mini pizzas a dois',d:'Pão marmita com queijo e tomate no forno',r:'INGREDIENTES: 4 metades pão marmita (stock), 1 lata tomate pelado pequena (stock), 150g queijo (stock), oregãos.\n\nMOLHO: tomate + sal + oregãos esmagado. MONTAR: cada metade pão com molho + queijo + toppings. FORNO: 200°C 10min até gratinar.',b:'Vinho tinto suave',s:'Competição de quem faz a mini pizza mais criativa — rir juntos.'},
+  {t:'Sopa aromática + tostas queijo',d:'Sopa de legumes quente com tostas gratinadas',r:'INGREDIENTES: 3 batatas (stock), 2 cenouras (stock), 1L caldo, queijo fatiado (stock), pão marmita (stock).\n\nSOPA BIMBY: batatas + cenouras + caldo 25min 100°C vel.1. Triturar. TOSTAS: pão + queijo, forno 5min. Servir em taças bonitas com fio azeite.',b:'Chá quente ou vinho tinto suave',s:'Noite de inverno — conforto total.'},
+  {t:'Ovos escalfados com batata frita',d:'Elegante e simples com o stock',r:'INGREDIENTES: 4 ovos (stock), 600g batatas (stock), vinagre, azeite, sal.\n\nBATATAS AIRFRYER: 180°C 25min.\nOVOS ESCALFADOS: água a ferver + 1c.s vinagre, redemoinho, partir ovo no centro, 3-4min. Retirar com escumadeira. Servir sobre batatas.',b:'Vinho branco ou rosé',s:'Simples mas apresentado com cuidado parece gourmet.'},
+  {t:'Arroz doce com maçã assada',d:'Sobremesa especial e fácil — tudo do stock',r:'INGREDIENTES: 150g arroz (stock), 700ml leite (stock), 150g açúcar, 2 maçãs (stock), canela, raspa limão.\n\nARROZ DOCE BIMBY: 150g arroz + leite + açúcar + raspa limão, 40min 90°C vel.1. MAÇÃS: ao meio + canela, forno 180°C 20min. Servir juntos.',b:'Moscatel ou licor',s:'Acabar a noite com algo doce que fizeste — mais especial que comprado.'},
+  {t:'Caldinho de feijão',d:'Sopa espessa e reconfortante — Bimby',r:'INGREDIENTES: 2 latas feijão (stock), 3 batatas (stock), alho, 1 lata tomate pelado (stock), 3c.s azeite.\n\nBIMBY: feijão + batatas + tomate + alho + 800ml água, 25min 100°C vel.1. Triturar parcialmente para ficar cremoso. Azeite generoso.',b:'Vinho tinto robusto',s:'Traz as taças boas, mesmo para sopa.'},
+  {t:'Frango assado a dois',d:'Apenas para dois — frango simples e perfeito',r:'INGREDIENTES: 400g frango coxa (stock), 2 batatas (stock), 1 cenoura (stock), alho, azeite, limão, ervas.\n\nTudo num tabuleiro pequeno. MARINAR: alho + azeite + limão + ervas. FORNO: 180°C 45min. Simples mas especial para dois.',b:'Vinho tinto médio',s:'A mesma receita de sempre, mas feita com intenção.'},
+  {t:'Tosta mista especial',d:'Pão marmita + queijo + ovo — conforto',r:'INGREDIENTES: 4 fatias pão marmita (stock), 4 fatias queijo (stock), 2 ovos (stock), manteiga.\n\nTOSTAS: pão com queijo, forno ou torradeira até gratinar. OVOS: fritos em manteiga. Servir ovo sobre tosta. Pimenta preta.',b:'Sumo de laranja fresco ou vinho rosé',s:'Às vezes o simples é o mais especial.'},
+  {t:'Cenoura assada com ovo',d:'Cenouras lentas no forno + ovos — surpreendente',r:'INGREDIENTES: 4 cenouras grandes (stock), 4 ovos (stock), azeite, sal, cominhos, pão marmita (stock).\n\nCENOURAS: inteiras com azeite + cominhos, forno 200°C 35min. OVOS: estrelados. PRATO: cenoura assada + ovo por cima + pão tostado para acompanhar.',b:'Vinho branco leve',s:'Um prato diferente que surpreende positivamente.'}
+];
+
+var SUGS={
+  lanches:[
+    {n:'Iogurte + banana + mel',e:'🍎',d:'Proteína alta, zero açúcar. Em lote ao domingo.',tags:['proteína','stock','lote'],t:'3 min',
+     r:'INGREDIENTES (1 dose): 1 iogurte grego 125g (stock), 1 banana média (stock), 1c.ch mel.\n\nPREPARAÇÃO: fatiar banana. Colocar iogurte em caixinha hermética. Adicionar banana. Fio de mel. Tapar. LOTE DOMINGO: preparar 5 doses de uma vez. Duram 2 dias no frio.'},
+    {n:'Ovo cozido airfryer + maçã',e:'🥚',d:'Proteína + fibra. Airfryer em lote — 6 ovos de uma vez.',tags:['proteína','airfryer','stock'],t:'15 min',
+     r:'INGREDIENTES (6 doses): 6 ovos (stock), 6 maçãs (stock).\n\nAIRFRYER: ovos diretamente na cesta, 130°C 13min. Deixar arrefecer antes de descascar. Guardar em caixa no frio.\nLEVAR: 2 ovos descascados + 1 maçã inteira. Duram 4 dias no frio.'},
+    {n:'Tosta queijo + ovo estrelado',e:'🧀',d:'Pão marmita + queijo + ovo — base proteica rápida.',tags:['stock','proteína','5 min'],t:'5 min',
+     r:'INGREDIENTES (1 dose): 2 fatias pão marmita (stock — descongelar véspera), 2 fatias queijo (stock), 1 ovo (stock), 1c.ch azeite.\n\nTOSTAS: torradeira. FRITAR ovo em azeite 3min. MONTAR. Embrulhar em papel vegetal para levar.'},
+    {n:'Panquecas de aveia e banana',e:'🥞',d:'Alto proteína, sem açúcar. 10 panquecas de uma vez.',tags:['proteína','sem açúcar','stock'],t:'15 min',
+     r:'INGREDIENTES (10 panquecas): 2 ovos (stock), 100ml leite (stock), 80g aveia fina, 1 banana madura esmagada (stock), pitada sal.\n\nMISTURA: triturar aveia. Misturar tudo.\nFOGÃO: frigideira antiaderente com fio azeite, 2 min por lado. GUARDAR: caixa no frio 3 dias.'},
+    {n:'Bolas de arroz com queijo',e:'🍱',d:'Arroz do meal prep com queijo escondido por dentro.',tags:['stock','meal prep','criança'],t:'10 min',
+     r:'INGREDIENTES (6 bolas): 300g arroz cozido (meal prep stock), 60g queijo em cubos (stock), sal, ervas secas.\n\nPREP: mãos húmidas. Pegar porção arroz, cubo queijo no centro, fechar em bola. Opcional: polvilhar com sesame. Guardar em caixa. Duram 2 dias no frio.'},
+    {n:'Iogurte com mel e canela',e:'🍯',d:'Proteína alta para adultos — sem açúcar extra.',tags:['proteína','stock','1 min'],t:'1 min',
+     r:'INGREDIENTES (1 dose): 1 iogurte natural 125g (stock), 1c.ch mel, pitada canela.\n\nJUNTAR tudo na caixinha. Levar colher. Come frio. Para variação: adicionar banana fatiada (stock).'},
+    {n:'Cenoura crua + molho iogurte',e:'🥕',d:'Crocante, nutritivo, fibra. Zero cozinha.',tags:['fibra','stock','0 min'],t:'5 min',
+     r:'INGREDIENTES (1 dose): 2 cenouras (stock), 1 iogurte natural (stock), 1c.ch azeite, sal, ervas secas.\n\nCENOURAS: descascar, cortar em palitos. MOLHO: iogurte + azeite + sal + ervas — misturar. Guardar separados até comer. Duram 2 dias no frio.'},
+    {n:'Mini omelete fria',e:'🍳',d:'Omelete domingo, comer fria como lanche proteico.',tags:['proteína','fogão','stock'],t:'8 min',
+     r:'INGREDIENTES (1 omelete): 3 ovos (stock), 30g queijo fatiado (stock), 1c.ch azeite, sal.\n\nBATER ovos com sal. FRIGIDEIRA pequena com azeite, verter, tampar, 5min lume médio-baixo. Queijo. Dobrar. Arrefecer, embrulhar. Dura 2 dias no frio.'}
+  ],
+  sobremesas:[
+    {n:'Mousse de banana Bimby',e:'🍫',d:'Sem açúcar, com bananas maduras do stock.',tags:['Bimby','sem açúcar','stock'],t:'5 min + 2h frio',
+     r:'INGREDIENTES (4 taças): 3 bananas maduras (stock), 2 ovos (stock), 1c.s mel, pitada sal.\n\nBIMBY: bananas + ovos + mel + sal, 4min vel.4. Verter em taças. FRIO: mínimo 2h. DICA: bananas mais maduras = mais doce e cremoso. Dura 2 dias.'},
+    {n:'Arroz doce Bimby',e:'🍚',d:'Clássico português com o arroz e leite do stock.',tags:['Bimby','português','stock'],t:'45 min',
+     r:'INGREDIENTES (6 doses): 150g arroz carolino (stock), 700ml leite (stock), 150g açúcar, raspa 1 limão, canela em pau, sal.\n\nBIMBY: arroz + leite + açúcar + limão + sal + canela em pau. 40min 90°C vel.1. Verter em taças individuais. Canela em pó por cima. Dura 3 dias no frio.'},
+    {n:'Maçãs assadas com canela',e:'🍏',d:'Maçãs do stock no forno — simples e saudável.',tags:['forno','saudável','stock'],t:'25 min',
+     r:'INGREDIENTES (5 doses): 5 maçãs (stock), 2c.s mel, 1c.ch canela, 5c.s água.\n\nCORTAR maçãs ao meio, retirar caroço com colher. Colocar numa assadeira. TEMPERAR: fio mel + canela. Água no fundo. FORNO: 180°C 20-25min. Servir morno. OPCIONAL: iogurte por cima.'},
+    {n:'Leite creme Bimby',e:'🥛',d:'Com leite e ovos do stock. Clássico português.',tags:['Bimby','português','stock'],t:'15 min + 1h frio',
+     r:'INGREDIENTES (6 doses): 600ml leite (stock), 4 gemas (stock), 100g açúcar, 40g farinha Maizena, raspa limão, canela.\n\nBIMBY: tudo 12min 90°C vel.3. Verter em tigelas. FRIO: 1h mínimo. CARAMELIZAR açúcar por cima com maçarico (opcional).'},
+    {n:'Iogurte com banana e mel',e:'🍌',d:'2 minutos — o mais fácil e sempre bom.',tags:['stock','0 cozinha','2 min'],t:'2 min',
+     r:'INGREDIENTES (1 dose): 1 iogurte natural 125g (stock), 1 banana (stock), 1c.ch mel.\n\nFATIAR banana sobre iogurte. Fio de mel. Comer imediatamente ou guardar no frio 1 dia.'},
+    {n:'Pudim de leite ao forno',e:'🍮',d:'Leite e ovos do stock — clássico do forno.',tags:['forno','stock','clássico'],t:'60 min',
+     r:'INGREDIENTES (6 doses): 600ml leite morno (stock), 4 ovos inteiros (stock), 100g açúcar, essência baunilha.\nCARAMELO: 100g açúcar em lume médio até dourar, verter na forma.\nPUDIM: bater ovos + açúcar + leite morno + baunilha. Verter na forma. BANHO-MARIA: 180°C 45min.'}
+  ],
+  bolos:[
+    {n:'Bolo de banana sem açúcar',e:'🎂',d:'3 bananas maduras do stock — moisssimo, sem açúcar.',tags:['forno','sem açúcar','stock'],t:'30 min',
+     r:'INGREDIENTES (1 forma): 3 bananas maduras (stock), 2 ovos (stock), 150g farinha, 1c.ch fermento, 60g manteiga amolecida, pitada sal.\n\nPURÉ: esmagar bananas com garfo. MISTURA: manteiga + ovos batidos + bananas + farinha + fermento + sal. FORMA untada. FORNO: 180°C 25-30min. Palito seco = pronto.'},
+    {n:'Bolo de iogurte Bimby',e:'🧁',d:'Iogurte do stock como medida — receita infalível.',tags:['Bimby','forno','stock'],t:'45 min',
+     r:'INGREDIENTES (1 forma — medida = copo iogurte 125ml): 1 iogurte (stock), 3 copos farinha, 2 copos açúcar, 3 ovos (stock), 1 copo óleo, 1 saqueta fermento.\n\nBIMBY: ovos + açúcar 2min vel.3. Juntar restante, 30seg vel.3. FORMA untada. FORNO: 180°C 35-40min.'},
+    {n:'Panquecas de ovos',e:'🥞',d:'Ovos + leite do stock — rápido no fogão.',tags:['fogão','stock','proteína'],t:'15 min',
+     r:'INGREDIENTES (10 panquecas): 2 ovos (stock), 200ml leite (stock), 150g farinha, 1c.ch fermento, 1 pitada sal, 1c.s açúcar opcional.\n\nMISTURA: tudo junto, bater até liso.\nFOGÃO: frigideira antiaderente com fio azeite, 2min por lado. Servir com mel ou iogurte.'},
+    {n:'Pudim de leite express',e:'🍮',d:'Leite condensado + ovos — pronto em 45min.',tags:['forno','stock'],t:'50 min',
+     r:'INGREDIENTES (6 doses): 1 lata leite condensado, 1 lata (medida) leite (stock), 3 ovos (stock).\nCARAMELO: 100g açúcar dourar em lume médio.\nPUDIM: bater tudo, verter na forma. Banho-maria 180°C 40min.'},
+    {n:'Cookies de aveia e banana',e:'🍪',d:'Sem açúcar, sem manteiga — assadas no forno.',tags:['forno','sem açúcar','stock'],t:'20 min',
+     r:'INGREDIENTES (12 cookies): 2 bananas maduras esmagadas (stock), 150g aveia fina, 1 ovo (stock), 1c.s mel, pitada sal, opcional: pepitas chocolate.\n\nMISTURA: tudo junto. Fazer bolinhas achatadas em tabuleiro com papel vegetal. FORNO: 180°C 15min. Arrefecer antes de tirar.'}
+  ],
+  receitas:[
+    {n:'Arroz de frango Bimby',e:'🍗',d:'Frango do congelador + arroz do stock — 35min.',tags:['Bimby','stock','familiar'],t:'35 min',
+     r:'INGREDIENTES (5p): 600g frango em pedaços (stock), 300g arroz (stock), 1 lata tomate pelado (stock), 1 cebola, 2 dentes alho, 3c.s azeite (stock), sal, pimenta.\n\nBIMBY: azeite + cebola + alho 3min 100°C vel.1. Frango + tomate + sal 10min 100°C vel.1. Juntar arroz + 600ml água. 13min 100°C vel.1.'},
+    {n:'Esparguete à bolonhesa',e:'🍝',d:'Carne picada + tomate pelado — clássico do stock.',tags:['fogão','stock','familiar'],t:'30 min',
+     r:'INGREDIENTES (5p): 500g esparguete (stock), 400g carne picada (stock), 2 latas tomate pelado (stock), 1 cebola, 3 dentes alho, 3c.s azeite.\n\nBOLONHESA: refogar cebola + alho 3min. Carne 5min. Tomate + temperos, cozer 20min.\nMASSA: cozer al dente em água abundante com sal.'},
+    {n:'Peixe no forno com batatas',e:'🐟',d:'Filetes congelados + batatas e cenouras do stock.',tags:['forno','stock','saudável'],t:'35 min',
+     r:'INGREDIENTES (5p): 800g filetes peixe (stock — descongelar véspera), 800g batatas fatiadas finas (stock), 3 cenouras em rodelas (stock), 4c.s azeite, 3 dentes alho, 1 limão, sal, ervas.\n\nTABULEIRO: legumes no fundo com azeite + sal. Peixe por cima. Limão + alho + ervas. FORNO: 180°C 30-35min.'},
+    {n:'Sopa de legumes Bimby',e:'🫘',d:'Cenouras + batatas + feijão — sopa completa 30min.',tags:['Bimby','stock','saudável'],t:'30 min',
+     r:'INGREDIENTES (5p): 3 cenouras (stock), 3 batatas (stock), 1 lata feijão (stock), 1L água, 1 cubo caldo, 2c.s azeite, sal.\n\nBIMBY: cenouras + batatas + alho + caldo + água. 30min 100°C vel.1. Escorrer feijão e juntar. 3min mais. TRITURAR vel.5 até liso. Fio azeite.'},
+    {n:'Frango desfiado Bimby (base)',e:'🍗',d:'Base de marmitas + refeições da semana. 20min.',tags:['Bimby','stock','meal prep'],t:'20 min',
+     r:'INGREDIENTES: 500g frango peito (stock), 200ml água, sal, 1 dente alho, ervas.\n\nBIMBY VAROMA: frango + água + sal + alho no copo, Varoma vazio, 20min Varoma vel.2.\nDESFIAR com dois garfos. Guardar no frio 4 dias. SERVE PARA: marmitas, wraps, arroz, sopas.'},
+    {n:'Feijão guisado Bimby',e:'🫘',d:'Feijão + tomate pelado do stock — económico.',tags:['Bimby','stock','económico'],t:'25 min',
+     r:'INGREDIENTES (5p): 2 latas feijão (stock), 1 lata tomate pelado (stock), 1 cebola, 3 dentes alho, 3c.s azeite, sal, cominhos, folha louro.\n\nBIMBY: azeite + cebola + alho 3min 100°C vel.1. Tomate 5min. Feijão escorrido + temperos + 100ml água. 12min 100°C vel.1.'},
+    {n:'Omelete de forno',e:'🥚',d:'8 ovos com batata e cenoura — prato único.',tags:['forno','stock','rápido'],t:'25 min',
+     r:'INGREDIENTES (5p): 8 ovos (stock), 3 batatas cozidas fatiadas (stock), 2 cenouras raladas (stock), 80g queijo (stock), 2c.s azeite, sal.\n\nFRIGIDEIRA de forno: azeite. MISTURA: ovos batidos + cenoura + batatas + sal. Verter. Queijo por cima. FORNO: 180°C 20min.'},
+    {n:'Batatas com ovos escalfados',e:'🥔',d:'Batatas airfryer + ovos escalfados — elegante.',tags:['airfryer','stock','proteína'],t:'25 min',
+     r:'INGREDIENTES (5p): 1kg batatas (stock), 5 ovos (stock), 3c.s azeite, sal, vinagre.\n\nBATATAS: airfryer 180°C 25min, sacudir a meio.\nOVOS ESCALFADOS: água a ferver + vinagre, redemoinho com colher, ovo no centro, 3-4min. Escumadeira.'}
+  ]
+};
+
+// ── QUIZ NUTRICIONISTA ──
+var QUIZ_STEPS=[
+  {q:'Qual é o teu nome?',sub:'Como te devo chamar?',type:'text',key:'nome',ph:'ex: Jé, Ana, Luís...'},
+  {q:'Qual é o teu principal objectivo?',sub:'Sê honesta — vou adaptar tudo ao teu caso.',type:'opts',key:'obj',opts:['Perder gordura e definir','Ganhar músculo e força','Perder peso apenas','Saúde e energia diária','Equilíbrio sem restrições','Melhorar hábitos alimentares','Controlar diabetes/colesterol','Alimentação pós-parto','Alimentação para criança','Outro (descreve abaixo)']},
+  {q:'Quantos anos tens?',sub:'A nutrição muda muito com a idade.',type:'opts',key:'idade',opts:['Menos de 20','20–30 anos','31–40 anos','41–50 anos','51–60 anos','Mais de 60 anos']},
+  {q:'Qual é a tua altura e peso actual?',sub:'Para calcular o teu IMC e necessidades calóricas.',type:'2text',key:'altura_peso',ph1:'Altura (cm) ex: 165','ph2':'Peso (kg) ex: 68'},
+  {q:'Como descreveria o teu nível de actividade?',sub:'Sê realista — não o que gostavas, o que realmente fazes.',type:'opts',key:'actividade',opts:['Sedentária — maioritariamente sentada','Levemente activa — caminho um pouco','Moderadamente activa — exercício 2-3x semana','Bastante activa — exercício 4-5x semana','Muito activa — exercício diário intenso']},
+  {q:'Tens alguma restrição alimentar?',sub:'Vou adaptar todas as sugestões.',type:'opts_multi',key:'restricoes',opts:['Nenhuma','Intolerância à lactose','Intolerância ao glúten','Vegetariana','Vegan','Não gosto de peixe','Não gosto de carne vermelha','Alergia a frutos secos','Diabetes — controlo açúcar','Outra (descreve abaixo)']},
+  {q:'Como é a tua relação com a comida?',sub:'Sem julgamentos — quero entender para ajudar melhor.',type:'opts',key:'relacao',opts:['Boa — como quando tenho fome','Tenho tendência a comer em stress','Tenho dificuldade em manter horários','Pico muito entre refeições','Como pouco durante o dia e muito à noite','Tenho dificuldade em resistir a doces','Já fiz muitas dietas sem sucesso']},
+  {q:'Como são os teus níveis de energia ao longo do dia?',sub:'Isto diz-me muito sobre o que precisas.',type:'opts',key:'energia',opts:['Bons e estáveis todo o dia','Cansada de manhã, melhor à tarde','Boa manhã, cansaço a seguir ao almoço','Muito cansada a meio da tarde','Dependente de café para funcionar','Vario muito — nunca sei como vou estar']},
+  {q:'Quanto tempo tens para preparar refeições?',sub:'Vou sugerir receitas realistas para o teu dia.',type:'opts',key:'tempo',opts:['Muito pouco — menos de 15min','Pouco — 15 a 30min','Moderado — 30 a 45min','Tenho tempo — até 1 hora','Só cozinho ao fim de semana (meal prep)']},
+  {q:'Tens alguma zona corporal prioritária?',sub:'Onde queres focar o trabalho?',type:'opts_multi',key:'zonas',opts:['Abdómen/barriga','Pernas e coxas','Braços e ombros','Glúteos','Costas','Sem zona específica — corpo todo','Não faço exercício por agora']},
+  {q:'Qual é o teu ciclo menstrual/situação hormonal?',sub:'A nutrição deve adaptar-se ao ciclo feminino.',type:'opts',key:'ciclo',opts:['Ciclo regular','Ciclo irregular','Menopausa ou peri-menopausa','Pós-parto — menos de 1 ano','A tomar contraceptivos','Não aplicável / Prefiro não responder']},
+  {q:'Como dormes normalmente?',sub:'O sono é tão importante quanto a alimentação.',type:'opts',key:'sono',opts:['Muito bem — 7-8h sem acordar','Bem — mas acordo uma ou duas vezes','Razoável — 5-6h','Mal — durmo pouco','Mal — acordo muitas vezes','Tenho filhos pequenos — durmo o que consigo']},
+  {q:'Já alguma vez recorreste a profissional de nutrição?',sub:'Ajuda-me a perceber o teu ponto de partida.',type:'opts',key:'nutri_antes',opts:['Nunca','Sim, uma vez ou duas','Sim, segui acompanhamento regular','Tentei mas abandonei','Não tenho acesso fácil']},
+  {q:'O que já tentaste sem sucesso?',sub:'Honestidade aqui é crucial para eu não repetir o que não funcionou.',type:'opts_multi',key:'tentativas',opts:['Dieta calórica restrita','Eliminar hidratos completamente','Jejum intermitente','Contar calorias','Dietas rápidas / detox','Suplementos para emagrecer','Apps de dieta','Nunca tentei nada estruturado']},
+  {q:'Que alimentos te custa mesmo abdicar?',sub:'Não vou sugerir que elimines tudo — quero que seja sustentável.',type:'opts_multi',key:'prazer',opts:['Doces e sobremesas','Pão e hidratos','Queijo e lacticínios','Vinho ou outras bebidas','Café','Fritos e salgados','Chocolate','Não tenho dificuldades especiais']},
+  {q:'Qual é o teu maior obstáculo?',sub:'Quero criar um plano real, não perfeito.',type:'opts',key:'obstaculo',opts:['Falta de tempo','Falta de motivação','Não sei cozinhar bem','Falta de apoio em casa','Trabalho por turnos','Viajo muito','Cuido de filhos pequenos','Stress e emocional','Orçamento limitado']},
+  {q:'Até quando queres atingir os teus objetivos?',sub:'Vou ser honesta sobre o que é realista.',type:'opts',key:'prazo',opts:['1 mês (resultados iniciais)','3 meses (mudança visível)','6 meses (transformação sólida)','1 ano (mudança de hábitos)','Sem prazo — processo gradual']},
+  {q:'Há algo mais que deva saber sobre ti?',sub:'Qualquer detalhe que não coubesse nas perguntas anteriores.',type:'text',key:'extra',ph:'ex: tenho hipotiroidismo, faço leite para bebé, tenho lesão no joelho...'}
+];
+
+// ── OBJETOS GLOBAIS: planos pessoais por objetivo ──
+var OBJ_LABELS={'proteina_def':'Proteína + definição','ganhar_musculo':'Ganhar músculo','perder_peso':'Perda de peso','saude_energia':'Saúde e energia','equilibrio':'Equilíbrio','habitos':'Melhores hábitos','saude_especial':'Saúde / crónica','pos_parto':'Pós-parto','crianca':'Plano criança','outro':'Personalizado'};
+
+function mapObj(resp){
+  var map={'Perder gordura e definir':'proteina_def','Ganhar músculo e força':'ganhar_musculo','Perder peso apenas':'perder_peso','Saúde e energia diária':'saude_energia','Equilíbrio sem restrições':'equilibrio','Melhorar hábitos alimentares':'habitos','Controlar diabetes/colesterol':'saude_especial','Alimentação pós-parto':'pos_parto','Alimentação para criança':'crianca'};
+  return map[resp]||'outro';
+}
+
+function getPlanoDia(aba){
+  var obj=aba.objKey||'outro';
+  var plans={
+    proteina_def:[
+      {tipo:'PA',nome:'Ovos mexidos + tosta',desc:'2 ovos (stock) mexidos + 1 fatia pão. Proteína desde manhã.',cor:'rbl'},
+      {tipo:'Lanche M',nome:'Iogurte grego + banana',desc:'Iogurte (stock) + banana (stock). Proteína + energia.',cor:'rbl'},
+      {tipo:'Almoço',nome:'Frango + arroz + legumes',desc:'Frango desfiado Bimby (stock) + arroz (stock) + cenouras (stock).',cor:'sbl'},
+      {tipo:'Lanche T',nome:'Ovo cozido + maçã',desc:'Ovo airfryer (stock) + maçã (stock). Proteína + fibra.',cor:'rbl'},
+      {tipo:'Jantar',nome:'Peixe + batatas + cenoura',desc:'Filetes peixe (stock) no forno + legumes.',cor:'sbl'},
+      {tipo:'Ceia',nome:'Iogurte simples',desc:'Iogurte (stock). Proteína sem calorias vazias.',cor:'rbl'}
+    ],
+    perder_peso:[
+      {tipo:'PA',nome:'Iogurte + banana',desc:'Iogurte (stock) + banana (stock). Leve e nutritivo.',cor:'rbl'},
+      {tipo:'Lanche M',nome:'Maçã + 1 ovo cozido',desc:'Maçã (stock) + ovo cozido (stock). Saciante.',cor:'rbl'},
+      {tipo:'Almoço',nome:'Peixe + sopa de legumes',desc:'Filetes peixe (stock) + sopa Bimby de cenouras e feijão (stock).',cor:'sbl'},
+      {tipo:'Lanche T',nome:'Cenouras cruas + iogurte',desc:'Cenouras (stock) + iogurte (stock) como molho.',cor:'rbl'},
+      {tipo:'Jantar',nome:'Sopa + 2 ovos estrelados',desc:'Sopa Bimby (stock) + ovos (stock). Leve e saciante.',cor:'sbl'}
+    ],
+    ganhar_musculo:[
+      {tipo:'PA',nome:'Ovos + pão + iogurte',desc:'3 ovos (stock) + 2 fatias pão + 1 iogurte (stock). Proteína máxima.',cor:'rbl'},
+      {tipo:'Lanche M',nome:'Iogurte grego + banana + mel',desc:'Iogurte (stock) + banana (stock) + mel. Calorias de qualidade.',cor:'rbl'},
+      {tipo:'Almoço',nome:'Frango + arroz + feijão',desc:'Frango (stock) + arroz (stock) + feijão (stock). Proteína + hidratos.',cor:'sbl'},
+      {tipo:'Lanche T',nome:'2 ovos + maçã + leite',desc:'2 ovos cozidos (stock) + maçã + copo leite (stock).',cor:'rbl'},
+      {tipo:'Jantar',nome:'Carne picada + massa + legumes',desc:'Carne picada (stock) + massa (stock) + cenouras (stock).',cor:'sbl'},
+      {tipo:'Ceia',nome:'Iogurte grego + mel',desc:'Proteína de absorção lenta para recuperação noturna.',cor:'rbl'}
+    ]
+  };
+  return plans[obj]||plans['proteina_def'];
+}
+
+function getRegras(aba){
+  var obj=aba.objKey||'outro';
+  var r={
+    proteina_def:'✦ Proteína em cada refeição (ovos, frango, peixe, iogurte)\n✦ Hidratos complexos: arroz, batata, aveia\n✦ Legumes em almoço e jantar sempre\n✦ Evitar açúcar refinado e processados\n✦ 1.5–2L de água por dia\n✦ Tudo baseado no stock disponível',
+    perder_peso:'✦ Défice calórico moderado — sem passar fome\n✦ Legumes à vontade em qualquer refeição\n✦ Proteína para preservar músculo\n✦ Evitar açúcar, farinhas refinadas e fritos\n✦ 2L de água por dia — antes das refeições\n✦ Não saltar refeições — comer de 3 em 3h',
+    ganhar_musculo:'✦ Excedente calórico ligeiro (+300–500 kcal/dia)\n✦ 1.6–2g proteína por kg de peso corporal\n✦ Hidratos antes e depois do treino\n✦ 5–6 refeições por dia\n✦ Dormir 7–8h é fundamental para ganhar músculo\n✦ Hidratação: 2–2.5L por dia',
+    saude_energia:'✦ Variedade de cores no prato\n✦ Proteína em todas as refeições principais\n✦ Hidratos complexos — evitar simples\n✦ Gorduras boas: azeite, ovos, peixe\n✦ Reduzir cafeína e açúcar\n✦ Caminhada de 30min por dia',
+    equilibrio:'✦ 80/20 — saudável 80% do tempo, 20% flexível\n✦ Sem alimentos proibidos — tudo com moderação\n✦ Ouvir o corpo — comer quando com fome\n✦ Variedade é a chave\n✦ Comer devagar e com atenção\n✦ Hidratação: 1.5L por dia',
+    outro:'✦ Adapta as refeições ao teu ritmo e stock\n✦ Cozinhar simples é sempre melhor\n✦ Regularidade importa mais que perfeição\n✦ Bebe água ao longo do dia\n✦ Escuta o teu corpo\n✦ Pequenas melhorias consistentes = grande resultado'
+  };
+  return r[obj]||r['outro'];
+}
+
+function gerarConselho(aba){
+  var nome=aba.quizResps&&aba.quizResps[0]?aba.quizResps[0]:'';
+  var obj=aba.obj||'';
+  var obstaculo=aba.quizResps&&aba.quizResps[15]?aba.quizResps[15]:'';
+  var prazo=aba.quizResps&&aba.quizResps[16]?aba.quizResps[16]:'';
+  var tentativas=aba.quizResps&&aba.quizResps[13]?aba.quizResps[13]:'';
+  var c='✦ Olá '+(nome||'')+'! Como a tua nutricionista, aqui está o teu plano:\n\n';
+  if(obj.includes('gordura')||obj.includes('definir')){c+='O teu objetivo de perder gordura e definir requer: proteína alta (1.4–1.6g/kg), défice calórico moderado de 300–400 kcal, e treino de força mínimo 3x/semana.\n\n';}
+  else if(obj.includes('músculo')){c+='Para ganhar músculo precisas de excedente calórico (300–400 kcal extra), proteína de 1.6–2g/kg, e progressão no treino. A consistência é mais importante que a perfeição.\n\n';}
+  else if(obj.includes('peso')){c+='Para perder peso de forma saudável: défice de 300–500 kcal/dia, proteína preserva músculo, e hidratação adequada. Evita restrições extremas — não funcionam a longo prazo.\n\n';}
+  if(obstaculo){c+='Vejo que o teu maior obstáculo é "'+obstaculo+'". Vou ter isso em conta nas sugestões — tudo simples e rápido.\n\n';}
+  if(prazo){c+='Com '+(prazo.toLowerCase())+' de comprometimento, e seguindo este plano, verás resultados reais.\n\n';}
+  c+='Lembra: o plano perfeito é aquele que consegues seguir. Começa hoje, mesmo que imperfeita.';
+  return c;
+}
+
+// ── FOTOS MÚLTIPLAS ──
+var fotoSlots=[null,null,null,null]; // base64 data per slot
+var fotoSlotActive=-1;
+
+function triggerFoto(idx){fotoSlotActive=idx;g('foto-input-hidden').click();}
+
+function loadFotoSlot(input){
+  if(!input.files||!input.files[0])return;
+  var idx=fotoSlotActive;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var data=e.target.result; // data:image/...;base64,...
+    fotoSlots[idx]=data;
+    var img=g('fimg-'+idx);
+    img.src=data;img.style.display='block';
+    g('fslot-'+idx).classList.add('has-foto');
+    g('fdel-'+idx).style.display='flex';
+    g('fslot-'+idx).querySelector('.foto-slot-ph').style.display='none';
+  };
+  reader.readAsDataURL(input.files[0]);
+  input.value='';
+}
+
+function delFoto(idx){
+  fotoSlots[idx]=null;
+  var img=g('fimg-'+idx);img.src='';img.style.display='none';
+  g('fslot-'+idx).classList.remove('has-foto');
+  g('fdel-'+idx).style.display='none';
+  g('fslot-'+idx).querySelector('.foto-slot-ph').style.display='';
+}
+
+function limparTodasFotos(){[0,1,2,3].forEach(function(i){delFoto(i);});g('foto-resultado').style.display='none';}
+
+function switchFotoTab(tab,btn){
+  ['analise','ementa','exercicio','tempo'].forEach(function(t){g('ftab-'+t).style.display=t===tab?'block':'none';});
+  document.querySelectorAll('.foto-tab-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+}
+
+function analisarFotos(){
+  var fotos=fotoSlots.filter(function(f){return f!==null;});
+  if(!fotos.length){toast('Adiciona pelo menos uma foto');return;}
+  var aba=abas[abaAtiva];if(!aba)return;
+  var btn=g('btn-analisar');btn.disabled=true;btn.textContent='A analisar...';
+  var res=g('foto-resultado');res.style.display='block';
+  ['analise','ementa','exercicio','tempo'].forEach(function(t,i){
+    g('ftab-'+t).innerHTML='<div style="text-align:center;padding:24px;color:var(--rose)"><div style="font-size:1.5rem;animation:spin 1.1s linear infinite;display:inline-block">⟳</div><div style="font-family:var(--fw);font-size:.66rem;text-transform:uppercase;letter-spacing:.1em;margin-top:8px">a gerar...</div></div>';
+    g('ftab-'+t).style.display=i===0?'block':'none';
+  });
+  var qr=aba.quizResps||[];
+  var perfilStr=[
+    'Nome: '+(qr[0]||aba.nome||''),
+    'Objetivo: '+(qr[1]||aba.obj||''),
+    'Idade: '+(qr[2]||''),
+    'Medidas: '+(qr[3]||''),
+    'Atividade: '+(qr[4]||''),
+    'Restricoes: '+(qr[5]||'nenhuma'),
+    'Zonas: '+(qr[9]||''),
+    'Ciclo: '+(qr[10]||''),
+    'Sono: '+(qr[11]||''),
+    'Obstaculo: '+(qr[15]||''),
+    'Prazo: '+(qr[16]||''),
+    'Extra: '+(qr[17]||'')
+  ].filter(function(l){var v=l.split(': ')[1];return v&&v.trim()&&v!=='undefined';}).join('\n');
+  var fLbls=['frente','perfil esq','perfil dir','costas'];
+  var fotosDesc=fotoSlots.map(function(f,i){return f?fLbls[i]:null;}).filter(Boolean).join(', ');
+  var imgC=[];
+  fotoSlots.forEach(function(f,i){
+    if(!f)return;
+    var m=f.match(/^data:([^;]+);base64,(.+)$/);if(!m)return;
+    imgC.push({type:'image',source:{type:'base64',media_type:m[1],data:m[2]}});
+    imgC.push({type:'text',text:'[foto '+(i+1)+': '+fLbls[i]+']'});
+  });
+  var PS=[
+    {t:'analise',mx:2000,p:'Sou nutricionista e personal trainer com 15 anos de experiencia.\n\nPERFIL:\n'+perfilStr+'\n\nFotos: '+fotosDesc+'\n\nFaz ANALISE CORPORAL DETALHADA:\n1. COMPOSICAO CORPORAL - % gordura estimada (ex "26-30%"), massa muscular, tonus\n2. DISTRIBUICAO DE GORDURA - abdomen, flancos, lombar, gluteos, coxas, bracos (baixo/medio/elevado por zona)\n3. POSTURA - curvatura, inclinacao pelvica, assimetrias\n4. TOP 3 ZONAS PRIORITARIAS - e porque cada uma\n5. PONTOS FORTES - o que esta bem\n6. AVALIACAO HONESTA - como profissional real, directa e calorosa\n7. TEMPO REALISTA - meses estimados por zona\n\nPortugues de Portugal. Tom direto, nao de IA.'},
+    {t:'ementa',mx:2000,p:'PERFIL:\n'+perfilStr+'\nFotos: '+fotosDesc+'\n\nPLANO ALIMENTAR SEMANAL - 5 dias x 5 refeicoes com quantidades exactas em g/ml.\nStock: ovos, frango, peixe, arroz, massa, feijao, batatas, cenouras, iogurte, leite, fruta.\nEquipamento: Bimby, airfryer, forno, fogao.\nJustifica em 3 linhas com base nas fotos.\nPortugues de Portugal.'},
+    {t:'exercicio',mx:2000,p:'PERFIL:\n'+perfilStr+'\nFotos: '+fotosDesc+'\n\nPLANO DE EXERCICIO SEMANAL - 4-5 dias.\nPor dia: tipo + aquecimento + 5-7 exercicios com series x reps + descanso.\nCada exercicio: nome exacto para pesquisar no YouTube + como fazer + porque para este corpo.\nJustifica com base nas fotos.\nPortugues de Portugal.'},
+    {t:'tempo',mx:1500,p:'PERFIL:\n'+perfilStr+'\nFotos: '+fotosDesc+'\n\nCRONOGRAMA REALISTA:\nSemanas 1-4 / Meses 2-3 / Meses 4-6 / 6 meses+\nSinais de progresso alem da balanca.\nDificuldades provaveis e como ultrapassar.\nPortugues de Portugal.'}
+  ];
+  var done=0;
+  PS.forEach(function(p){
+    var msgs=[{role:'user',content:imgC.concat([{type:'text',text:p.p}])}];
+    var bdy=JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:p.mx,messages:msgs});
+    var tid=p.t;
+    var cbk='_cb_'+tid+'_'+Date.now();
+    window[cbk]=function(result){
+      renderFotoTab(tid,result);
+      done++;
+      if(done===PS.length){btn.disabled=false;btn.textContent='✦ Analisar fotos — analise real com IA';toast('analise completa!','sv');}
+      var fr=document.getElementById('ifr_'+cbk);if(fr)fr.remove();
+      delete window[cbk];
+    };
+    fetch('/api/analise',{method:'POST',headers:{'Content-Type':'application/json'},body:bdy})
+      .then(function(r){return r.json();})
+      .then(function(d){var t=d.text||(d.error?'Erro: '+d.error:'Sem resposta');window[cbk](t);})
+      .catch(function(e){window[cbk]('Erro: '+String(e));});
+  });
+}
+
+function renderFotoTab(tabId,txt){
+  var el=g('ftab-'+tabId);if(!el||!txt)return;
+  var html='';
+  var blocks=txt.split('\n\n');
+  blocks.forEach(function(b){
+    if(!b.trim())return;
+    var lines=b.split('\n');
+    var first=lines[0].trim();
+    var isH=/^\d+\.\s+[A-Z*]|\*\*[A-Z]/.test(first);
+    if(isH&&lines.length>1){
+      var title=first.replace(/^\d+\.\s*/,'').replace(/\*\*/g,'').trim();
+      var body=lines.slice(1).join('\n').trim();
+      html+='<div class="analise-section"><div class="analise-title">'+title+'</div><div class="analise-body">'+mdFmt(body)+'</div></div>';
+    } else {
+      html+='<div class="analise-section"><div class="analise-body">'+mdFmt(b.trim())+'</div></div>';
+    }
+  });
+  if(!html)html='<div class="analise-section"><div class="analise-body">'+mdFmt(txt)+'</div></div>';
+  if(tabId==='exercicio'){html+='<div style="background:rgba(232,240,224,.6);border:1px solid rgba(58,80,48,.2);border-left:3px solid var(--sage);padding:11px 14px;margin-top:4px;font-family:var(--fb);font-size:.83rem;color:var(--sage2);font-style:italic;line-height:1.5">Pesquisa o nome de cada exercicio no YouTube para ver em video.</div>';}
+  el.innerHTML=html;
+}
+
+function mdFmt(s){return s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>').replace(/\*(.+?)\*/g,'<em>$1</em>').replace(/^[*\-•]\s*/gm,'<span style="color:var(--rose);margin-right:4px">·</span>');}
+function analisarFoto(){analisarFotos();}
+function verFoto(){}
+function resetFoto(){}
+
+// ── UTILS ──
+function toast(msg,type){var t=g('toast');t.textContent=msg;t.className='toast on'+(type?' '+type:'');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on');},2600);}
+function doSaved(){var s=g('sv');s.classList.add('on');clearTimeout(s._t);s._t=setTimeout(function(){s.classList.remove('on');},2000);}
+
+function doLogin(){
+  var code=g('ci').value.trim().toUpperCase();
+  if(!code)return;
+  localStorage.setItem('co_code',code);
+  g('fc').textContent=code;
+  g('lv').style.display='none';
+  g('av').style.display='block';
+  initApp();
+}
+function doCreate(){
+  var code=g('cr-c').value.trim().toUpperCase();
+  if(!code){toast('Escolhe um código');return;}
+  localStorage.setItem('co_code',code);
+  g('cm').classList.remove('on');
+  g('ci').value=code;
+  doLogin();
+}
+function showForgot(){
+  g('fcs').textContent=localStorage.getItem('co_code')||'Nenhum código guardado neste browser';
+  g('fm').classList.add('on');
+}
+g('ci').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
+window.addEventListener('DOMContentLoaded',function(){
+  var s=localStorage.getItem('co_code');
+  if(s){g('ci').value=s;g('fc').textContent=s;g('lv').style.display='none';g('av').style.display='block';initApp();}
+  var saved=localStorage.getItem('co_abas');
+  if(saved){try{abas=JSON.parse(saved);}catch(e){abas=[];}}
+  var lojas=localStorage.getItem('co_lojas');
+  if(lojas){try{state.lojas=JSON.parse(lojas);}catch(e){}}
+  var t=new Date();if(g('trd'))g('trd').valueAsDate=t;
+  // init week
+  var mon=getMonday(new Date());
+  var sun=new Date(mon);sun.setDate(sun.getDate()+6);
+  if(g('wk-s'))g('wk-s').valueAsDate=mon;
+  if(g('wk-e'))g('wk-e').valueAsDate=sun;
+  renderMealBtns();
+});
+function getMonday(d){var day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff));}
+function getCW(){var d=new Date().getDate();if(d<6)return 4;return Math.min(Math.ceil((d-6)/7)+1,4);}
+function initApp(){
+  var w=getCW();g('rwk').textContent='Semana '+w;
+  g('rsx').textContent=SEXTAS[(w-1)%SEXTAS.length].t;
+  updDash();renderStock();renderEmenta();renderLista();renderLojaSelect();renderTemas('sx');renderTemas('sb');renderSugsImediato();
+}
+function updDash(){
+  var b=Object.values(state.stock).flat().filter(function(i){return i.q<=i.m;}).length;
+  g('rlo').textContent=b;
+  g('rre').textContent=Object.values(state.ementa).filter(function(v){return v&&v.trim();}).length;
+  var m=g('rm');
+  if(b>0){m.style.display='block';m.textContent='✦ Tens '+b+' produto(s) com stock em baixo. Verifica antes das compras de sábado.';}
+  else m.style.display='none';
+}
+function nav(s){
+  document.querySelectorAll('.sec').forEach(function(x){x.classList.remove('on');});
+  document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+  g('s-'+s).classList.add('on');
+  document.querySelectorAll('[data-s="'+s+'"]').forEach(function(x){x.classList.add('on');});
+  if(s==='resumo')updDash();
+  if(s==='pessoal')renderPicker();
+}
+
+// ── EMENTA ──
+function renderMealBtns(){
+  var c=g('meal-btns');if(!c)return;
+  c.innerHTML=ALL_MEAL_TYPES.map(function(mt){
+    var on=activeMealTypes.indexOf(mt)>=0;
+    return '<button class="mb2'+(on?' on':'')+'" onclick="toggleMealType(\''+mt+'\')">'+(mt==='PA'?'Pequeno-almoço':mt)+'</button>';
+  }).join('');
+}
+function toggleMealType(mt){
+  var idx=activeMealTypes.indexOf(mt);
+  if(idx>=0)activeMealTypes.splice(idx,1);
+  else activeMealTypes.push(mt);
+  renderMealBtns();renderEmenta();
+}
+function getWkDays(){
+  var s=g('wk-s')?g('wk-s').value:'';
+  if(!s){var mon=getMonday(new Date());s=mon.toISOString().split('T')[0];}
+  var days=[];
+  var d=new Date(s+'T12:00:00');
+  for(var i=0;i<7;i++){
+    days.push(new Date(d));
+    d.setDate(d.getDate()+1);
+  }
+  return days;
+}
+function renderEmenta(){
+  var gr=g('plano-grid');if(!gr)return;
+  var days=getWkDays();
+  var mts=activeMealTypes.length?activeMealTypes:['Almoço','Jantar'];
+  var cols=1+days.length;
+  gr.style.gridTemplateColumns='80px repeat('+days.length+',1fr)';
+  gr.innerHTML='';
+  // header row
+  var empty=document.createElement('div');empty.className='pl';empty.textContent='';gr.appendChild(empty);
+  days.forEach(function(d,di){
+    var h=document.createElement('div');
+    var dow=d.getDay();
+    var isFr=dow===5,isSa=dow===6,isSu=dow===0;
+    h.className='ph'+(isFr?' fr':(isSa||isSu)?' we':'');
+    var ds=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+    var dd=d.getDate().toString().padStart(2,'0')+'/'+(d.getMonth()+1).toString().padStart(2,'0');
+    h.innerHTML='<div>'+ds[dow]+'</div><div style="font-size:.52rem;opacity:.7">'+dd+'</div>';
+    gr.appendChild(h);
+  });
+  // meal rows
+  mts.forEach(function(mt){
+    var lbl=document.createElement('div');lbl.className='pl';lbl.textContent=(mt==='PA'?'Pequeno-almoço':mt);gr.appendChild(lbl);
+    days.forEach(function(d,di){
+      var dow=d.getDay();
+      var isFr=dow===5,isSa=dow===6;
+      var dd=d.toISOString().split('T')[0];
+      var key='d_'+dd+'_'+mt;
+      var name=state.ementa[key]||'';
+      var cell=document.createElement('div');
+      var cls='pc2'+(name?' has':'')+(state.ementa[key+'_ia']?' ia':'');
+      cell.className=cls;
+      var pre='';
+      if(isFr&&mt==='Jantar')pre='<span class="ct2 tag-fam">família</span>';
+      if(isSa&&mt==='Jantar')pre='<span class="ct2 tag-2">a dois</span>';
+      cell.innerHTML=pre+(name?'<span class="cm">'+name+'</span>':'<span class="ce">editar</span>');
+      cell.onclick=function(){
+        eK=key;
+        g('mt').textContent=(mt==='PA'?'Pequeno-almoço':mt)+' — '+dd;
+        g('mi').value=state.ementa[key]||'';
+        g('mm').classList.add('on');
+        setTimeout(function(){g('mi').focus();},80);
+      };
+      gr.appendChild(cell);
+    });
+  });
+}
+function saveMeal(){
+  if(!eK)return;
+  state.ementa[eK]=g('mi').value.trim();
+  delete state.ementa[eK+'_ia'];
+  g('mm').classList.remove('on');eK=null;
+  renderEmenta();updDash();toast('guardado');doSaved();
+}
+function limparEmenta(){var days=getWkDays();days.forEach(function(d){var dd=d.toISOString().split('T')[0];activeMealTypes.forEach(function(mt){var k='d_'+dd+'_'+mt;delete state.ementa[k];delete state.ementa[k+'_ia'];});});renderEmenta();toast('ementa limpa');}
+function gerarIA(){
+  var btn=g('bia');btn.disabled=true;btn.textContent='a gerar...';
+  var days=getWkDays();
+  var planos={PA:['Ovos mexidos (stock)','Tosta + ovo (stock)','Iogurte + banana (stock)','Panquecas aveia (stock)','Ovos cozidos + maçã (stock)','Iogurte grego + mel (stock)','Ovos estrelados + pão (stock)'],'Lanche M':['Banana + iogurte (stock)','Maçã + ovo cozido (stock)','Tosta queijo (stock)','Banana + leite (stock)','Iogurte natural (stock)','Cenoura + iogurte (stock)','Ovo cozido (stock)'],Almoço:['Frango grelhado+arroz Bimby (stock)','Omelete ovos+legumes (stock)','Arroz atum (stock)','Ovos mexidos+cenouras (stock)','Frango batata-doce airfryer (stock)','Bifes batatas airfryer (stock)','Cozido simples Bimby (stock)'],Jantar:['Sopa+Bacalhau à Brás (stock)','Sopa+Bolonhesa (stock)','Sopa+Frango assado (stock)','Sopa+Peixe no forno (stock)','Pizza caseira família (stock)','Petiscos a dois (stock)','Arroz frango Bimby (stock)'],'Lanche T':['Maçã (stock)','Iogurte (stock)','Banana (stock)','Ovos cozidos (stock)','Cenoura crua (stock)','Tosta queijo (stock)','Iogurte mel (stock)'],Ceia:['Iogurte natural (stock)','Leite morno (stock)','Banana (stock)','Iogurte grego (stock)','Maçã (stock)','Leite + cereais (stock)','Iogurte + mel (stock)']};
+  setTimeout(function(){
+    days.forEach(function(d,di){
+      var dd=d.toISOString().split('T')[0];
+      activeMealTypes.forEach(function(mt){
+        var k='d_'+dd+'_'+mt;
+        var opts=planos[mt]||planos['Almoço'];
+        state.ementa[k]=opts[di%opts.length];
+        state.ementa[k+'_ia']=true;
+      });
+    });
+    renderEmenta();updDash();toast('ementa gerada com o stock!');doSaved();
+    btn.disabled=false;btn.textContent='✦ Gerar com IA';
+  },700);
+}
+
+// ── TEMÁTICOS ──
+function renderTemas(which){
+  var srch=g(which+'-srch');var list=g(which+'-list');if(!list)return;
+  var data=which==='sx'?SEXTAS:SABADOS;
+  var q=(srch?srch.value:'').toLowerCase();
+  var filtered=data.filter(function(x){return !q||x.t.toLowerCase().includes(q)||(x.d&&x.d.toLowerCase().includes(q));});
+  list.innerHTML=filtered.map(function(item,i){
+    var realIdx=data.indexOf(item);
+    return '<div class="tem-item" onclick="openTema(\''+which+'\','+realIdx+')"><div class="ti-title">'+item.t+'</div><div class="ti-desc">'+item.d+'</div></div>';
+  }).join('');
+  if(!filtered.length)list.innerHTML='<p class="empty">Sem resultados para "'+q+'"</p>';
+}
+function openTema(which,idx){
+  var data=which==='sx'?SEXTAS:SABADOS;
+  var det=g(which+'-det');if(!det)return;
+  var item=data[idx];if(!item)return;
+  det.className='tem-detail open';
+  var body='<div class="td-title">'+item.t+'</div>';
+  body+='<div class="td-body">';
+  if(item.r)body+=item.r+'\n\n';
+  if(item.b)body+='🍷 BEBIDA SUGERIDA: '+item.b+'\n';
+  if(item.s)body+='✦ '+item.s;
+  body+='</div>';
+  body+='<button class="btn b-sm" style="margin-top:10px" onclick="g(\''+which+'-det\').classList.remove(\'open\')">Fechar</button>';
+  det.innerHTML=body;
+}
+function temAleatorio(which){
+  var data=which==='sx'?SEXTAS:SABADOS;
+  var idx=Math.floor(Math.random()*data.length);
+  openTema(which,idx);
+}
+
+// ── SUGESTÕES ──
+var SUG_FILTERS={lanches:['Stock','Proteína','Sem açúcar','Rápido (<5min)','Lote'],sobremesas:['Stock','Bimby','Forno','Sem açúcar','Português'],bolos:['Forno','Bimby','Sem açúcar','Stock','Rápido'],receitas:['Bimby','Forno','Airfryer','Fogão','Stock','Familiar']};
+var activeSugFilters=[];
+function setST(t){
+  cST=t;activeSugFilters=[];
+  document.querySelectorAll('.sut').forEach(function(x){x.classList.toggle('on',x.dataset.t===t);});
+  var d={lanches:'Lanches',sobremesas:'Sobremesas',bolos:'Bolos & Snacks',receitas:'Receitas completas'};
+  g('sgd').innerHTML='Sugestões de <strong style="color:var(--ink);font-style:normal">'+d[t]+'</strong> com receita completa e quantidades — tudo baseado no stock.';
+  renderSugFilters();
+  renderSugsImediato();
+}
+function renderSugFilters(){
+  var c=g('sug-fltrs');if(!c)return;
+  var fs=SUG_FILTERS[cST]||[];
+  c.innerHTML=fs.map(function(f){
+    var on=activeSugFilters.indexOf(f)>=0;
+    return '<button class="sf'+(on?' on':'')+'" onclick="toggleSF(\''+f+'\')">'+f+'</button>';
+  }).join('');
+}
+function toggleSF(f){
+  var i=activeSugFilters.indexOf(f);
+  if(i>=0)activeSugFilters.splice(i,1);else activeSugFilters.push(f);
+  renderSugFilters();renderSugsImediato();
+}
+function renderSugsImediato(){
+  var items=SUGS[cST]||[];
+  var q=(g('sgx')?g('sgx').value:'').toLowerCase();
+  if(activeSugFilters.length>0){
+    items=items.filter(function(s){return activeSugFilters.some(function(f){return s.tags.some(function(t){return t.toLowerCase().includes(f.toLowerCase());});});});
+  }
+  if(q){items=items.filter(function(s){return s.n.toLowerCase().includes(q)||s.d.toLowerCase().includes(q);});}
+  var c=g('sga');if(!c)return;
+  if(!items.length){c.innerHTML='<p class="empty" style="padding:20px;text-align:center">Sem sugestões para esse filtro.</p>';return;}
+  c.innerHTML='<div class="sugr">'+items.map(function(s,i){
+    return '<div class="sgc" id="sgc-'+i+'" onclick="toggleSug('+i+')">'+'<span class="sgi">'+s.e+'</span><div class="sgn">'+s.n+'</div><div class="sgd">'+s.d+'</div><div class="sgts"><span class="tg">⏱ '+s.t+'</span>'+s.tags.map(function(t){return '<span class="tg">'+t+'</span>';}).join('')+'</div><div class="sug-rec">'+s.r+'</div><div class="sug-close">▲ Fechar receita</div></div>';
+  }).join('')+'</div>';
+}
+function mostrarSugs(){renderSugsImediato();}
+function toggleSug(i){
+  var el=g('sgc-'+i);if(!el)return;
+  if(el.classList.contains('open'))el.classList.remove('open');
+  else{document.querySelectorAll('.sgc.open').forEach(function(x){x.classList.remove('open');});el.classList.add('open');el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+}
+
+// ── STOCK ──
+function siH(i,cat){var low=i.q<=i.m;return '<div class="si'+(low?' low':'')+'" id="si-'+i.id+'"><div class="sn">'+i.n+'<span class="su">'+i.u+'</span></div><div class="qc"><button class="qb" onclick="chgQ(\''+cat+'\','+i.id+',-1)">−</button><span class="qv" id="qv-'+i.id+'">'+i.q+'</span><button class="qb" onclick="chgQ(\''+cat+'\','+i.id+',1)">+</button><button class="xb" onclick="delS(\''+cat+'\','+i.id+')">✕</button></div></div>';}
+function renderStock(){var lbls={despensa:'Despensa',congelador:'Congelador',frigorifico:'Frigorífico',frutas:'Frutas e Legumes'};g('sa').innerHTML=Object.entries(state.stock).map(function(e){var cat=e[0],items=e[1];return '<div class="dv">'+lbls[cat]+'</div><div class="sgr" id="sg-'+cat+'">'+(items.length?items.map(function(i){return siH(i,cat);}).join(''):'<p class="empty">sem itens</p>')+'</div>';}).join('');}
+function chgQ(cat,id,d){var item=state.stock[cat].find(function(i){return i.id===id;});if(!item)return;item.q=Math.max(0,item.q+d);var el=g('qv-'+id);if(el)el.textContent=item.q;var si=g('si-'+id);if(si)si.classList.toggle('low',item.q<=item.m);doSaved();}
+function delS(cat,id){state.stock[cat]=state.stock[cat].filter(function(i){return i.id!==id;});var el=g('si-'+id);if(el)el.remove();toast('removido');}
+function addStock(){var n=g('stn').value.trim(),cat=g('stc').value,q=parseFloat(g('stq').value)||1,u=g('stu').value.trim()||'un';if(!n){toast('escreve o nome');return;}var id=nx();state.stock[cat].push({id:id,n:n,q:q,u:u,m:1});g('stn').value='';g('stq').value='1';g('stu').value='un';var gr=g('sg-'+cat);var ep=gr?gr.querySelector('.empty'):null;if(ep)ep.remove();if(gr)gr.insertAdjacentHTML('beforeend',siH({id:id,n:n,q:q,u:u,m:1},cat));toast('adicionado');doSaved();}
+
+// ── LISTA ──
+var COR_OPTS=['#3a5030','#7a3040','#7a5c2e','#2a4060','#5a3070','#1c4a4a','#6a3020','#404020','#2a2a60','#603020'];
+function renderCorGrid(){var c=g('cor-grid');if(!c)return;novaCorLoja=COR_OPTS[0];c.innerHTML=COR_OPTS.map(function(cor,i){return '<div onclick="selCor(this)" data-cor="'+cor+'" style="width:26px;height:26px;background:'+cor+';cursor:pointer;border:2px solid transparent;border-radius:3px'+(i===0?';outline:3px solid #1c1410;outline-offset:2px':'')+'" class="cor-opt'+(i===0?' sel':'')+'"></div>';}).join('');}
+function selCor(el){document.querySelectorAll('.cor-opt').forEach(function(x){x.classList.remove('sel');x.style.outline='none';});el.classList.add('sel');el.style.outline='3px solid #1c1410';el.style.outlineOffset='2px';novaCorLoja=el.dataset.cor;}
+function addLoja(){var nome=g('nl-nome').value.trim();if(!nome){toast('Escreve o nome');return;}var id='loja_'+Date.now();state.lojas.push({id:id,nome:nome,cor:novaCorLoja});localStorage.setItem('co_lojas',JSON.stringify(state.lojas));g('nl-nome').value='';g('nlm').classList.remove('on');renderLista();renderLojaSelect();toast('loja adicionada!','sv');}
+function renderLojaSelect(){var sel=g('lil');if(!sel)return;sel.innerHTML=state.lojas.map(function(l){return '<option value="'+l.id+'">'+l.nome+'</option>';}).join('');}
+function renderLista(){
+  var c=g('la');if(!c)return;
+  c.innerHTML=state.lojas.map(function(loja){
+    var items=state.lista.filter(function(i){return i.l===loja.id;});
+    var bg=loja.cor+'22';
+    var html='<div class="loja-sec"><div class="lhdr" style="background:'+bg+';border-color:'+loja.cor+'55"><div class="lhdr-dot" style="background:'+loja.cor+'"></div><span class="lhdr-name" style="color:'+loja.cor+'">'+loja.nome+'</span>';
+    if(loja.id!=='leclerc'&&loja.id!=='talho'&&loja.id!=='mercado')html+='<button class="lhdr-del" onclick="delLoja(\''+loja.id+'\')" title="Remover loja">✕</button>';
+    html+='</div><div class="li2">';
+    if(items.length){items.forEach(function(i){html+=liH(i);});}
+    else html+='<div class="li3"><span class="empty">sem itens</span></div>';
+    html+='</div></div>';
+    return html;
+  }).join('');
+}
+function delLoja(id){if(!confirm('Remover esta loja e todos os itens?'))return;state.lojas=state.lojas.filter(function(l){return l.id!==id;});state.lista=state.lista.filter(function(i){return i.l!==id;});localStorage.setItem('co_lojas',JSON.stringify(state.lojas));renderLista();renderLojaSelect();toast('loja removida');}
+function liH(i){return '<div class="li3'+(i.done?' done':'')+'" id="lic-'+i.id+'"><input type="checkbox"'+(i.done?' checked':'')+' onchange="togLi('+i.id+',this.checked)"/><span class="lin">'+i.n+'</span><span class="liq2">'+i.q+'</span><button class="xb" onclick="delLi('+i.id+')">✕</button></div>';}
+function addLista(){var n=g('lin').value.trim(),q=g('liq').value.trim()||'1',l=g('lil').value;if(!n){toast('escreve o produto');return;}var id=nx();state.lista.push({id:id,n:n,q:q,l:l,done:false});g('lin').value='';g('liq').value='';renderLista();toast('adicionado');doSaved();}
+function togLi(id,done){var item=state.lista.find(function(i){return i.id===id;});if(item)item.done=done;var el=g('lic-'+id);if(el)el.classList.toggle('done',done);doSaved();}
+function delLi(id){state.lista=state.lista.filter(function(i){return i.id!==id;});var el=g('lic-'+id);if(el)el.remove();}
+function limparLista(){state.lista=state.lista.filter(function(i){return !i.done;});renderLista();toast('lista limpa');}
+
+// ── ABA PESSOAL ──
+function renderPicker(){
+  var gr=g('pfam-grid');
+  var saved=localStorage.getItem('co_abas');
+  if(saved){try{abas=JSON.parse(saved);}catch(e){abas=[];}}
+  gr.innerHTML=abas.map(function(a,i){return '<div class="pfam-card" onclick="abrirAba('+i+')"><span class="pfam-ico">'+(a.ico||'👤')+'</span><div class="pfam-n">'+a.nome+'</div><div class="pfam-d">'+(a.obj||'Plano personalizado')+'</div></div>';}).join('');
+  g('pessoal-picker').style.display='block';
+  g('pessoal-ativa').style.display='none';
+}
+function iniciarQuiz(){quizStep=0;quizResps=[];renderQuizStep();}
+function renderQuizStep(){
+  var step=QUIZ_STEPS[quizStep];if(!step){finalizarQuiz();return;}
+  g('qm-title').textContent='Criar aba personalizada ('+(quizStep+1)+'/'+QUIZ_STEPS.length+')';
+  var prog=g('quiz-prog');prog.innerHTML=QUIZ_STEPS.map(function(_,i){return '<div class="qpd'+(i<quizStep?' done':'')+'"></div>';}).join('');
+  var html='<div class="quiz-q">'+step.q+'</div><div class="quiz-sub">'+step.sub+'</div>';
+  if(step.type==='text'){
+    html+='<input class="quiz-inp" type="text" id="qi" placeholder="'+(step.ph||'')+'"/>';
+  } else if(step.type==='2text'){
+    html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input class="quiz-inp" type="text" id="qi-1" placeholder="'+(step.ph1||'')+'"/><input class="quiz-inp" type="text" id="qi-2" placeholder="'+(step.ph2||'')+'"/></div>';
+  } else if(step.type==='opts'){
+    html+='<div class="qopts">'+step.opts.map(function(o){return '<div class="qopt" onclick="selOpt(this)">'+o+'</div>';}).join('')+'</div>';
+  } else if(step.type==='opts_multi'){
+    html+='<p style="font-family:var(--fb);font-size:.78rem;color:var(--ink4);font-style:italic;margin-bottom:8px">Podes selecionar várias opções.</p>';
+    html+='<div class="qopts">'+step.opts.map(function(o){return '<div class="qopt" onclick="this.classList.toggle(\'sel\')">'+o+'</div>';}).join('')+'</div>';
+  }
+  html+='<div class="mbtns" style="margin-top:12px">';
+  if(quizStep>0)html+='<button class="btn b-sm" onclick="quizBack()">← Anterior</button>';
+  html+='<button class="btn b-sm" style="opacity:.6" onclick="quizSkip()">Saltar</button>';
+  html+='<button class="btn b-ro b-sm" onclick="quizNext()">'+( quizStep===QUIZ_STEPS.length-1?'✦ Criar aba':'Seguinte →')+'</button>';
+  html+='</div>';
+  g('quiz-body').innerHTML=html;
+  g('qm').classList.add('on');
+}
+function selOpt(el){el.closest('.qopts').querySelectorAll('.qopt').forEach(function(x){x.classList.remove('sel');});el.classList.add('sel');}
+function quizNext(){
+  var step=QUIZ_STEPS[quizStep];var resp='';
+  if(step.type==='text'){resp=g('qi')?g('qi').value.trim():'';}
+  else if(step.type==='2text'){resp=(g('qi-1')?g('qi-1').value.trim():'')+(g('qi-2')?' / '+g('qi-2').value.trim():'');}
+  else if(step.type==='opts'){var sel=document.querySelector('.qopt.sel');resp=sel?sel.textContent:'';}
+  else if(step.type==='opts_multi'){resp=Array.from(document.querySelectorAll('.qopt.sel')).map(function(x){return x.textContent;}).join(', ');}
+  quizResps[quizStep]=resp;
+  quizStep++;
+  if(quizStep>=QUIZ_STEPS.length)finalizarQuiz();
+  else renderQuizStep();
+}
+function quizBack(){quizStep=Math.max(0,quizStep-1);renderQuizStep();}
+function quizSkip(){quizResps[quizStep]='';quizStep++;if(quizStep>=QUIZ_STEPS.length)finalizarQuiz();else renderQuizStep();}
+function finalizarQuiz(){
+  var nome=quizResps[0]||'Pessoa';
+  var objResp=quizResps[1]||'';
+  var objKey=mapObj(objResp);
+  var novaAba={id:nx(),nome:nome,ico:'✦',obj:objResp||'Plano personalizado',objKey:objKey,quizResps:quizResps,tracker:[]};
+  abas.push(novaAba);
+  localStorage.setItem('co_abas',JSON.stringify(abas));
+  g('qm').classList.remove('on');
+  renderPicker();
+  abrirAba(abas.length-1);
+  toast(nome+', a tua aba está pronta!','sv');
+}
+function abrirAba(idx){
+  var saved=localStorage.getItem('co_abas');
+  if(saved){try{abas=JSON.parse(saved);}catch(e){abas=[];}}
+  abaAtiva=idx;var a=abas[idx];
+  g('pa-titulo').textContent=(a.ico||'✦')+' '+a.nome;
+  g('pa-obj-lbl').textContent=a.obj||'Plano personalizado';
+  g('pa-obj-s').textContent=OBJ_LABELS[a.objKey]||a.obj||'Personalizado';
+  g('pessoal-picker').style.display='none';
+  g('pessoal-ativa').style.display='block';
+  g('foto-section').style.display='none';
+  updAbaStats();
+  renderPlanoDia();
+  renderTrl();
+  // conselho
+  var consEl=g('nutri-cons');
+  consEl.style.display='block';
+  consEl.textContent=gerarConselho(a);
+  pTab('plano');
+}
+function voltarPicker(){abaAtiva=null;renderPicker();}
+function eliminarAba(){if(!confirm('Eliminar esta aba e todos os registos?'))return;abas.splice(abaAtiva,1);localStorage.setItem('co_abas',JSON.stringify(abas));abaAtiva=null;renderPicker();toast('aba eliminada');}
+function updAbaStats(){
+  if(abaAtiva===null)return;
+  var saved=localStorage.getItem('co_abas');if(saved){try{abas=JSON.parse(saved);}catch(e){}}
+  var a=abas[abaAtiva];if(!a)return;
+  g('pa-regs').textContent=a.tracker.length;
+  if(a.tracker.length>0){var l=a.tracker[a.tracker.length-1];g('pa-peso').textContent=l.peso?l.peso+'kg':'—';g('pa-energia').textContent=l.energia?'★'.repeat(Math.min(5,parseInt(l.energia))):'—';}
+  else{g('pa-peso').textContent='—';g('pa-energia').textContent='—';}
+}
+function pTab(t){
+  g('p-plano').style.display=t==='plano'?'block':'none';
+  g('p-tracker').style.display=t==='tracker'?'block':'none';
+  g('p-receitas').style.display=t==='receitas'?'block':'none';
+  [['pt1','plano'],['pt2','tracker'],['pt3','receitas']].forEach(function(pair){
+    var el=g(pair[0]);
+    if(pair[1]===t){el.style.background='var(--rose)';el.style.color='var(--bg)';el.style.borderColor='var(--rose)';}
+    else{el.style.background='transparent';el.style.color='var(--ink)';el.style.borderColor='var(--bd3)';}
+  });
+}
+function renderPlanoDia(){
+  if(abaAtiva===null)return;
+  var a=abas[abaAtiva];
+  var plano=getPlanoDia(a);
+  var html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">';
+  plano.forEach(function(r){
+    html+='<div class="pm-card '+r.cor+'"><div class="pmt'+(r.cor==='sbl'?' sg':'')+'">'+r.tipo+'</div><div class="pmn">'+r.nome+'</div><div class="pmd">'+r.desc+'</div><div class="pmts"><span class="pt-'+(r.cor==='rbl'?'p':'s')+'">'+r.tipo+'</span><span class="pt-g">Stock</span></div></div>';
+  });
+  html+='</div>';
+  html+='<div class="card" style="background:rgba(248,236,232,.6);border-color:rgba(122,48,64,.2)"><div class="cc"></div>';
+  html+='<div class="ct" style="color:var(--rose)">As tuas regras de nutrição <hr></div>';
+  html+='<div style="font-family:var(--fb);font-size:.85rem;color:var(--ink);line-height:1.8;font-style:italic;white-space:pre-line">'+getRegras(a)+'</div></div>';
+  g('plano-content').innerHTML=html;
+}
+function toggleFoto(){var s=g('foto-section');s.style.display=s.style.display==='none'?'block':'none';}
+function addTracker(){
+  if(abaAtiva===null)return;
+  var peso=g('trp').value,cintura=g('trc').value,energia=g('tre').value,sono=g('trds').value;
+  var nota=g('trn').value.trim(),data=g('trd').value||new Date().toISOString().split('T')[0];
+  if(!peso&&!energia&&!nota){toast('Preenche pelo menos um campo');return;}
+  abas[abaAtiva].tracker.push({id:nx(),data:data,peso:peso,cintura:cintura,energia:energia,sono:sono,nota:nota});
+  localStorage.setItem('co_abas',JSON.stringify(abas));
+  g('trp').value='';g('trc').value='';g('tre').value='';g('trds').value='';g('trn').value='';
+  renderTrl();updAbaStats();toast('guardado!','ro');doSaved();
+}
+function renderTrl(){
+  var list=g('trl');if(!list)return;
+  if(abaAtiva===null||!abas[abaAtiva]||!abas[abaAtiva].tracker.length){list.innerHTML='<p class="empty" style="text-align:center;padding:18px">Sem registos ainda. Começa hoje!</p>';return;}
+  var rec=abas[abaAtiva].tracker.slice().reverse().slice(0,6);
+  list.innerHTML='<div class="trgr">'+rec.map(function(e){
+    return '<div class="ten"><div class="tdate">'+e.data+'</div>'+(e.peso?'<div class="tval">'+e.peso+'<span class="tunit"> kg</span></div>':'')+(e.cintura?'<div style="font-family:var(--fw);font-size:.75rem;color:var(--ink3)">📏 '+e.cintura+'cm cintura</div>':'')+(e.energia?'<div class="edots">'+[1,2,3,4,5].map(function(n){return '<div class="edot'+(parseInt(e.energia)>=n?' on':'')+'"></div>';}).join('')+'</div>':'')+(e.nota?'<div class="tnot">'+e.nota+'</div>':'')+'<button class="xb" onclick="delTr('+e.id+')" style="margin-top:5px;font-size:.7rem;color:var(--rose)">remover</button></div>';
+  }).join('')+'</div>';
+}
+function delTr(id){if(abaAtiva===null)return;abas[abaAtiva].tracker=abas[abaAtiva].tracker.filter(function(e){return e.id!==id;});localStorage.setItem('co_abas',JSON.stringify(abas));renderTrl();updAbaStats();}
+function exportTracker(){
+  if(abaAtiva===null)return;
+  var data=abas[abaAtiva].tracker;
+  if(!data.length){toast('Sem registos');return;}
+  var rows=data.map(function(e){return e.data+','+(e.peso||'')+','+(e.cintura||'')+','+(e.energia||'')+','+(e.sono||'')+',"'+(e.nota||'').replace(/"/g,"'")+'"';});
+  var csv='Data,Peso (kg),Cintura (cm),Energia (1-5),Sono (1-5),Nota\n'+rows.join('\n');
+  var b=new Blob([csv],{type:'text/csv;charset=utf-8;'});
+  var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='progresso_'+(abas[abaAtiva].nome||'aba')+'.csv';a.click();
+  toast('exportado!');
+}
+function gerarReceitas(){
+  if(abaAtiva===null)return;
+  var btn=g('bjr');btn.disabled=true;btn.textContent='a preparar...';
+  var obj=abas[abaAtiva].objKey||'outro';
+  var todas=Object.values(SUGS).flat();
+  var filtradas=todas.filter(function(r){
+    if(obj==='proteina_def'||obj==='ganhar_musculo')return r.tags.some(function(t){return t.toLowerCase().includes('proteína')||t.toLowerCase().includes('bimby')||t.toLowerCase().includes('airfryer');});
+    if(obj==='perder_peso')return r.tags.some(function(t){return t.toLowerCase().includes('sem açúcar')||t.toLowerCase().includes('saudável')||t.toLowerCase().includes('leve');});
+    return true;
+  });
+  if(filtradas.length<4)filtradas=todas.slice(0,8);
+  setTimeout(function(){
+    g('jra').innerHTML='<div class="sugr">'+filtradas.slice(0,8).map(function(s,i){
+      return '<div class="sgc" id="jr-'+i+'" onclick="toggleJR('+i+')" style="border-left:3px solid var(--rose)"><span class="sgi">'+s.e+'</span><div class="sgn">'+s.n+'</div><div class="sgd">'+s.d+'</div><div class="sgts">'+s.tags.map(function(t){return '<span class="tg">'+t+'</span>';}).join('')+'</div><div class="sug-rec">'+s.r+'</div><div class="sug-close">▲ Fechar receita</div></div>';
+    }).join('')+'</div>';
+    btn.disabled=false;btn.textContent='✦ Gerar receitas para mim';
+    toast('receitas prontas!','ro');
+  },600);
+}
+function toggleJR(i){var el=g('jr-'+i);if(!el)return;if(el.classList.contains('open'))el.classList.remove('open');else{document.querySelectorAll('#jra .sgc.open').forEach(function(x){x.classList.remove('open');});el.classList.add('open');}}
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    g('mm').classList.remove('on');g('sm').classList.remove('on');
+    g('cm').classList.remove('on');g('fm').classList.remove('on');
+    g('qm').classList.remove('on');g('nlm').classList.remove('on');
+  }
+  if(e.key==='Enter'&&g('mm').classList.contains('on'))saveMeal();
+});
+</script>
+</body>
+</html>
