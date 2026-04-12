@@ -465,74 +465,64 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
     </div>
     <!-- ABA PESSOAL -->
     <div id="s-pessoal" class="sec">
-      <div class="ey">Nutrição individual</div><div class="ptit personal">Aba <em>pessoal</em></div><div class="rule"><span>✦</span></div>
+      <div class="ey">Nutrição individual</div>
+      <div class="ptit personal" style="font-family:Arial,sans-serif">Aba <em>pessoal</em></div>
+      <div class="rule"><span>✦</span></div>
+
+      <!-- PICKER -->
       <div id="pessoal-picker">
-        <p style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:14px">Escolhe a tua aba ou cria uma nova com plano personalizado.</p>
+        <p style="font-family:Arial,sans-serif;font-size:.92rem;color:var(--ink3);margin-bottom:14px"><em>Escolhe a tua aba ou cria uma nova — o teu plano personalizado baseado nas melhores estratégias de nutrição.</em></p>
         <div class="pfam-grid" id="pfam-grid"></div>
-        <button class="btn b-ro" onclick="iniciarQuiz()">+ Criar nova aba pessoal</button>
+        <button class="btn b-ro" onclick="iniciarQuiz()" style="font-family:Arial,sans-serif;font-weight:700">+ Criar nova aba pessoal</button>
       </div>
+
+      <!-- ABA ATIVA -->
       <div id="pessoal-ativa" style="display:none">
-        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px">
+
+        <!-- HEADER ABA -->
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:16px;padding:16px 20px;background:rgba(122,48,64,.07);border-left:4px solid var(--rose);border-radius:0 8px 8px 0">
           <div>
-            <div style="font-family:var(--fw);font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink4);margin-bottom:3px">A ver aba de</div>
-            <div style="font-family:var(--fw);font-size:1.4rem;font-weight:900;color:var(--ink)" id="pa-titulo">—</div>
-            <div style="font-family:var(--fb);font-size:.82rem;color:var(--rose);font-style:italic" id="pa-obj-lbl">—</div>
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;text-transform:uppercase;letter-spacing:.14em;color:var(--ink4);margin-bottom:3px">A ver aba de</div>
+            <div style="font-family:Arial,sans-serif;font-size:1.5rem;font-weight:900;color:var(--ink)" id="pa-titulo">—</div>
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;color:var(--rose);font-style:italic" id="pa-obj-lbl">—</div>
           </div>
           <div style="display:flex;gap:7px;flex-wrap:wrap">
-            <button class="btn b-sm b-ro" onclick="toggleFoto()">📷 Análise corporal</button>
-            <button class="btn b-sm" onclick="voltarPicker()">← Trocar</button>
-            <button class="btn b-sm" style="color:var(--rose);border-color:rgba(122,48,64,.3)" onclick="eliminarAba()">✕ Eliminar aba</button>
+            <button class="btn b-sm b-ro" onclick="toggleFoto()" style="font-family:Arial,sans-serif;font-weight:700">📷 Análise corporal</button>
+            <button class="btn b-sm" onclick="voltarPicker()" style="font-family:Arial,sans-serif">← Trocar</button>
+            <button class="btn b-sm" style="color:var(--rose);border-color:rgba(122,48,64,.3);font-family:Arial,sans-serif" onclick="eliminarAba()">✕ Eliminar</button>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px">
-          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Objetivo</div><div style="font-family:var(--fw);font-size:.85rem;font-weight:900;color:var(--rose);line-height:1.2" id="pa-obj-s">—</div></div>
-          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Último peso</div><div class="stv" id="pa-peso">—</div><div class="sts">kg</div></div>
-          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Energia</div><div class="stv" id="pa-energia">—</div><div class="sts">hoje</div></div>
-          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;position:relative"><div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--rose)"></div><div class="stl">Registos</div><div class="stv" id="pa-regs">0</div><div class="sts">total</div></div>
-        </div>
-        <!-- foto -->
-        <div id="foto-section" style="display:none;margin-bottom:14px">
-          <div class="card" style="background:rgba(248,236,232,.6);border-color:rgba(122,48,64,.2)"><div class="cc"></div>
-            <div class="ct" style="color:var(--rose)">Análise corporal com IA — análise real das fotos <hr></div>
-            <p style="font-family:var(--fb);font-size:.85rem;color:var(--ink3);font-style:italic;margin-bottom:14px;line-height:1.6">Adiciona até 4 fotos (frente, perfil esquerdo, perfil direito, costas). A IA analisa composição corporal, distribuição de gordura, postura e zonas prioritárias com olhar crítico e profissional.</p>
 
-            <!-- grid de fotos -->
+        <!-- STATS -->
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:16px">
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;border-radius:6px"><div style="font-family:Arial,sans-serif;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px">Objetivo</div><div style="font-family:Arial,sans-serif;font-size:.82rem;font-weight:900;color:var(--rose);line-height:1.2" id="pa-obj-s">—</div></div>
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;border-radius:6px"><div style="font-family:Arial,sans-serif;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px">Peso</div><div style="font-family:Arial,sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);line-height:1" id="pa-peso">—</div><div style="font-family:Arial,sans-serif;font-size:.65rem;color:var(--ink4)">kg</div></div>
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;border-radius:6px"><div style="font-family:Arial,sans-serif;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px">Energia</div><div style="font-family:Arial,sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);line-height:1" id="pa-energia">—</div><div style="font-family:Arial,sans-serif;font-size:.65rem;color:var(--ink4)">hoje</div></div>
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:12px 14px;text-align:center;border-radius:6px"><div style="font-family:Arial,sans-serif;font-size:.57rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:4px">Registos</div><div style="font-family:Arial,sans-serif;font-size:1.4rem;font-weight:900;color:var(--ink);line-height:1" id="pa-regs">0</div><div style="font-family:Arial,sans-serif;font-size:.65rem;color:var(--ink4)">total</div></div>
+        </div>
+
+        <!-- FOTO CORPORAL -->
+        <div id="foto-section" style="display:none;margin-bottom:16px">
+          <div class="card" style="background:rgba(248,236,232,.6);border-color:rgba(122,48,64,.2)"><div class="cc"></div>
+            <div class="ct" style="color:var(--rose);font-family:Arial,sans-serif;font-weight:700;font-size:.75rem">📷 Análise corporal real — a IA vê as tuas fotos <hr></div>
+            <p style="font-family:Arial,sans-serif;font-size:.85rem;color:var(--ink3);margin-bottom:14px;line-height:1.6"><em>Adiciona até 4 fotos (frente, perfil esquerdo, perfil direito, costas). Análise de composição corporal, distribuição de gordura e zonas prioritárias.</em></p>
             <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px" id="foto-grid">
-              <div class="foto-slot" id="fslot-0" onclick="triggerFoto(0)">
-                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Frente</div></div>
-                <img class="foto-slot-img" id="fimg-0" style="display:none"/>
-                <button class="foto-slot-del" id="fdel-0" onclick="event.stopPropagation();delFoto(0)" style="display:none">✕</button>
-              </div>
-              <div class="foto-slot" id="fslot-1" onclick="triggerFoto(1)">
-                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Perfil esq.</div></div>
-                <img class="foto-slot-img" id="fimg-1" style="display:none"/>
-                <button class="foto-slot-del" id="fdel-1" onclick="event.stopPropagation();delFoto(1)" style="display:none">✕</button>
-              </div>
-              <div class="foto-slot" id="fslot-2" onclick="triggerFoto(2)">
-                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Perfil dir.</div></div>
-                <img class="foto-slot-img" id="fimg-2" style="display:none"/>
-                <button class="foto-slot-del" id="fdel-2" onclick="event.stopPropagation();delFoto(2)" style="display:none">✕</button>
-              </div>
-              <div class="foto-slot" id="fslot-3" onclick="triggerFoto(3)">
-                <div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:var(--fw);font-size:.58rem;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Costas</div></div>
-                <img class="foto-slot-img" id="fimg-3" style="display:none"/>
-                <button class="foto-slot-del" id="fdel-3" onclick="event.stopPropagation();delFoto(3)" style="display:none">✕</button>
-              </div>
+              <div class="foto-slot" id="fslot-0" onclick="triggerFoto(0)"><div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:Arial,sans-serif;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Frente</div></div><img class="foto-slot-img" id="fimg-0" style="display:none"/><button class="foto-slot-del" id="fdel-0" onclick="event.stopPropagation();delFoto(0)" style="display:none">✕</button></div>
+              <div class="foto-slot" id="fslot-1" onclick="triggerFoto(1)"><div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:Arial,sans-serif;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Perfil esq.</div></div><img class="foto-slot-img" id="fimg-1" style="display:none"/><button class="foto-slot-del" id="fdel-1" onclick="event.stopPropagation();delFoto(1)" style="display:none">✕</button></div>
+              <div class="foto-slot" id="fslot-2" onclick="triggerFoto(2)"><div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:Arial,sans-serif;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Perfil dir.</div></div><img class="foto-slot-img" id="fimg-2" style="display:none"/><button class="foto-slot-del" id="fdel-2" onclick="event.stopPropagation();delFoto(2)" style="display:none">✕</button></div>
+              <div class="foto-slot" id="fslot-3" onclick="triggerFoto(3)"><div class="foto-slot-ph"><div style="font-size:1.4rem;margin-bottom:3px">📷</div><div style="font-family:Arial,sans-serif;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--ink3)">Costas</div></div><img class="foto-slot-img" id="fimg-3" style="display:none"/><button class="foto-slot-del" id="fdel-3" onclick="event.stopPropagation();delFoto(3)" style="display:none">✕</button></div>
             </div>
             <input type="file" id="foto-input-hidden" accept="image/*" style="display:none" onchange="loadFotoSlot(this)"/>
-
             <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px">
-              <button class="btn b-ro" id="btn-analisar" onclick="analisarFotos()">✦ Analisar fotos — análise real com IA</button>
-              <button class="btn b-sm" onclick="limparTodasFotos()">Limpar fotos</button>
+              <button class="btn b-ro" id="btn-analisar" onclick="analisarFotos()" style="font-family:Arial,sans-serif;font-weight:700">✦ Analisar fotos com IA</button>
+              <button class="btn b-sm" onclick="limparTodasFotos()" style="font-family:Arial,sans-serif">Limpar fotos</button>
             </div>
-
-            <!-- resultado análise -->
             <div id="foto-resultado" style="display:none">
               <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
-                <button class="foto-tab-btn on" onclick="switchFotoTab('analise',this)">Análise corporal</button>
-                <button class="foto-tab-btn" onclick="switchFotoTab('ementa',this)">Plano alimentar</button>
-                <button class="foto-tab-btn" onclick="switchFotoTab('exercicio',this)">Plano de exercício</button>
-                <button class="foto-tab-btn" onclick="switchFotoTab('tempo',this)">Cronograma</button>
+                <button class="foto-tab-btn on" onclick="switchFotoTab('analise',this)" style="font-family:Arial,sans-serif">Análise corporal</button>
+                <button class="foto-tab-btn" onclick="switchFotoTab('ementa',this)" style="font-family:Arial,sans-serif">Plano alimentar</button>
+                <button class="foto-tab-btn" onclick="switchFotoTab('exercicio',this)" style="font-family:Arial,sans-serif">Plano de exercício</button>
+                <button class="foto-tab-btn" onclick="switchFotoTab('tempo',this)" style="font-family:Arial,sans-serif">Cronograma</button>
               </div>
               <div id="ftab-analise" class="foto-tab-content"></div>
               <div id="ftab-ementa" class="foto-tab-content" style="display:none"></div>
@@ -541,42 +531,78 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
             </div>
           </div>
         </div>
-        <!-- conselho nutricionista -->
-        <div id="nutri-cons" style="display:none;background:rgba(248,236,232,.55);border:1px solid rgba(122,48,64,.2);border-left:3px solid var(--rose);padding:14px 16px;font-family:var(--fb);font-size:.9rem;color:var(--rose2);font-style:italic;line-height:1.65;margin-bottom:14px;white-space:pre-line"></div>
-        <!-- sub-tabs -->
-        <div style="display:flex;gap:6px;margin-bottom:14px;padding-bottom:12px;border-bottom:1.5px solid var(--bd2);flex-wrap:wrap">
-          <button class="btn b-sm b-ro" id="pt1" onclick="pTab('plano')">Plano do dia</button>
-          <button class="btn b-sm" id="pt2" onclick="pTab('tracker')">Tracker progresso</button>
-          <button class="btn b-sm" id="pt3" onclick="pTab('receitas')">Receitas para mim</button>
+
+        <!-- CONSELHO NUTRICIONISTA -->
+        <div id="nutri-cons" style="display:none;background:rgba(248,236,232,.55);border:1px solid rgba(122,48,64,.2);border-left:4px solid var(--rose);padding:16px 18px;font-family:Arial,sans-serif;font-size:.88rem;color:var(--rose2);line-height:1.75;margin-bottom:16px;border-radius:0 8px 8px 0"></div>
+
+        <!-- BLOQUEIO: antes da análise corporal -->
+        <div id="bloqueio-analise" style="display:none;background:rgba(122,48,64,.06);border:2px dashed rgba(122,48,64,.25);padding:24px;text-align:center;margin-bottom:16px;border-radius:8px">
+          <div style="font-size:2rem;margin-bottom:8px">📷</div>
+          <div style="font-family:Arial,sans-serif;font-size:1rem;font-weight:700;color:var(--rose);margin-bottom:6px">Realiza primeiro a tua análise corporal</div>
+          <p style="font-family:Arial,sans-serif;font-size:.85rem;color:var(--ink3);margin-bottom:14px;line-height:1.6"><em>O plano do dia, as receitas e o plano de acção são personalizados com base na análise das tuas fotos. Clica em 📷 Análise corporal acima para começar.</em></p>
+          <button class="btn b-ro" onclick="toggleFoto()" style="font-family:Arial,sans-serif;font-weight:700">📷 Fazer análise corporal agora</button>
         </div>
-        <div id="p-plano"><div id="plano-content"></div></div>
-        <div id="p-tracker" style="display:none">
-          <div class="card"><div class="cc"></div><div class="ct">Registar hoje <hr></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:11px">
-              <div class="fl"><label>Peso (kg)</label><input type="number" id="trp" placeholder="ex: 65.5" step="0.1"/></div>
-              <div class="fl"><label>Medida cintura (cm)</label><input type="number" id="trc" placeholder="ex: 75" step="0.5"/></div>
-              <div class="fl"><label>Energia (1–5)</label><input type="number" id="tre" placeholder="1–5" min="1" max="5"/></div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">
-              <div class="fl"><label>Data</label><input type="date" id="trd"/></div>
-              <div class="fl"><label>Como dormi (1–5)</label><input type="number" id="trds" placeholder="1–5" min="1" max="5"/></div>
-            </div>
-            <div class="fl"><label>Nota do dia</label><textarea id="trn" placeholder="O que comi? Como me senti? Exercício? Dificuldades?"></textarea></div>
-            <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px">
-              <button class="btn b-ro" onclick="addTracker()">+ Guardar registo</button>
-              <button class="btn b-sm" onclick="exportTracker()">Exportar CSV</button>
-            </div>
+
+        <!-- SUB-TABS (só visíveis após análise) -->
+        <div id="pessoal-tabs-area" style="display:none">
+          <div style="display:flex;gap:6px;margin-bottom:0;flex-wrap:wrap;border-bottom:2px solid var(--rose);padding-bottom:0">
+            <button class="ptab-btn on" id="pt1" onclick="pTab('plano')" style="font-family:Arial,sans-serif;font-weight:700;padding:10px 16px;border:none;background:var(--rose);color:white;cursor:pointer;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;border-radius:4px 4px 0 0">Plano do dia</button>
+            <button class="ptab-btn" id="pt2" onclick="pTab('plano12')" style="font-family:Arial,sans-serif;font-weight:700;padding:10px 16px;border:none;background:rgba(122,48,64,.12);color:var(--rose);cursor:pointer;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;border-radius:4px 4px 0 0">Plano 12 semanas</button>
+            <button class="ptab-btn" id="pt3" onclick="pTab('alimentos')" style="font-family:Arial,sans-serif;font-weight:700;padding:10px 16px;border:none;background:rgba(122,48,64,.12);color:var(--rose);cursor:pointer;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;border-radius:4px 4px 0 0">Alimentos essenciais</button>
+            <button class="ptab-btn" id="pt4" onclick="pTab('receitas')" style="font-family:Arial,sans-serif;font-weight:700;padding:10px 16px;border:none;background:rgba(122,48,64,.12);color:var(--rose);cursor:pointer;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;border-radius:4px 4px 0 0">Receitas para mim</button>
+            <button class="ptab-btn" id="pt5" onclick="pTab('tracker')" style="font-family:Arial,sans-serif;font-weight:700;padding:10px 16px;border:none;background:rgba(122,48,64,.12);color:var(--rose);cursor:pointer;font-size:.75rem;text-transform:uppercase;letter-spacing:.07em;border-radius:4px 4px 0 0">Tracker progresso</button>
           </div>
-          <div id="trl"></div>
-        </div>
-        <div id="p-receitas" style="display:none">
-          <div class="card" style="margin-bottom:12px"><div class="cc"></div>
-            <p id="p-rec-desc" style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:9px">Receitas personalizadas com o teu stock e objetivo — com quantidades exactas e modo de preparação.</p>
-            <button class="btn b-ro" id="bjr" onclick="gerarReceitas()">✦ Gerar receitas para mim</button>
+
+          <div style="background:rgba(248,236,232,.4);border:1px solid rgba(122,48,64,.15);border-top:none;padding:20px;margin-bottom:14px;border-radius:0 0 8px 8px">
+
+            <!-- PLANO DO DIA -->
+            <div id="p-plano"><div id="plano-content"></div></div>
+
+            <!-- PLANO 12 SEMANAS -->
+            <div id="p-plano12" style="display:none">
+              <div id="plano12-content"></div>
+            </div>
+
+            <!-- ALIMENTOS ESSENCIAIS -->
+            <div id="p-alimentos" style="display:none">
+              <div id="alimentos-content"></div>
+            </div>
+
+            <!-- RECEITAS PARA MIM -->
+            <div id="p-receitas" style="display:none">
+              <div style="margin-bottom:12px">
+                <p style="font-family:Arial,sans-serif;font-size:.9rem;color:var(--ink3);margin-bottom:9px"><em>Receitas personalizadas com base na tua análise corporal, objectivo e stock — quantidades exactas, modo de preparação.</em></p>
+                <button class="btn b-ro" id="bjr" onclick="gerarReceitas()" style="font-family:Arial,sans-serif;font-weight:700">✦ Gerar receitas para mim</button>
+              </div>
+              <div id="jra" style="text-align:center;padding:36px;color:var(--ink4)"><p style="font-family:Arial,sans-serif;font-size:.85rem;font-style:italic">Carrega para gerar receitas personalizadas.</p></div>
+            </div>
+
+            <!-- TRACKER -->
+            <div id="p-tracker" style="display:none">
+              <div class="card" style="margin-bottom:12px"><div class="cc"></div>
+                <div class="ct" style="font-family:Arial,sans-serif;font-weight:700">Registar hoje <hr></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:11px">
+                  <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Peso (kg)</label><input type="number" id="trp" placeholder="ex: 65.5" step="0.1"/></div>
+                  <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Cintura (cm)</label><input type="number" id="trc" placeholder="ex: 75" step="0.5"/></div>
+                  <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Energia (1–5)</label><input type="number" id="tre" placeholder="1–5" min="1" max="5"/></div>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px">
+                  <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Data</label><input type="date" id="trd"/></div>
+                  <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Sono (1–5)</label><input type="number" id="trds" placeholder="1–5" min="1" max="5"/></div>
+                </div>
+                <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Nota do dia</label><textarea id="trn" placeholder="O que comi? Como me senti? Exercício? Dificuldades?"></textarea></div>
+                <div style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px">
+                  <button class="btn b-ro" onclick="addTracker()" style="font-family:Arial,sans-serif;font-weight:700">+ Guardar registo</button>
+                  <button class="btn b-sm" onclick="exportTracker()" style="font-family:Arial,sans-serif">Exportar CSV</button>
+                </div>
+              </div>
+              <div id="trl"></div>
+            </div>
+
           </div>
-          <div id="jra" style="text-align:center;padding:36px;color:var(--ink4)"><div style="font-family:var(--fw);font-size:3rem;font-style:italic;opacity:.1;margin-bottom:7px">✦</div><p style="font-family:var(--fb);font-size:.85rem;font-style:italic">Carrega para gerar.</p></div>
         </div>
       </div>
+    </div>
     </div>
   </div>
 </div>
@@ -880,7 +906,7 @@ function analisarFotos(){
     window[cbk]=function(result){
       renderFotoTab(tid,result);
       done++;
-      if(done===PS.length){btn.disabled=false;btn.textContent='✦ Analisar fotos — analise real com IA';toast('analise completa!','sv');}
+      if(done===PS.length){btn.disabled=false;btn.textContent='✦ Analisar fotos — analise real com IA';activarPosAnalise();}
       var fr=document.getElementById('ifr_'+cbk);if(fr)fr.remove();
       delete window[cbk];
     };
@@ -1261,13 +1287,25 @@ function abrirAba(idx){
   g('pessoal-ativa').style.display='block';
   g('foto-section').style.display='none';
   updAbaStats();
-  renderPlanoDia();
   renderTrl();
-  // conselho
   var consEl=g('nutri-cons');
   consEl.style.display='block';
-  consEl.textContent=gerarConselho(a);
-  pTab('plano');
+  consEl.innerHTML=gerarConselhoHTML(a);
+  // Se já tem análise feita, mostra tudo; senão mostra bloqueio
+  var temAnalise=a.analiseFeita||false;
+  var bloq=g('bloqueio-analise');
+  var tabsArea=g('pessoal-tabs-area');
+  if(temAnalise){
+    bloq.style.display='none';
+    tabsArea.style.display='block';
+    renderPlanoDia();
+    renderPlano12();
+    renderAlimentos();
+    pTab('plano');
+  } else {
+    bloq.style.display='block';
+    tabsArea.style.display='none';
+  }
 }
 function voltarPicker(){abaAtiva=null;renderPicker();}
 function eliminarAba(){if(!confirm('Eliminar esta aba e todos os registos?'))return;abas.splice(abaAtiva,1);localStorage.setItem('co_abas',JSON.stringify(abas));abaAtiva=null;renderPicker();toast('aba eliminada');}
@@ -1279,31 +1317,227 @@ function updAbaStats(){
   if(a.tracker.length>0){var l=a.tracker[a.tracker.length-1];g('pa-peso').textContent=l.peso?l.peso+'kg':'—';g('pa-energia').textContent=l.energia?'★'.repeat(Math.min(5,parseInt(l.energia))):'—';}
   else{g('pa-peso').textContent='—';g('pa-energia').textContent='—';}
 }
+function activarPosAnalise(){
+  // Chamado após análise corporal ser concluída
+  if(abaAtiva===null)return;
+  abas[abaAtiva].analiseFeita=true;
+  localStorage.setItem('co_abas',JSON.stringify(abas));
+  g('bloqueio-analise').style.display='none';
+  g('pessoal-tabs-area').style.display='block';
+  renderPlanoDia();
+  renderPlano12();
+  renderAlimentos();
+  pTab('plano');
+  toast('Análise concluída! O teu plano completo está pronto.','sv');
+}
 function pTab(t){
-  g('p-plano').style.display=t==='plano'?'block':'none';
-  g('p-tracker').style.display=t==='tracker'?'block':'none';
-  g('p-receitas').style.display=t==='receitas'?'block':'none';
-  [['pt1','plano'],['pt2','tracker'],['pt3','receitas']].forEach(function(pair){
-    var el=g(pair[0]);
-    if(pair[1]===t){el.style.background='var(--rose)';el.style.color='var(--bg)';el.style.borderColor='var(--rose)';}
-    else{el.style.background='transparent';el.style.color='var(--ink)';el.style.borderColor='var(--bd3)';}
+  var tabs=['plano','plano12','alimentos','receitas','tracker'];
+  var els=['p-plano','p-plano12','p-alimentos','p-receitas','p-tracker'];
+  var btns=['pt1','pt2','pt3','pt4','pt5'];
+  tabs.forEach(function(tab,i){
+    g(els[i]).style.display=t===tab?'block':'none';
+    var btn=g(btns[i]);if(!btn)return;
+    if(t===tab){btn.style.background='var(--rose)';btn.style.color='white';}
+    else{btn.style.background='rgba(122,48,64,.12)';btn.style.color='var(--rose)';}
   });
+}
+function toggleFoto(){
+  var s=g('foto-section');
+  s.style.display=s.style.display==='none'?'block':'none';
+}
+function gerarConselhoHTML(aba){
+  var nome=aba.quizResps&&aba.quizResps[0]?aba.quizResps[0]:'';
+  var obj=aba.obj||'';
+  var obstaculo=aba.quizResps&&aba.quizResps[15]?aba.quizResps[15]:'';
+  var prazo=aba.quizResps&&aba.quizResps[16]?aba.quizResps[16]:'';
+  var html='<div style="font-family:Arial,sans-serif">';
+  html+='<div style="font-size:1.1rem;font-weight:900;color:var(--rose);margin-bottom:10px">✦ Olá <span style="text-decoration:underline">'+(nome||'')+'</span>! O teu plano personalizado:</div>';
+  if(obj.includes('gordura')||obj.includes('definir')){
+    html+='<p style="margin-bottom:8px">O teu objectivo de <strong>perder gordura e definir</strong> requer: <em>proteína alta (1.4–1.6g/kg)</em>, défice calórico moderado de <strong>300–400 kcal</strong>, e treino de força mínimo <strong>3x/semana</strong>.</p>';
+  } else if(obj.includes('músculo')){
+    html+='<p style="margin-bottom:8px">Para <strong>ganhar músculo</strong> precisas de excedente calórico (+300–400 kcal), <em>proteína de 1.6–2g/kg</em>, e progressão no treino. A consistência é mais importante que a perfeição.</p>';
+  } else if(obj.includes('peso')){
+    html+='<p style="margin-bottom:8px">Para <strong>perder peso</strong> de forma saudável: défice de 300–500 kcal/dia, proteína preserva músculo. <em>Evita restrições extremas — não funcionam a longo prazo.</em></p>';
+  } else {
+    html+='<p style="margin-bottom:8px">O teu plano foca-se em <strong>saúde e equilíbrio</strong>: alimentação variada, proteína em todas as refeições, e hábitos que consigues manter para sempre.</p>';
+  }
+  if(obstaculo){html+='<p style="margin-bottom:8px">Vejo que o teu maior obstáculo é <strong>"'+obstaculo+'"</strong>. <em>Vou ter isso em conta — tudo simples e rápido.</em></p>';}
+  if(prazo){html+='<p style="margin-bottom:8px">Com <strong>'+(prazo.toLowerCase())+' de comprometimento</strong> e seguindo este plano, verás resultados reais.</p>';}
+  html+='<p style="border-top:1px solid rgba(122,48,64,.2);padding-top:8px;margin-top:4px;font-style:italic;color:var(--rose2)">📷 <span style="text-decoration:underline">Faz a análise corporal</span> para desbloquear o plano completo — plano do dia, plano 12 semanas, alimentos essenciais e receitas personalizadas.</p>';
+  html+='</div>';
+  return html;
 }
 function renderPlanoDia(){
   if(abaAtiva===null)return;
   var a=abas[abaAtiva];
   var plano=getPlanoDia(a);
-  var html='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px">';
+  var html='<div style="font-family:Arial,sans-serif">';
+  html+='<div style="font-size:1rem;font-weight:900;color:var(--rose);margin-bottom:4px;text-decoration:underline">Plano do dia</div>';
+  html+='<p style="font-size:.82rem;color:var(--ink3);margin-bottom:14px;font-style:italic">Baseado no teu objectivo e análise corporal. Adapta ao teu stock.</p>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">';
   plano.forEach(function(r){
-    html+='<div class="pm-card '+r.cor+'"><div class="pmt'+(r.cor==='sbl'?' sg':'')+'">'+r.tipo+'</div><div class="pmn">'+r.nome+'</div><div class="pmd">'+r.desc+'</div><div class="pmts"><span class="pt-'+(r.cor==='rbl'?'p':'s')+'">'+r.tipo+'</span><span class="pt-g">Stock</span></div></div>';
+    var cor=r.cor==='rbl'?'rgba(122,48,64,.08)':'rgba(58,80,48,.08)';
+    var bc=r.cor==='rbl'?'rgba(122,48,64,.3)':'rgba(58,80,48,.3)';
+    var tc=r.cor==='rbl'?'var(--rose)':'var(--sage)';
+    html+='<div style="background:'+cor+';border:1px solid '+bc+';border-left:4px solid '+tc+';padding:12px 14px;border-radius:0 6px 6px 0">';
+    html+='<div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+tc+';margin-bottom:4px">'+r.tipo+'</div>';
+    html+='<div style="font-family:Arial,sans-serif;font-size:.92rem;font-weight:700;color:var(--ink);margin-bottom:3px">'+r.nome+'</div>';
+    html+='<div style="font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic">'+r.desc+'</div>';
+    html+='</div>';
   });
   html+='</div>';
-  html+='<div class="card" style="background:rgba(248,236,232,.6);border-color:rgba(122,48,64,.2)"><div class="cc"></div>';
-  html+='<div class="ct" style="color:var(--rose)">As tuas regras de nutrição <hr></div>';
-  html+='<div style="font-family:var(--fb);font-size:.85rem;color:var(--ink);line-height:1.8;font-style:italic;white-space:pre-line">'+getRegras(a)+'</div></div>';
+  html+='<div style="background:rgba(122,48,64,.07);border:1px solid rgba(122,48,64,.2);border-left:4px solid var(--rose);padding:14px 16px;border-radius:0 8px 8px 0">';
+  html+='<div style="font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rose);margin-bottom:10px;text-decoration:underline">As tuas regras de nutrição</div>';
+  var regras=getRegrasHTML(a);
+  html+=regras;
+  html+='</div></div>';
   g('plano-content').innerHTML=html;
 }
-function toggleFoto(){var s=g('foto-section');s.style.display=s.style.display==='none'?'block':'none';}
+function getRegrasHTML(aba){
+  var obj=aba.objKey||'outro';
+  var regras={
+    proteina_def:[
+      ['Proteína em cada refeição','ovos, frango, peixe, iogurte grego — mínimo 25g por refeição'],
+      ['Hidratos complexos','arroz, batata doce, aveia, massa integral — não eliminar, controlar porção'],
+      ['Legumes em almoço e jantar','mínimo metade do prato em legumes coloridos'],
+      ['Jejum 16:8','primeira refeição ao meio-dia, última às 20h — 5 dias por semana'],
+      ['Défice calórico 300–400 kcal','nunca abaixo de 1200 kcal — sustentável e eficaz'],
+      ['2L de água por dia','beber antes das refeições — reduz apetite em 20%']
+    ],
+    perder_peso:[
+      ['Défice calórico moderado','300–500 kcal abaixo do teu gasto — sem passar fome'],
+      ['Legumes à vontade','enchimento sem calorias em qualquer refeição'],
+      ['Proteína preserva músculo','0.8–1.2g por kg de peso — ovos, frango, peixe'],
+      ['Evitar açúcar e farinhas refinadas','substituir por alternativas integrais'],
+      ['Comer de 3 em 3 horas','nunca saltar refeições — activa o metabolismo'],
+      ['2L de água — antes das refeições','reduz a fome e melhora a digestão']
+    ],
+    ganhar_musculo:[
+      ['Excedente calórico +300–500 kcal','calorias de qualidade — não junk food'],
+      ['Proteína 1.6–2g por kg','distribuir por 5–6 refeições ao longo do dia'],
+      ['Hidratos antes do treino','arroz, aveia, batata — energia para performance'],
+      ['Proteína após o treino','até 30 min depois — ovos, frango, iogurte grego'],
+      ['Dormir 7–8h','o músculo cresce durante o sono — não há atalhos'],
+      ['Hidratação 2–2.5L','performance e recuperação muscular']
+    ]
+  };
+  var r=regras[obj]||regras['proteina_def'];
+  var html='';
+  r.forEach(function(item){
+    html+='<div style="display:flex;gap:8px;margin-bottom:7px;align-items:flex-start">';
+    html+='<span style="color:var(--rose);font-weight:700;flex-shrink:0">✦</span>';
+    html+='<div><span style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink)">'+item[0]+'</span> ';
+    html+='<span style="font-family:Arial,sans-serif;font-size:.82rem;color:var(--ink3);font-style:italic">— '+item[1]+'</span></div>';
+    html+='</div>';
+  });
+  return html;
+}
+function renderPlano12(){
+  if(abaAtiva===null)return;
+  var a=abas[abaAtiva];
+  var obj=a.objKey||'outro';
+  var html='<div style="font-family:Arial,sans-serif">';
+  html+='<div style="font-size:1rem;font-weight:900;color:var(--rose);margin-bottom:4px;text-decoration:underline">Plano de acção — 12 semanas</div>';
+  html+='<p style="font-size:.82rem;color:var(--ink3);margin-bottom:14px;font-style:italic">Estratégia combinada dos melhores coaches: Rui Pinheiro, Renata Brugnera, VSfit, Nutri Lulima, Bárbara Oliveira.</p>';
+  var semanas=[
+    {s:'Semanas 1–2',t:'Reset metabólico',cor:'#e8f0e0',bc:'#3a5030',tc:'#3a5030',
+     desc:'<strong>Elimina:</strong> açúcar refinado, álcool, processados. <strong>Jejum 12:12</strong> (jantar às 20h, PA às 8h). <em>3 caminhadas de 30 min + 2 sessões força em casa.</em>',
+     result:'Resultado esperado: <strong>1–2 kg</strong>, redução do inchaço, mais energia.',
+     desafio:'Desafio: <u>beber 2L de água todos os dias durante 14 dias</u>'},
+    {s:'Semanas 3–6',t:'Queima de gordura activa',cor:'#f8ece8',bc:'#7a3040',tc:'#7a3040',
+     desc:'<strong>Jejum 16:8</strong> (primeira refeição ao meio-dia, última às 20h). Défice calórico <strong>300–400 kcal</strong>. Distribuição: <em>40% proteína, 35% hidratos complexos, 25% gorduras boas.</em> Treino 4x/semana.',
+     result:'Resultado esperado: <strong>3–5 kg</strong>, roupas mais largas, cintura a reduzir.',
+     desafio:'Desafio: <u>foto de comparação a cada 2 semanas — método Rui Pinheiro</u>'},
+    {s:'Semanas 7–9',t:'Choque metabólico',cor:'#f5f0d8',bc:'#7a6020',tc:'#7a6020',
+     desc:'<strong>Refeeding day</strong> ao sábado (comer na manutenção, sem défice). <strong>Ciclagem de hidratos:</strong> <em>dias treino = mais hidratos; dias descanso = mais proteína.</em> Jejum 18:6 opcional 2 dias/semana.',
+     result:'Resultado esperado: <strong>mais 2–3 kg</strong>, definição muscular a aparecer.',
+     desafio:'Desafio: <u>meal prep ao domingo — 3 refeições preparadas para a semana</u>'},
+    {s:'Semanas 10–12',t:'Consolidação e hábitos permanentes',cor:'rgba(240,235,224,.8)',bc:'#5a3e1e',tc:'#5a3e1e',
+     desc:'<strong>Regra 80/20</strong> — 80% saudável, 20% flexível. <em>Sem alimentos proibidos — tudo com moderação.</em> Foco em <strong>autonomia alimentar</strong>: aprender a fazer escolhas sem plano rígido.',
+     result:'Resultado total esperado: <strong>6–10 kg</strong> + mudança de hábitos para sempre.',
+     desafio:'Desafio: <u>uma semana sem balança — mede apenas pelo espelho e roupa</u>'}
+  ];
+  semanas.forEach(function(sem){
+    html+='<div style="background:'+sem.cor+';border:1px solid rgba(0,0,0,.12);border-left:4px solid '+sem.bc+';padding:16px 18px;margin-bottom:12px;border-radius:0 8px 8px 0">';
+    html+='<div style="font-family:Arial,sans-serif;font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:'+sem.tc+';margin-bottom:3px">'+sem.s+'</div>';
+    html+='<div style="font-family:Arial,sans-serif;font-size:1rem;font-weight:900;color:var(--ink);margin-bottom:8px">'+sem.t+'</div>';
+    html+='<p style="font-family:Arial,sans-serif;font-size:.85rem;color:var(--ink2);line-height:1.7;margin-bottom:8px">'+sem.desc+'</p>';
+    html+='<div style="background:rgba(255,255,255,.5);padding:7px 10px;border-radius:4px;margin-bottom:6px;font-family:Arial,sans-serif;font-size:.82rem;color:'+sem.tc+'">'+sem.result+'</div>';
+    html+='<div style="font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic">'+sem.desafio+'</div>';
+    html+='</div>';
+  });
+  html+='</div>';
+  g('plano12-content').innerHTML=html;
+}
+function renderAlimentos(){
+  if(abaAtiva===null)return;
+  var html='<div style="font-family:Arial,sans-serif">';
+  html+='<div style="font-size:1rem;font-weight:900;color:var(--rose);margin-bottom:4px;text-decoration:underline">Alimentos essenciais — o que não pode faltar</div>';
+  html+='<p style="font-size:.82rem;color:var(--ink3);margin-bottom:14px;font-style:italic">Baseado nas estratégias dos 5 profissionais pesquisados. Onde comprar em França.</p>';
+  var cats=[
+    {n:'Proteínas base',ico:'🥚',cor:'rgba(122,48,64,.07)',bc:'var(--rose)',
+     items:[
+       {n:'Ovos',q:'2–3/dia',onde:'E.Leclerc, Aldi, Lidl — biológicos se possível'},
+       {n:'Frango peito',q:'150–200g/refeição',onde:'Talho mensal — porcionar e congelar'},
+       {n:'Peixe (salmão, filetes)',q:'2–3x/semana',onde:'E.Leclerc frozen, Picard (excelente)'},
+       {n:'Iogurte grego 0%',q:'1–2/dia',onde:'E.Leclerc (marca própria), Lidl (Milbona)'},
+       {n:'Atum em água',q:'lata/semana',onde:'E.Leclerc, Aldi, Amazon.fr'}
+     ]},
+    {n:'Hidratos complexos',ico:'🌾',cor:'rgba(122,96,32,.07)',bc:'var(--gold)',
+     items:[
+       {n:'Arroz integral',q:'80–100g cru/refeição',onde:'E.Leclerc, Carrefour, Aldi'},
+       {n:'Batata doce',q:'150g/refeição pré-treino',onde:'E.Leclerc, mercado local'},
+       {n:'Aveia fina',q:'50–70g ao PA',onde:'E.Leclerc Bio, Amazon.fr (granel)'},
+       {n:'Massa integral',q:'80g cru/refeição',onde:'E.Leclerc, Barilla integral'},
+       {n:'Feijão e grão (lata)',q:'4 latas/semana',onde:'E.Leclerc, Aldi — mais barato'}
+     ]},
+    {n:'Gorduras boas',ico:'🫒',cor:'rgba(58,80,48,.07)',bc:'var(--sage)',
+     items:[
+       {n:'Azeite virgem extra',q:'2–3 colheres/dia',onde:'E.Leclerc, Carrefour — marca Espanhola mais barata'},
+       {n:'Abacate',q:'½/dia (se disponível)',onde:'Mercado local, E.Leclerc'},
+       {n:'Frutos secos (nozes, amêndoas)',q:'30g/dia',onde:'E.Leclerc Bio, Amazon.fr (kg)'},
+       {n:'Sementes chia/linhaça',q:'1 colher sopa/dia',onde:'Biocoop, Amazon.fr, E.Leclerc Bio'}
+     ]},
+    {n:'Legumes e frutas essenciais',ico:'🥦',cor:'rgba(58,80,48,.07)',bc:'var(--sage)',
+     items:[
+       {n:'Cenouras, courgette, brócolos',q:'à vontade',onde:'Mercado local (mais fresco e barato)'},
+       {n:'Espinafres/salada',q:'às refeições',onde:'E.Leclerc saco, mercado local'},
+       {n:'Tomate',q:'diário',onde:'Mercado local, E.Leclerc'},
+       {n:'Bananas e maçãs',q:'1–2/dia',onde:'Mercado local — mais barato que supermercado'},
+       {n:'Frutos vermelhos (congelados)',q:'100g/dia',onde:'E.Leclerc congelados, Picard — ricos em antioxidantes'}
+     ]},
+    {n:'Suplementação básica (opcional)',ico:'💊',cor:'rgba(28,20,16,.04)',bc:'var(--ink)',
+     items:[
+       {n:'Vitamina D3',q:'1000–2000 UI/dia',onde:'Farmácia, Amazon.fr (Solgar, Nature Made)'},
+       {n:'Omega-3',q:'1g/dia',onde:'Amazon.fr, Picard tem cápsulas — ou come peixe gordo 3x/semana'},
+       {n:'Magnésio',q:'200–300mg/noite',onde:'Farmácia, Amazon.fr — melhora sono e recuperação'},
+       {n:'Proteína whey (opcional)',q:'1 dose pós-treino',onde:'Amazon.fr (MyProtein mais barato), Decathlon'}
+     ]}
+  ];
+  cats.forEach(function(cat){
+    html+='<div style="background:'+cat.cor+';border:1px solid rgba(0,0,0,.1);border-left:4px solid '+cat.bc+';padding:14px 16px;margin-bottom:10px;border-radius:0 8px 8px 0">';
+    html+='<div style="font-family:Arial,sans-serif;font-size:.95rem;font-weight:900;color:var(--ink);margin-bottom:10px">'+cat.ico+' <span style="text-decoration:underline">'+cat.n+'</span></div>';
+    cat.items.forEach(function(item){
+      html+='<div style="display:grid;grid-template-columns:1fr 80px 1fr;gap:8px;margin-bottom:6px;align-items:baseline">';
+      html+='<div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink)">'+item.n+'</div>';
+      html+='<div style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--ink4);font-style:italic;text-align:center">'+item.q+'</div>';
+      html+='<div style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--ink3)">'+item.onde+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+  });
+  html+='<div style="background:rgba(122,48,64,.07);border-left:4px solid var(--rose);padding:12px 14px;border-radius:0 6px 6px 0;margin-top:4px">';
+  html+='<div style="font-family:Arial,sans-serif;font-size:.82rem;font-weight:700;color:var(--rose);margin-bottom:4px">Online em França — os melhores sites</div>';
+  html+='<div style="font-family:Arial,sans-serif;font-size:.82rem;color:var(--ink3);line-height:1.7;font-style:italic">';
+  html+='<strong style="font-style:normal">Amazon.fr</strong> — proteínas, suplementos, frutos secos a granel · ';
+  html+='<strong style="font-style:normal">Picard.fr</strong> — peixe, legumes e frutos congelados de qualidade · ';
+  html+='<strong style="font-style:normal">E.Leclerc Drive</strong> — seco, laticínios, ovos · ';
+  html+='<strong style="font-style:normal">Biocoop.fr</strong> — produtos biológicos, aveia, sementes · ';
+  html+='<strong style="font-style:normal">MyProtein.fr</strong> — whey, creatina, vitaminas';
+  html+='</div></div>';
+  html+='</div>';
+  g('alimentos-content').innerHTML=html;
+}
 function addTracker(){
   if(abaAtiva===null)return;
   var peso=g('trp').value,cintura=g('trc').value,energia=g('tre').value,sono=g('trds').value;
@@ -1338,16 +1572,37 @@ function gerarReceitas(){
   var btn=g('bjr');btn.disabled=true;btn.textContent='a preparar...';
   var obj=abas[abaAtiva].objKey||'outro';
   var todas=Object.values(SUGS).flat();
-  var filtradas=todas.filter(function(r){
-    if(obj==='proteina_def'||obj==='ganhar_musculo')return r.tags.some(function(t){return t.toLowerCase().includes('proteína')||t.toLowerCase().includes('bimby')||t.toLowerCase().includes('airfryer');});
-    if(obj==='perder_peso')return r.tags.some(function(t){return t.toLowerCase().includes('sem açúcar')||t.toLowerCase().includes('saudável')||t.toLowerCase().includes('leve');});
+  // Add extra recipes specific to the 5 coaches strategies
+  var extra=[
+    {n:'Panquecas proteicas Rui Pinheiro',e:'🥞',d:'Alta proteína, sem açúcar — as favoritas do coach.',
+     r:'INGREDIENTES (2 doses): 3 ovos (stock), 1 banana madura (stock), 80g aveia fina, 1c.s leite (stock), pitada sal.\n\nMODO: triturar aveia. Misturar tudo. Frigideira antiaderente com fio azeite, 2 min por lado. Servir com iogurte grego (stock) e mel.\nPROTEÍNA: ~25g por dose. CALORIAS: ~320 kcal.',
+     tags:['proteína','stock','sem açúcar','fogão'],t:'15 min'},
+    {n:'Bowl de frango desfiado (Renata Brugnera)',e:'🍗',d:'+Nutrição e -restrições — receita saborosa e completa.',
+     r:'INGREDIENTES (2 doses): 300g frango desfiado Bimby (stock), 160g arroz cozido (stock), 2 cenouras raladas (stock), 1 iogurte natural (stock), 1c.s azeite (stock), limão, sal, cominhos.\n\nMONTAR: arroz base, frango desfiado por cima, cenoura ralada, molho iogurte (iogurte+limão+cominhos+sal).\nPROTEÍNA: ~45g. CALORIAS: ~480 kcal.',
+     tags:['Bimby','proteína','stock','completo'],t:'25 min'},
+    {n:'Sopa detox Nutri Lulima',e:'🥣',d:'Anti-inflamatória, limpa o organismo, rica em fibra.',
+     r:'INGREDIENTES (4 doses): 3 cenouras (stock), 2 batatas (stock), 1 curgete (se tiveres), 1 lata feijão (stock), 1L caldo legumes, cúrcuma, gengibre, sal.\n\nBIMBY: cenoura + batata + caldo + especiarias, 25 min 100°C vel.1. Triturar. Juntar feijão, 5 min mais.\nCALORIAS: ~180 kcal/dose. FIBRA: 8g.',
+     tags:['Bimby','stock','anti-inflamatória','detox'],t:'30 min'},
+    {n:'Ovos mexidos cremosos VSfit',e:'🍳',d:'Alto proteína, rápido, sem hidratos — perfeito pré-jejum.',
+     r:'INGREDIENTES (1 dose): 3 ovos (stock), 30g queijo fatiado (stock), 1c.ch azeite (stock), sal, pimenta.\n\nMODO: bater ovos com sal. Frigideira com azeite em lume BAIXO. Mexer constantemente até cremosos — não secar. Queijo por cima a derreter.\nPROTEÍNA: ~24g. CALORIAS: ~290 kcal.',
+     tags:['proteína','fogão','stock','rápido'],t:'5 min'},
+    {n:'Marmita Bárbara Oliveira',e:'🥡',d:'Almoço completo para levar — equilibrado e saciante.',
+     r:'INGREDIENTES (1 marmita): 150g frango grelhado airfryer (stock), 80g arroz cozido (stock), 100g cenoura cozida (stock), 1c.s azeite, limão, sal, ervas.\n\nPREP DOMINGO: cozinhar em lote. Montar cada marmita com proteína+hidrato+legume. Dura 4 dias no frio.\nPROTEÍNA: ~40g. CALORIAS: ~420 kcal.',
+     tags:['airfryer','stock','meal prep','marmita'],t:'30 min lote'}
+  ];
+  var todas2=extra.concat(todas);
+  var filtradas=todas2.filter(function(r){
+    if(obj==='proteina_def'||obj==='ganhar_musculo')return r.tags.some(function(t){return t.toLowerCase().includes('proteína')||t.toLowerCase().includes('bimby')||t.toLowerCase().includes('airfryer')||t.toLowerCase().includes('stock');});
+    if(obj==='perder_peso')return r.tags.some(function(t){return t.toLowerCase().includes('sem açúcar')||t.toLowerCase().includes('saudável')||t.toLowerCase().includes('detox')||t.toLowerCase().includes('stock');});
     return true;
   });
-  if(filtradas.length<4)filtradas=todas.slice(0,8);
+  if(filtradas.length<6)filtradas=todas2.slice(0,10);
   setTimeout(function(){
-    g('jra').innerHTML='<div class="sugr">'+filtradas.slice(0,8).map(function(s,i){
-      return '<div class="sgc" id="jr-'+i+'" onclick="toggleJR('+i+')" style="border-left:3px solid var(--rose)"><span class="sgi">'+s.e+'</span><div class="sgn">'+s.n+'</div><div class="sgd">'+s.d+'</div><div class="sgts">'+s.tags.map(function(t){return '<span class="tg">'+t+'</span>';}).join('')+'</div><div class="sug-rec">'+s.r+'</div><div class="sug-close">▲ Fechar receita</div></div>';
+    var html='<div style="font-family:Arial,sans-serif;margin-bottom:10px"><strong>'+filtradas.length+' receitas personalizadas</strong> — clica para ver a receita completa</div>';
+    html+='<div class="sugr">'+filtradas.slice(0,12).map(function(s,i){
+      return '<div class="sgc" id="jr-'+i+'" onclick="toggleJR('+i+')" style="border-left:3px solid var(--rose)"><span class="sgi">'+s.e+'</span><div class="sgn" style="font-family:Arial,sans-serif;font-weight:700">'+s.n+'</div><div class="sgd" style="font-family:Arial,sans-serif;font-style:italic">'+s.d+'</div><div class="sgts">'+s.tags.map(function(t){return '<span class="tg" style="font-family:Arial,sans-serif">'+t+'</span>';}).join('')+'<span class="tg">⏱ '+s.t+'</span></div><div class="sug-rec" style="font-family:Arial,sans-serif;font-size:.82rem;white-space:pre-line">'+s.r+'</div><div class="sug-close" style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--rose);cursor:pointer;margin-top:8px;text-decoration:underline">▲ Fechar receita</div></div>';
     }).join('')+'</div>';
+    g('jra').innerHTML=html;
     btn.disabled=false;btn.textContent='✦ Gerar receitas para mim';
     toast('receitas prontas!','ro');
   },600);
