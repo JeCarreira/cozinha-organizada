@@ -612,16 +612,19 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
 // SUPABASE DB — sincronização cloud entre dispositivos
 // ═══════════════════════════════════════════════════════
 var DB = {
-  // POST to /api/db — handles load and save via Supabase
   _req: async function(action, table, codigo, payload) {
     try {
       var r = await fetch('/api/db', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({action, table, codigo, payload})
+        body: JSON.stringify({action: action, table: table, codigo: codigo, payload: payload})
       });
-      if (!r.ok) { var e = await r.json(); console.warn('DB error:', e); return null; }
-      return await r.json();
+      var data = await r.json();
+      if (!r.ok || data.error) {
+        console.warn('DB', action, table, ':', data.error || r.status, data.detail || '');
+        return null;
+      }
+      return data;
     } catch(e) {
       console.warn('DB fetch error:', e.message);
       return null;
@@ -629,22 +632,32 @@ var DB = {
   },
 
   saveState: async function(code, stateObj) {
-    return DB._req('save', 'familias', code, { dados: stateObj });
+    // Store as JSON string in 'dados' column
+    return DB._req('save', 'familias', code, { dados: JSON.stringify(stateObj) });
   },
 
   loadState: async function(code) {
     var r = await DB._req('load', 'familias', code, null);
-    if (r && r.dados) return r.dados;
+    if (!r) return null;
+    // dados can be object (JSONB) or string
+    if (r.dados) {
+      if (typeof r.dados === 'string') { try { return JSON.parse(r.dados); } catch(e) { return null; } }
+      return r.dados;
+    }
     return null;
   },
 
   saveAbas: async function(code, abasArr) {
-    return DB._req('save', 'abas_pessoais', code, { abas: abasArr });
+    return DB._req('save', 'abas_pessoais', code, { abas: JSON.stringify(abasArr) });
   },
 
   loadAbas: async function(code) {
     var r = await DB._req('load', 'abas_pessoais', code, null);
-    if (r && r.abas) return r.abas;
+    if (!r) return [];
+    if (r.abas) {
+      if (typeof r.abas === 'string') { try { return JSON.parse(r.abas); } catch(e) { return []; } }
+      if (Array.isArray(r.abas)) return r.abas;
+    }
     return [];
   }
 };
@@ -652,26 +665,66 @@ var DB = {
 // Auto-save com debounce — guarda 2 seg após última mudança
 var _saveTimer = null;
 function scheduleSave() {
+  // Always save to localStorage immediately
+  localStorage.setItem('co_state', JSON.stringify({
+    stock: state.stock, ementa: state.ementa,
+    lista: state.lista, lojas: state.lojas
+  }));
+  localStorage.setItem('co_abas', JSON.stringify(abas));
+
+  // Then sync to cloud after 2s debounce
   clearTimeout(_saveTimer);
-  _saveTimer = setTimeout(function() {
+  _saveTimer = setTimeout(async function() {
     var code = localStorage.getItem('co_code');
     if (!code) return;
-    // Save state
-    DB.saveState(code, {
-      stock: state.stock,
-      ementa: state.ementa,
-      lista: state.lista,
-      lojas: state.lojas
-    });
-    // Save abas
-    DB.saveAbas(code, abas);
-    doSaved();
+    showSyncBar('A guardar na cloud...');
+    try {
+      await Promise.all([
+        DB.saveState(code, {
+          stock: state.stock, ementa: state.ementa,
+          lista: state.lista, lojas: state.lojas
+        }),
+        DB.saveAbas(code, abas)
+      ]);
+      showSyncBar('✓ Guardado na cloud — disponível em todos os dispositivos', 3000);
+      doSaved();
+    } catch(e) {
+      showSyncBar('⚠ Guardado localmente — sem ligação à cloud', 4000);
+    }
   }, 2000);
+}
+
+function showSyncBar(msg, duration) {
+  var bar = document.getElementById('sync-bar');
+  if (!bar) return;
+  bar.textContent = msg;
+  bar.style.display = 'block';
+  bar.style.background = msg.includes('✓') ? 'rgba(58,80,48,.92)' : msg.includes('⚠') ? 'rgba(122,96,32,.92)' : 'rgba(28,20,16,.92)';
+  if (duration) {
+    clearTimeout(bar._t);
+    bar._t = setTimeout(function(){ bar.style.display = 'none'; }, duration);
+  }
 }
 
 // Carregar tudo da cloud ao fazer login
 async function loadFromCloud(code) {
   showLoadingOverlay('A sincronizar os teus dados...');
+
+  // 1. Load from localStorage first (instant)
+  var localState = localStorage.getItem('co_state');
+  if (localState) {
+    try {
+      var ls = JSON.parse(localState);
+      if (ls.stock) state.stock = ls.stock;
+      if (ls.ementa) state.ementa = ls.ementa;
+      if (ls.lista) state.lista = ls.lista;
+      if (ls.lojas && ls.lojas.length) state.lojas = ls.lojas;
+    } catch(e) {}
+  }
+  var localAbas = localStorage.getItem('co_abas');
+  if (localAbas) { try { abas = JSON.parse(localAbas); } catch(e) {} }
+
+  // 2. Then try cloud (overrides local if more recent)
   try {
     var [cloudState, cloudAbas] = await Promise.all([
       DB.loadState(code),
@@ -683,19 +736,15 @@ async function loadFromCloud(code) {
       if (cloudState.ementa) state.ementa = cloudState.ementa;
       if (cloudState.lista) state.lista = cloudState.lista;
       if (cloudState.lojas && cloudState.lojas.length) state.lojas = cloudState.lojas;
+      // Update localStorage with cloud version
+      localStorage.setItem('co_state', JSON.stringify(cloudState));
     }
     if (cloudAbas && cloudAbas.length) {
       abas = cloudAbas;
       localStorage.setItem('co_abas', JSON.stringify(abas));
     }
   } catch(e) {
-    console.warn('Cloud load failed, using local:', e.message);
-  }
-
-  // Also merge with localStorage as fallback
-  var localAbas = localStorage.getItem('co_abas');
-  if (localAbas && abas.length === 0) {
-    try { abas = JSON.parse(localAbas); } catch(e) {}
+    console.warn('Cloud unavailable, using local data:', e.message);
   }
 
   hideLoadingOverlay();
