@@ -612,64 +612,39 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
 // SUPABASE DB — sincronização cloud entre dispositivos
 // ═══════════════════════════════════════════════════════
 var DB = {
-  _call: async function(table, method, data, filter) {
+  // POST to /api/db — handles load and save via Supabase
+  _req: async function(action, table, codigo, payload) {
     try {
-      var r = await fetch('/api/supabase-proxy', {
+      var r = await fetch('/api/db', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({table, method, data, filter})
+        body: JSON.stringify({action, table, codigo, payload})
       });
+      if (!r.ok) { var e = await r.json(); console.warn('DB error:', e); return null; }
       return await r.json();
     } catch(e) {
-      console.warn('DB error:', e.message);
+      console.warn('DB fetch error:', e.message);
       return null;
     }
   },
 
-  // Guardar estado completo da família
   saveState: async function(code, stateObj) {
-    var data = {
-      codigo: code,
-      dados: JSON.stringify(stateObj),
-      updated_at: new Date().toISOString()
-    };
-    var r = await DB._call('familias', 'POST', [data], '');
-    if (!r || r.error) {
-      // Try PATCH if already exists
-      r = await DB._call('familias', 'PATCH', [data], 'codigo=eq.' + encodeURIComponent(code));
-    }
-    return r;
+    return DB._req('save', 'familias', code, { dados: stateObj });
   },
 
-  // Carregar estado da família
   loadState: async function(code) {
-    var r = await DB._call('familias', 'GET', null, 'codigo=eq.' + encodeURIComponent(code) + '&limit=1');
-    if (r && r.length > 0 && r[0].dados) {
-      try { return JSON.parse(r[0].dados); } catch(e) { return null; }
-    }
+    var r = await DB._req('load', 'familias', code, null);
+    if (r && r.dados) return r.dados;
     return null;
   },
 
-  // Guardar abas pessoais
   saveAbas: async function(code, abasArr) {
-    var data = {
-      codigo: code,
-      abas: JSON.stringify(abasArr),
-      updated_at: new Date().toISOString()
-    };
-    var r = await DB._call('abas_pessoais', 'POST', [data], '');
-    if (!r || r.error) {
-      r = await DB._call('abas_pessoais', 'PATCH', [data], 'codigo=eq.' + encodeURIComponent(code));
-    }
-    return r;
+    return DB._req('save', 'abas_pessoais', code, { abas: abasArr });
   },
 
-  // Carregar abas pessoais
   loadAbas: async function(code) {
-    var r = await DB._call('abas_pessoais', 'GET', null, 'codigo=eq.' + encodeURIComponent(code) + '&limit=1');
-    if (r && r.length > 0 && r[0].abas) {
-      try { return JSON.parse(r[0].abas); } catch(e) { return []; }
-    }
+    var r = await DB._req('load', 'abas_pessoais', code, null);
+    if (r && r.abas) return r.abas;
     return [];
   }
 };
