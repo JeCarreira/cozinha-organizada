@@ -1131,19 +1131,39 @@ function showForgot(){
 }
 g('ci').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 window.addEventListener('DOMContentLoaded',function(){
-  var s=localStorage.getItem('co_code');
-  if(s){g('ci').value=s;g('fc').textContent=s;g('lv').style.display='none';g('av').style.display='block';initApp();}
-  var saved=localStorage.getItem('co_abas');
-  if(saved){try{abas=JSON.parse(saved);}catch(e){abas=[];}}
-  var lojas=localStorage.getItem('co_lojas');
-  if(lojas){try{state.lojas=JSON.parse(lojas);}catch(e){}}
+  // ── 1. Restaurar state do localStorage (stock, ementa, lista, lojas) ──
+  var savedState=localStorage.getItem('co_state');
+  if(savedState){try{var ls=JSON.parse(savedState);if(ls.stock)state.stock=ls.stock;if(ls.ementa)state.ementa=ls.ementa;if(ls.lista)state.lista=ls.lista;if(ls.lojas&&ls.lojas.length)state.lojas=ls.lojas;}catch(e){}}
+  // fallback para lojas antigas
+  var oldLojas=localStorage.getItem('co_lojas');
+  if(oldLojas&&!savedState){try{state.lojas=JSON.parse(oldLojas);}catch(e){}}
+  // ── 2. Restaurar abas pessoais ──
+  var savedAbas=localStorage.getItem('co_abas');
+  if(savedAbas){try{abas=JSON.parse(savedAbas);}catch(e){abas=[];}}
+  // ── 3. UI init ──
   var t=new Date();if(g('trd'))g('trd').valueAsDate=t;
-  // init week
   var mon=getMonday(new Date());
   var sun=new Date(mon);sun.setDate(sun.getDate()+6);
   if(g('wk-s'))g('wk-s').valueAsDate=mon;
   if(g('wk-e'))g('wk-e').valueAsDate=sun;
   renderMealBtns();
+  // ── 4. Auto-login se código guardado ──
+  var code=localStorage.getItem('co_code');
+  if(code){
+    g('ci').value=code;g('fc').textContent=code;
+    g('lv').style.display='none';g('av').style.display='block';
+    initApp();
+    // Sincronizar cloud em background — sem bloquear
+    setTimeout(function(){
+      loadFromCloud(code).then(function(){
+        // Re-render com dados mais recentes da cloud
+        renderStock();renderEmenta();renderLista();renderLojaSelect();
+        var saved=localStorage.getItem('co_abas');
+        if(saved){try{abas=JSON.parse(saved);}catch(e){}}
+        if(document.getElementById('s-pessoal').classList.contains('on'))renderPicker();
+      }).catch(function(e){console.warn('Cloud sync failed:',e);});
+    },500);
+  }
 });
 function getMonday(d){var day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff));}
 function getCW(){var d=new Date().getDate();if(d<6)return 4;return Math.min(Math.ceil((d-6)/7)+1,4);}
@@ -1247,7 +1267,7 @@ function saveMeal(){
   g('mm').classList.remove('on');eK=null;
   renderEmenta();updDash();toast('guardado ✓');scheduleSave();
 }
-function limparEmenta(){var days=getWkDays();days.forEach(function(d){var dd=d.toISOString().split('T')[0];activeMealTypes.forEach(function(mt){var k='d_'+dd+'_'+mt;delete state.ementa[k];delete state.ementa[k+'_ia'];});});renderEmenta();toast('ementa limpa');}
+function limparEmenta(){var days=getWkDays();days.forEach(function(d){var dd=d.toISOString().split('T')[0];activeMealTypes.forEach(function(mt){var k='d_'+dd+'_'+mt;delete state.ementa[k];delete state.ementa[k+'_ia'];});});renderEmenta();toast('ementa limpa ✓');scheduleSave();}
 function gerarIA(){
   var btn=g('bia');btn.disabled=true;btn.textContent='a gerar...';
   var days=getWkDays();
@@ -1262,7 +1282,7 @@ function gerarIA(){
         state.ementa[k+'_ia']=true;
       });
     });
-    renderEmenta();updDash();toast('ementa gerada com o stock!');doSaved();
+    renderEmenta();updDash();toast('ementa gerada ✓');scheduleSave();
     btn.disabled=false;btn.textContent='✦ Gerar com IA';
   },700);
 }
@@ -1346,15 +1366,15 @@ function toggleSug(i){
 // ── STOCK ──
 function siH(i,cat){var low=i.q<=i.m;return '<div class="si'+(low?' low':'')+'" id="si-'+i.id+'"><div class="sn">'+i.n+'<span class="su">'+i.u+'</span></div><div class="qc"><button class="qb" onclick="chgQ(\''+cat+'\','+i.id+',-1)">−</button><span class="qv" id="qv-'+i.id+'">'+i.q+'</span><button class="qb" onclick="chgQ(\''+cat+'\','+i.id+',1)">+</button><button class="xb" onclick="delS(\''+cat+'\','+i.id+')">✕</button></div></div>';}
 function renderStock(){var lbls={despensa:'Despensa',congelador:'Congelador',frigorifico:'Frigorífico',frutas:'Frutas e Legumes'};g('sa').innerHTML=Object.entries(state.stock).map(function(e){var cat=e[0],items=e[1];return '<div class="dv">'+lbls[cat]+'</div><div class="sgr" id="sg-'+cat+'">'+(items.length?items.map(function(i){return siH(i,cat);}).join(''):'<p class="empty">sem itens</p>')+'</div>';}).join('');}
-function chgQ(cat,id,d){var item=state.stock[cat].find(function(i){return i.id===id;});if(!item)return;item.q=Math.max(0,item.q+d);var el=g('qv-'+id);if(el)el.textContent=item.q;var si=g('si-'+id);if(si)si.classList.toggle('low',item.q<=item.m);doSaved();}
-function delS(cat,id){state.stock[cat]=state.stock[cat].filter(function(i){return i.id!==id;});var el=g('si-'+id);if(el)el.remove();toast('removido');}
-function addStock(){var n=g('stn').value.trim(),cat=g('stc').value,q=parseFloat(g('stq').value)||1,u=g('stu').value.trim()||'un';if(!n){toast('escreve o nome');return;}var id=nx();state.stock[cat].push({id:id,n:n,q:q,u:u,m:1});g('stn').value='';g('stq').value='1';g('stu').value='un';var gr=g('sg-'+cat);var ep=gr?gr.querySelector('.empty'):null;if(ep)ep.remove();if(gr)gr.insertAdjacentHTML('beforeend',siH({id:id,n:n,q:q,u:u,m:1},cat));toast('adicionado');doSaved();}
+function chgQ(cat,id,d){var item=state.stock[cat].find(function(i){return i.id===id;});if(!item)return;item.q=Math.max(0,item.q+d);var el=g('qv-'+id);if(el)el.textContent=item.q;var si=g('si-'+id);if(si)si.classList.toggle('low',item.q<=item.m);scheduleSave();}
+function delS(cat,id){state.stock[cat]=state.stock[cat].filter(function(i){return i.id!==id;});var el=g('si-'+id);if(el)el.remove();toast('removido ✓');scheduleSave();}
+function addStock(){var n=g('stn').value.trim(),cat=g('stc').value,q=parseFloat(g('stq').value)||1,u=g('stu').value.trim()||'un';if(!n){toast('escreve o nome');return;}var id=nx();state.stock[cat].push({id:id,n:n,q:q,u:u,m:1});g('stn').value='';g('stq').value='1';g('stu').value='un';var gr=g('sg-'+cat);var ep=gr?gr.querySelector('.empty'):null;if(ep)ep.remove();if(gr)gr.insertAdjacentHTML('beforeend',siH({id:id,n:n,q:q,u:u,m:1},cat));toast('adicionado ✓');scheduleSave();}
 
 // ── LISTA ──
 var COR_OPTS=['#3a5030','#7a3040','#7a5c2e','#2a4060','#5a3070','#1c4a4a','#6a3020','#404020','#2a2a60','#603020'];
 function renderCorGrid(){var c=g('cor-grid');if(!c)return;novaCorLoja=COR_OPTS[0];c.innerHTML=COR_OPTS.map(function(cor,i){return '<div onclick="selCor(this)" data-cor="'+cor+'" style="width:26px;height:26px;background:'+cor+';cursor:pointer;border:2px solid transparent;border-radius:3px'+(i===0?';outline:3px solid #1c1410;outline-offset:2px':'')+'" class="cor-opt'+(i===0?' sel':'')+'"></div>';}).join('');}
 function selCor(el){document.querySelectorAll('.cor-opt').forEach(function(x){x.classList.remove('sel');x.style.outline='none';});el.classList.add('sel');el.style.outline='3px solid #1c1410';el.style.outlineOffset='2px';novaCorLoja=el.dataset.cor;}
-function addLoja(){var nome=g('nl-nome').value.trim();if(!nome){toast('Escreve o nome');return;}var id='loja_'+Date.now();state.lojas.push({id:id,nome:nome,cor:novaCorLoja});localStorage.setItem('co_lojas',JSON.stringify(state.lojas));g('nl-nome').value='';g('nlm').classList.remove('on');renderLista();renderLojaSelect();toast('loja adicionada!','sv');}
+function addLoja(){var nome=g('nl-nome').value.trim();if(!nome){toast('Escreve o nome');return;}var id='loja_'+Date.now();state.lojas.push({id:id,nome:nome,cor:novaCorLoja});localStorage.setItem('co_lojas',JSON.stringify(state.lojas));g('nl-nome').value='';g('nlm').classList.remove('on');renderLista();renderLojaSelect();toast('loja adicionada ✓','sv');scheduleSave();}
 function renderLojaSelect(){var sel=g('lil');if(!sel)return;sel.innerHTML=state.lojas.map(function(l){return '<option value="'+l.id+'">'+l.nome+'</option>';}).join('');}
 function renderLista(){
   var c=g('la');if(!c)return;
@@ -1375,7 +1395,7 @@ function liH(i){return '<div class="li3'+(i.done?' done':'')+'" id="lic-'+i.id+'
 function addLista(){var n=g('lin').value.trim(),q=g('liq').value.trim()||'1',l=g('lil').value;if(!n){toast('escreve o produto');return;}var id=nx();state.lista.push({id:id,n:n,q:q,l:l,done:false});g('lin').value='';g('liq').value='';renderLista();toast('adicionado ✓');scheduleSave();}
 function togLi(id,done){var item=state.lista.find(function(i){return i.id===id;});if(item)item.done=done;scheduleSave();var el=g('lic-'+id);if(el)el.classList.toggle('done',done);doSaved();}
 function delLi(id){state.lista=state.lista.filter(function(i){return i.id!==id;});var el=g('lic-'+id);if(el)el.remove();}
-function limparLista(){state.lista=state.lista.filter(function(i){return !i.done;});renderLista();toast('lista limpa');}
+function limparLista(){state.lista=state.lista.filter(function(i){return !i.done;});renderLista();toast('lista limpa ✓');scheduleSave();}
 
 // ── ABA PESSOAL ──
 function renderPicker(){
