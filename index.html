@@ -607,6 +607,135 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
   </div>
 </div>
 <script>
+
+// ═══════════════════════════════════════════════════════
+// SUPABASE DB — sincronização cloud entre dispositivos
+// ═══════════════════════════════════════════════════════
+var DB = {
+  _call: async function(table, method, data, filter) {
+    try {
+      var r = await fetch('/api/supabase-proxy', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({table, method, data, filter})
+      });
+      return await r.json();
+    } catch(e) {
+      console.warn('DB error:', e.message);
+      return null;
+    }
+  },
+
+  // Guardar estado completo da família
+  saveState: async function(code, stateObj) {
+    var data = {
+      codigo: code,
+      dados: JSON.stringify(stateObj),
+      updated_at: new Date().toISOString()
+    };
+    var r = await DB._call('familias', 'POST', [data], '');
+    if (!r || r.error) {
+      // Try PATCH if already exists
+      r = await DB._call('familias', 'PATCH', [data], 'codigo=eq.' + encodeURIComponent(code));
+    }
+    return r;
+  },
+
+  // Carregar estado da família
+  loadState: async function(code) {
+    var r = await DB._call('familias', 'GET', null, 'codigo=eq.' + encodeURIComponent(code) + '&limit=1');
+    if (r && r.length > 0 && r[0].dados) {
+      try { return JSON.parse(r[0].dados); } catch(e) { return null; }
+    }
+    return null;
+  },
+
+  // Guardar abas pessoais
+  saveAbas: async function(code, abasArr) {
+    var data = {
+      codigo: code,
+      abas: JSON.stringify(abasArr),
+      updated_at: new Date().toISOString()
+    };
+    var r = await DB._call('abas_pessoais', 'POST', [data], '');
+    if (!r || r.error) {
+      r = await DB._call('abas_pessoais', 'PATCH', [data], 'codigo=eq.' + encodeURIComponent(code));
+    }
+    return r;
+  },
+
+  // Carregar abas pessoais
+  loadAbas: async function(code) {
+    var r = await DB._call('abas_pessoais', 'GET', null, 'codigo=eq.' + encodeURIComponent(code) + '&limit=1');
+    if (r && r.length > 0 && r[0].abas) {
+      try { return JSON.parse(r[0].abas); } catch(e) { return []; }
+    }
+    return [];
+  }
+};
+
+// Auto-save com debounce — guarda 2 seg após última mudança
+var _saveTimer = null;
+function scheduleSave() {
+  clearTimeout(_saveTimer);
+  _saveTimer = setTimeout(function() {
+    var code = localStorage.getItem('co_code');
+    if (!code) return;
+    // Save state
+    DB.saveState(code, {
+      stock: state.stock,
+      ementa: state.ementa,
+      lista: state.lista,
+      lojas: state.lojas
+    });
+    // Save abas
+    DB.saveAbas(code, abas);
+    doSaved();
+  }, 2000);
+}
+
+// Carregar tudo da cloud ao fazer login
+async function loadFromCloud(code) {
+  showLoadingOverlay('A sincronizar os teus dados...');
+  try {
+    var [cloudState, cloudAbas] = await Promise.all([
+      DB.loadState(code),
+      DB.loadAbas(code)
+    ]);
+
+    if (cloudState) {
+      if (cloudState.stock) state.stock = cloudState.stock;
+      if (cloudState.ementa) state.ementa = cloudState.ementa;
+      if (cloudState.lista) state.lista = cloudState.lista;
+      if (cloudState.lojas && cloudState.lojas.length) state.lojas = cloudState.lojas;
+    }
+    if (cloudAbas && cloudAbas.length) {
+      abas = cloudAbas;
+      localStorage.setItem('co_abas', JSON.stringify(abas));
+    }
+  } catch(e) {
+    console.warn('Cloud load failed, using local:', e.message);
+  }
+
+  // Also merge with localStorage as fallback
+  var localAbas = localStorage.getItem('co_abas');
+  if (localAbas && abas.length === 0) {
+    try { abas = JSON.parse(localAbas); } catch(e) {}
+  }
+
+  hideLoadingOverlay();
+}
+
+function showLoadingOverlay(msg) {
+  var el = document.getElementById('loading-overlay');
+  if (el) { el.querySelector('.lo-msg').textContent = msg || 'A carregar...'; el.style.display = 'flex'; }
+}
+function hideLoadingOverlay() {
+  var el = document.getElementById('loading-overlay');
+  if (el) el.style.display = 'none';
+}
+
+
 var g=function(i){return document.getElementById(i);};
 var nid=600;var nx=function(){return ++nid;};
 var cST='lanches';var eK=null;var abaAtiva=null;var abas=[];
@@ -946,7 +1075,11 @@ function resetFoto(){}
 
 // ── UTILS ──
 function toast(msg,type){var t=g('toast');t.textContent=msg;t.className='toast on'+(type?' '+type:'');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('on');},2600);}
-function doSaved(){var s=g('sv');s.classList.add('on');clearTimeout(s._t);s._t=setTimeout(function(){s.classList.remove('on');},2000);}
+function doSaved(){
+  var s=g('sv');s.classList.add('on');clearTimeout(s._t);s._t=setTimeout(function(){s.classList.remove('on');},2000);
+  // Show sync bar
+  var bar=g('sync-bar');if(bar){bar.style.display='block';clearTimeout(bar._t);bar._t=setTimeout(function(){bar.style.display='none';},3000);}
+}
 
 function doLogin(){
   var code=g('ci').value.trim().toUpperCase();
@@ -955,7 +1088,10 @@ function doLogin(){
   g('fc').textContent=code;
   g('lv').style.display='none';
   g('av').style.display='block';
-  initApp();
+  // Load from cloud first, then init
+  loadFromCloud(code).then(function(){
+    initApp();
+  });
 }
 function doCreate(){
   var code=g('cr-c').value.trim().toUpperCase();
@@ -1085,7 +1221,7 @@ function saveMeal(){
   state.ementa[eK]=g('mi').value.trim();
   delete state.ementa[eK+'_ia'];
   g('mm').classList.remove('on');eK=null;
-  renderEmenta();updDash();toast('guardado');doSaved();
+  renderEmenta();updDash();toast('guardado ✓');scheduleSave();
 }
 function limparEmenta(){var days=getWkDays();days.forEach(function(d){var dd=d.toISOString().split('T')[0];activeMealTypes.forEach(function(mt){var k='d_'+dd+'_'+mt;delete state.ementa[k];delete state.ementa[k+'_ia'];});});renderEmenta();toast('ementa limpa');}
 function gerarIA(){
@@ -1212,8 +1348,8 @@ function renderLista(){
 }
 function delLoja(id){if(!confirm('Remover esta loja e todos os itens?'))return;state.lojas=state.lojas.filter(function(l){return l.id!==id;});state.lista=state.lista.filter(function(i){return i.l!==id;});localStorage.setItem('co_lojas',JSON.stringify(state.lojas));renderLista();renderLojaSelect();toast('loja removida');}
 function liH(i){return '<div class="li3'+(i.done?' done':'')+'" id="lic-'+i.id+'"><input type="checkbox"'+(i.done?' checked':'')+' onchange="togLi('+i.id+',this.checked)"/><span class="lin">'+i.n+'</span><span class="liq2">'+i.q+'</span><button class="xb" onclick="delLi('+i.id+')">✕</button></div>';}
-function addLista(){var n=g('lin').value.trim(),q=g('liq').value.trim()||'1',l=g('lil').value;if(!n){toast('escreve o produto');return;}var id=nx();state.lista.push({id:id,n:n,q:q,l:l,done:false});g('lin').value='';g('liq').value='';renderLista();toast('adicionado');doSaved();}
-function togLi(id,done){var item=state.lista.find(function(i){return i.id===id;});if(item)item.done=done;var el=g('lic-'+id);if(el)el.classList.toggle('done',done);doSaved();}
+function addLista(){var n=g('lin').value.trim(),q=g('liq').value.trim()||'1',l=g('lil').value;if(!n){toast('escreve o produto');return;}var id=nx();state.lista.push({id:id,n:n,q:q,l:l,done:false});g('lin').value='';g('liq').value='';renderLista();toast('adicionado ✓');scheduleSave();}
+function togLi(id,done){var item=state.lista.find(function(i){return i.id===id;});if(item)item.done=done;scheduleSave();var el=g('lic-'+id);if(el)el.classList.toggle('done',done);doSaved();}
 function delLi(id){state.lista=state.lista.filter(function(i){return i.id!==id;});var el=g('lic-'+id);if(el)el.remove();}
 function limparLista(){state.lista=state.lista.filter(function(i){return !i.done;});renderLista();toast('lista limpa');}
 
@@ -1270,7 +1406,7 @@ function finalizarQuiz(){
   var objKey=mapObj(objResp);
   var novaAba={id:nx(),nome:nome,ico:'✦',obj:objResp||'Plano personalizado',objKey:objKey,quizResps:quizResps,tracker:[]};
   abas.push(novaAba);
-  localStorage.setItem('co_abas',JSON.stringify(abas));
+  localStorage.setItem('co_abas',JSON.stringify(abas));scheduleSave();
   g('qm').classList.remove('on');
   renderPicker();
   abrirAba(abas.length-1);
@@ -1308,7 +1444,7 @@ function abrirAba(idx){
   }
 }
 function voltarPicker(){abaAtiva=null;renderPicker();}
-function eliminarAba(){if(!confirm('Eliminar esta aba e todos os registos?'))return;abas.splice(abaAtiva,1);localStorage.setItem('co_abas',JSON.stringify(abas));abaAtiva=null;renderPicker();toast('aba eliminada');}
+function eliminarAba(){if(!confirm('Eliminar esta aba e todos os registos?'))return;abas.splice(abaAtiva,1);localStorage.setItem('co_abas',JSON.stringify(abas));scheduleSave();abaAtiva=null;renderPicker();toast('aba eliminada');}
 function updAbaStats(){
   if(abaAtiva===null)return;
   var saved=localStorage.getItem('co_abas');if(saved){try{abas=JSON.parse(saved);}catch(e){}}
@@ -1321,7 +1457,7 @@ function activarPosAnalise(){
   // Chamado após análise corporal ser concluída
   if(abaAtiva===null)return;
   abas[abaAtiva].analiseFeita=true;
-  localStorage.setItem('co_abas',JSON.stringify(abas));
+  localStorage.setItem('co_abas',JSON.stringify(abas));scheduleSave();
   g('bloqueio-analise').style.display='none';
   g('pessoal-tabs-area').style.display='block';
   renderPlanoDia();
@@ -1544,9 +1680,9 @@ function addTracker(){
   var nota=g('trn').value.trim(),data=g('trd').value||new Date().toISOString().split('T')[0];
   if(!peso&&!energia&&!nota){toast('Preenche pelo menos um campo');return;}
   abas[abaAtiva].tracker.push({id:nx(),data:data,peso:peso,cintura:cintura,energia:energia,sono:sono,nota:nota});
-  localStorage.setItem('co_abas',JSON.stringify(abas));
+  localStorage.setItem('co_abas',JSON.stringify(abas));scheduleSave();
   g('trp').value='';g('trc').value='';g('tre').value='';g('trds').value='';g('trn').value='';
-  renderTrl();updAbaStats();toast('guardado!','ro');doSaved();
+  renderTrl();updAbaStats();toast('guardado ✓','ro');scheduleSave();
 }
 function renderTrl(){
   var list=g('trl');if(!list)return;
@@ -1556,7 +1692,7 @@ function renderTrl(){
     return '<div class="ten"><div class="tdate">'+e.data+'</div>'+(e.peso?'<div class="tval">'+e.peso+'<span class="tunit"> kg</span></div>':'')+(e.cintura?'<div style="font-family:var(--fw);font-size:.75rem;color:var(--ink3)">📏 '+e.cintura+'cm cintura</div>':'')+(e.energia?'<div class="edots">'+[1,2,3,4,5].map(function(n){return '<div class="edot'+(parseInt(e.energia)>=n?' on':'')+'"></div>';}).join('')+'</div>':'')+(e.nota?'<div class="tnot">'+e.nota+'</div>':'')+'<button class="xb" onclick="delTr('+e.id+')" style="margin-top:5px;font-size:.7rem;color:var(--rose)">remover</button></div>';
   }).join('')+'</div>';
 }
-function delTr(id){if(abaAtiva===null)return;abas[abaAtiva].tracker=abas[abaAtiva].tracker.filter(function(e){return e.id!==id;});localStorage.setItem('co_abas',JSON.stringify(abas));renderTrl();updAbaStats();}
+function delTr(id){if(abaAtiva===null)return;abas[abaAtiva].tracker=abas[abaAtiva].tracker.filter(function(e){return e.id!==id;});localStorage.setItem('co_abas',JSON.stringify(abas));scheduleSave();renderTrl();updAbaStats();}
 function exportTracker(){
   if(abaAtiva===null)return;
   var data=abas[abaAtiva].tracker;
@@ -1618,5 +1754,18 @@ document.addEventListener('keydown',function(e){
   if(e.key==='Enter'&&g('mm').classList.contains('on'))saveMeal();
 });
 </script>
+
+<!-- LOADING OVERLAY -->
+<div id="loading-overlay" style="display:none;position:fixed;inset:0;background:rgba(240,235,224,.95);z-index:500;align-items:center;justify-content:center;flex-direction:column;gap:14px">
+  <div style="font-size:2rem;animation:spin 1s linear infinite">⟳</div>
+  <div class="lo-msg" style="font-family:Arial,sans-serif;font-size:1rem;font-weight:700;color:var(--rose)">A sincronizar...</div>
+  <div style="font-family:Arial,sans-serif;font-size:.82rem;color:var(--ink3);font-style:italic">Os teus dados estão a ser carregados da cloud</div>
+</div>
+
+<!-- SYNC INDICATOR -->
+<div id="sync-bar" style="display:none;position:fixed;bottom:0;left:0;right:0;background:rgba(58,80,48,.9);color:white;text-align:center;padding:8px;font-family:Arial,sans-serif;font-size:.75rem;font-weight:700;z-index:400;letter-spacing:.06em">
+  ✓ GUARDADO NA CLOUD — sincronizado em todos os dispositivos
+</div>
+
 </body>
 </html>
