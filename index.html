@@ -647,11 +647,12 @@ async function cloudUpload(code){
 async function cloudDownload(code){
   try{
     var hasLocal=!!localStorage.getItem('co_state');
-    if(hasLocal)return; // localStorage tem prioridade sempre
+    if(hasLocal)return;
     var[cs,ca]=await Promise.all([DB.loadState(code),DB.loadAbas(code)]);
     if(cs){if(cs.stock)state.stock=cs.stock;if(cs.ementa)state.ementa=cs.ementa;if(cs.lista)state.lista=cs.lista;if(cs.lojas&&cs.lojas.length)state.lojas=cs.lojas;localStorage.setItem('co_state',JSON.stringify(cs));renderStock();renderEmenta();renderLista();renderLojaSelect();}
     if(ca&&ca.length){abas=ca;localStorage.setItem('co_abas',JSON.stringify(abas));}
   }catch(e){console.warn('cloud download:',e.message);}
+  // nunca lança erro para fora
 }
 
 async function loadFromCloud(code){return cloudDownload(code);}
@@ -1082,10 +1083,10 @@ function doLogin(){
   g('fc').textContent=code;
   g('lv').style.display='none';
   g('av').style.display='block';
-  // Load from cloud first, then init
-  loadFromCloud(code).then(function(){
-    initApp();
-  });
+  initApp(); // entra SEMPRE - cloud sincroniza em background
+  setTimeout(function(){
+    cloudDownload(code).catch(function(){});
+  },1000);
 }
 function doCreate(){
   var code=g('cr-c').value.trim().toUpperCase();
@@ -1111,9 +1112,12 @@ window.addEventListener('DOMContentLoaded',function(){
   renderMealBtns();
   // 3. Auto-login e render com dados locais
   var code=localStorage.getItem('co_code');
-  if(code){g('ci').value=code;g('fc').textContent=code;g('lv').style.display='none';g('av').style.display='block';initApp();}
-  // 4. Sincronizar cloud em background - SO UPLOAD, nunca sobrescreve local
-  if(code){setTimeout(function(){cloudUpload(code);},2000);}
+  if(code){
+    g('ci').value=code;g('fc').textContent=code;
+    g('lv').style.display='none';g('av').style.display='block';
+    initApp();
+    setTimeout(function(){cloudUpload(code).catch(function(){});},2000);
+  }
 });
 function getMonday(d){var day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff));}
 function getCW(){var d=new Date().getDate();if(d<6)return 4;return Math.min(Math.ceil((d-6)/7)+1,4);}
