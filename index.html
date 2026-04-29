@@ -607,62 +607,24 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
   </div>
 </div>
 <script>
-// ═══════════════════════════════════════════════
-// GUARDAR E CARREGAR — localStorage + cloud
-// ═══════════════════════════════════════════════
+var g=function(i){return document.getElementById(i);};
 
+// ── GUARDAR NO LOCALSTORAGE (funciona sempre) ──
 function scheduleSave(){
-  // Guarda SEMPRE no localStorage primeiro (funciona offline e ao actualizar)
-  try{
-    localStorage.setItem('co_state', JSON.stringify({
-      stock: state.stock,
-      ementa: state.ementa,
-      lista: state.lista,
-      lojas: state.lojas
-    }));
-    localStorage.setItem('co_abas', JSON.stringify(abas));
-  }catch(e){}
+  try{localStorage.setItem('co_state',JSON.stringify({stock:state.stock,ementa:state.ementa,lista:state.lista,lojas:state.lojas}));}catch(e){}
+  try{localStorage.setItem('co_abas',JSON.stringify(abas));}catch(e){}
   doSaved();
-  // Tenta guardar na cloud em background (falha silenciosamente)
-  clearTimeout(window._cloudT);
-  window._cloudT = setTimeout(function(){
-    var code = localStorage.getItem('co_code');
-    if(!code) return;
-    fetch('/api/db', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        action: 'save',
-        table: 'familias',
-        codigo: code,
-        payload: {
-          dados: JSON.stringify({
-            stock: state.stock,
-            ementa: state.ementa,
-            lista: state.lista,
-            lojas: state.lojas
-          })
-        }
-      })
-    }).catch(function(){});
-    fetch('/api/db', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({
-        action: 'save',
-        table: 'abas_pessoais',
-        codigo: code,
-        payload: { abas: JSON.stringify(abas) }
-      })
-    }).catch(function(){});
-  }, 3000);
+  // Cloud em background - falha silenciosamente
+  clearTimeout(window._ct);
+  window._ct=setTimeout(function(){
+    var code=localStorage.getItem('co_code');if(!code)return;
+    var st={action:'save',table:'familias',codigo:code,payload:{dados:JSON.stringify({stock:state.stock,ementa:state.ementa,lista:state.lista,lojas:state.lojas})}};
+    var ab={action:'save',table:'abas_pessoais',codigo:code,payload:{abas:JSON.stringify(abas)}};
+    fetch('/api/db',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(st)}).catch(function(){});
+    fetch('/api/db',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ab)}).catch(function(){});
+  },3000);
 }
-
-function showSyncBar(msg,dur){
-  var bar=document.getElementById('sync-bar');if(!bar)return;
-  bar.textContent=msg;bar.style.display='block';
-  clearTimeout(bar._t);if(dur)bar._t=setTimeout(function(){bar.style.display='none';},dur);
-}
+function showSyncBar(){}
 function showLoadingOverlay(){}
 function hideLoadingOverlay(){}
 function loadFromCloud(){}
@@ -1037,22 +999,16 @@ function showForgot(){
 }
 g('ci').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 window.addEventListener('DOMContentLoaded',function(){
-  // Carregar localStorage (funciona sempre, mesmo sem internet)
+  // Restaurar localStorage
   try{var ss=localStorage.getItem('co_state');if(ss){var d=JSON.parse(ss);if(d.stock)state.stock=d.stock;if(d.ementa)state.ementa=d.ementa;if(d.lista)state.lista=d.lista;if(d.lojas&&d.lojas.length)state.lojas=d.lojas;}}catch(e){}
   try{var sa=localStorage.getItem('co_abas');if(sa)abas=JSON.parse(sa);}catch(e){}
   // UI
-  try{var t=new Date();if(document.getElementById('trd'))document.getElementById('trd').valueAsDate=t;}catch(e){}
-  try{var mon=getMonday(new Date());var sun=new Date(mon);sun.setDate(sun.getDate()+6);if(document.getElementById('wk-s'))document.getElementById('wk-s').valueAsDate=mon;if(document.getElementById('wk-e'))document.getElementById('wk-e').valueAsDate=sun;}catch(e){}
+  try{var t=new Date();if(g('trd'))g('trd').valueAsDate=t;}catch(e){}
+  try{var mon=getMonday(new Date());var sun=new Date(mon);sun.setDate(sun.getDate()+6);if(g('wk-s'))g('wk-s').valueAsDate=mon;if(g('wk-e'))g('wk-e').valueAsDate=sun;}catch(e){}
   renderMealBtns();
   // Auto-login
   var code=localStorage.getItem('co_code');
-  if(code){
-    document.getElementById('ci').value=code;
-    document.getElementById('fc').textContent=code;
-    document.getElementById('lv').style.display='none';
-    document.getElementById('av').style.display='block';
-    initApp();
-  }
+  if(code){g('ci').value=code;g('fc').textContent=code;g('lv').style.display='none';g('av').style.display='block';initApp();}
 });
 function getMonday(d){var day=d.getDay(),diff=d.getDate()-day+(day===0?-6:1);return new Date(d.setDate(diff));}
 function getCW(){var d=new Date().getDate();if(d<6)return 4;return Math.min(Math.ceil((d-6)/7)+1,4);}
