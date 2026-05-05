@@ -344,6 +344,7 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
       <button class="tab on" data-s="resumo" onclick="nav('resumo')">Resumo</button>
       <button class="tab" data-s="stock" onclick="nav('stock')">Stock</button>
       <button class="tab" data-s="ementa" onclick="nav('ementa')">Ementa</button>
+      <button class="tab" data-s="planeamento" onclick="nav('planeamento')">Planeamento</button>
       <button class="tab" data-s="tematicos" onclick="nav('tematicos')">Temáticos</button>
       <button class="tab" data-s="sugestoes" onclick="nav('sugestoes')">Sugestões IA</button>
       <button class="tab" data-s="lista" onclick="nav('lista')">Compras</button>
@@ -394,6 +395,182 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
       <div class="meal-btns" id="meal-btns"></div>
       <div class="plano-wrap"><div class="plano-grid" id="plano-grid"></div></div>
       <p style="font-family:var(--fb);font-size:.7rem;color:var(--ink4);margin-top:8px;font-style:italic">Clica para editar · Verde = IA · Amarelo = sexta família · Rosa = sábado a dois</p>
+    </div>
+    <!-- PLANEAMENTO MENSAL -->
+    <div id="s-planeamento" class="sec">
+      <div class="ey">Organização mensal</div>
+      <div class="ptit" style="font-family:Arial,sans-serif">Planeamento <em>dia 5 → 5</em></div>
+      <div class="rule"><span>✦</span></div>
+
+      <!-- CICLO MENSAL -->
+      <div class="card" style="border-left:4px solid var(--gold);background:rgba(245,240,216,.7);margin-bottom:12px">
+        <div class="cc"></div>
+        <div class="ct" style="font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;color:var(--gold)">O teu ciclo — dia 5 ao dia 5 <hr></div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+          <div style="background:rgba(255,255,255,.6);border-left:3px solid var(--rose);padding:11px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rose);margin-bottom:4px">Dia 5 — Grande compra</div>
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:3px">Talho + E.Leclerc</div>
+            <div style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--ink3);font-style:italic">Toda a carne do mês + secos + congelados. Porcionar e congelar logo.</div>
+            <div style="font-family:Arial,sans-serif;font-size:.82rem;font-weight:700;color:var(--rose);margin-top:5px">100–120€</div>
+          </div>
+          <div style="background:rgba(255,255,255,.6);border-left:3px solid var(--sage);padding:11px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sage);margin-bottom:4px">Semana 1 (dia 5–12)</div>
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:3px">Frescos + reposição</div>
+            <div style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--ink3);font-style:italic">Mercado local para frutas, legumes e pão. Completar o que falta.</div>
+            <div style="font-family:Arial,sans-serif;font-size:.82rem;font-weight:700;color:var(--sage);margin-top:5px">30–40€</div>
+          </div>
+          <div style="background:rgba(255,255,255,.6);border-left:3px solid var(--sage);padding:11px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sage);margin-bottom:4px">Semana 2 (dia 12–19)</div>
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:3px">Mercado + reposição</div>
+            <div style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--ink3);font-style:italic">Frescos do mercado. Repor iogurtes, ovos e leite conforme necessário.</div>
+            <div style="font-family:Arial,sans-serif;font-size:.82rem;font-weight:700;color:var(--sage);margin-top:5px">25–35€</div>
+          </div>
+          <div style="background:rgba(255,255,255,.6);border-left:3px solid var(--gold);padding:11px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:4px">Semana 3–4 (dia 19–5)</div>
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink);margin-bottom:3px">Usar o stock</div>
+            <div style="font-family:Arial,sans-serif;font-size:.78rem;color:var(--ink3);font-style:italic">Esvaziar o congelador e despensa antes do próximo ciclo. Compras mínimas.</div>
+            <div style="font-family:Arial,sans-serif;font-size:.82rem;font-weight:700;color:var(--gold);margin-top:5px">20–30€</div>
+          </div>
+        </div>
+        <div style="margin-top:10px;padding:8px 12px;background:rgba(255,255,255,.5);border-radius:6px;font-family:Arial,sans-serif;font-size:.82rem;color:var(--gold);font-weight:700">
+          Total mensal estimado: <span style="font-size:1rem">170–200€</span> para 5 pessoas · sem desperdiçar nada
+        </div>
+      </div>
+
+      <!-- O QUE COMPRAR POR SEMANA (baseado no stock) -->
+      <div class="card" style="margin-bottom:12px"><div class="cc"></div>
+        <div class="ct" style="font-family:Arial,sans-serif;font-weight:700;font-size:.75rem">O que comprar esta semana — baseado no teu stock <hr>
+          <button class="btn b-sm" style="font-family:Arial,sans-serif;font-weight:700;font-size:.6rem;background:var(--ink);color:var(--bg);border-color:var(--ink)" onclick="gerarListaSemanal()">↻ Analisar stock</button>
+        </div>
+        <div id="lista-semanal-output">
+          <p style="font-family:Arial,sans-serif;font-size:.85rem;color:var(--ink3);font-style:italic">Carrega em "Analisar stock" para ver o que está a faltar e o que comprar esta semana.</p>
+        </div>
+      </div>
+
+      <!-- PLANO SEMANAL DE REFEIÇÕES (4 semanas tipo) -->
+      <div class="card" style="margin-bottom:12px"><div class="cc"></div>
+        <div class="ct" style="font-family:Arial,sans-serif;font-weight:700;font-size:.75rem">Plano de refeições — semana tipo <hr></div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-family:Arial,sans-serif;font-size:.8rem">
+            <tr style="background:var(--ink);color:var(--bg)">
+              <td style="padding:8px 10px;font-weight:700"></td>
+              <td style="padding:8px 10px;font-weight:700">Seg</td>
+              <td style="padding:8px 10px;font-weight:700">Ter</td>
+              <td style="padding:8px 10px;font-weight:700">Qua</td>
+              <td style="padding:8px 10px;font-weight:700">Qui</td>
+              <td style="padding:8px 10px;font-weight:700;background:#7a6020">Sex ★</td>
+              <td style="padding:8px 10px;font-weight:700;background:#5a3e1e">Sáb</td>
+              <td style="padding:8px 10px;font-weight:700;background:#5a3e1e">Dom</td>
+            </tr>
+            <tr style="background:rgba(255,255,255,.4)">
+              <td style="padding:7px 10px;font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--ink4);border-right:1px solid var(--bd2)">Almoço</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Frango + arroz + cenoura</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Peixe + batata + legumes</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Massa + atum + tomate</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Frango + feijão + arroz</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd);background:rgba(245,240,216,.5)">Marmita do jantar</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd);background:rgba(232,220,200,.3)" colspan="2">Refeição em família</td>
+            </tr>
+            <tr style="background:rgba(232,240,224,.3)">
+              <td style="padding:7px 10px;font-weight:700;font-size:.7rem;text-transform:uppercase;letter-spacing:.05em;color:var(--sage);border-right:1px solid var(--bd2)">Jantar</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Sopa + omelete ovos</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Sopa + carne + massa</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Sopa + peixe + batata</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd)">Sopa + frango assado</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd);background:rgba(245,240,216,.6);font-weight:700;color:var(--gold)">★ Pizza família</td>
+              <td style="padding:7px 10px;border-right:1px solid var(--bd);background:rgba(248,236,232,.5);font-weight:700;color:var(--rose)">Petiscos a dois</td>
+              <td style="padding:7px 10px;background:rgba(240,235,224,.5)">Leftovers + salada</td>
+            </tr>
+          </table>
+        </div>
+        <p style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--ink4);margin-top:8px;font-style:italic">★ Sexta = jantar temático em família · Sábado à noite = petiscos a dois depois dos filhos adormecidos</p>
+      </div>
+
+      <!-- ANTI-INFLAMAÇÃO -->
+      <div class="card" style="background:rgba(232,240,224,.6);border-left:4px solid var(--sage);margin-bottom:12px"><div class="cc"></div>
+        <div class="ct" style="font-family:Arial,sans-serif;font-weight:700;font-size:.75rem;color:var(--sage)">Anti-inflamação e desinchaço — integrado no plano <hr></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+          <div>
+            <div style="font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:var(--sage);margin-bottom:7px;text-decoration:underline">✓ Comer todos os dias</div>
+            <div style="font-family:Arial,sans-serif;font-size:.82rem;color:var(--ink2);line-height:1.8">
+              🫒 <strong>Azeite virgem extra</strong> — anti-inflamatório como ibuprofeno<br>
+              🐟 <strong>Peixe 3× semana</strong> — ómega-3 reduz inflamação<br>
+              🧄 <strong>Alho e cebola</strong> — crus ou levemente cozinhados<br>
+              🌿 <strong>Cúrcuma + pimenta preta</strong> — juntas absorvem melhor<br>
+              🥕 <strong>Cenoura, brócolis, couve</strong> — antioxidantes<br>
+              🫐 <strong>Frutos vermelhos</strong> — congelados do E.Leclerc<br>
+              🍋 <strong>Limão em jejum</strong> — água morna + limão ao acordar<br>
+              🫚 <strong>Sementes chia/linhaça</strong> — 1 colher no iogurte diário
+            </div>
+          </div>
+          <div>
+            <div style="font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:var(--rose);margin-bottom:7px;text-decoration:underline">✗ Reduzir ou eliminar</div>
+            <div style="font-family:Arial,sans-serif;font-size:.82rem;color:var(--ink2);line-height:1.8">
+              🚫 <strong>Açúcar refinado</strong> — pior inimigo da inflamação<br>
+              🚫 <strong>Farinhas brancas</strong> — pão branco, bolachas, massas refinadas<br>
+              🚫 <strong>Álcool</strong> — inflamação directa<br>
+              🚫 <strong>Embutidos</strong> — salame, salsichas, bacon<br>
+              🚫 <strong>Óleos de sementes</strong> — girassol, milho (usar azeite)<br>
+              🚫 <strong>Ultraprocessados</strong> — tudo em pacote com 5+ ingredientes<br>
+              🚫 <strong>Refrigerantes e sucos industriais</strong><br>
+              ⚠️ <strong>Laticínios em excesso</strong> — moderar
+            </div>
+          </div>
+        </div>
+        <!-- Receitas anti-inflamatórias -->
+        <div style="font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:var(--sage);margin-bottom:8px;text-decoration:underline">Receitas anti-inflamatórias com o teu stock</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="background:rgba(255,255,255,.55);border-left:3px solid var(--sage);padding:10px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink)">🍵 Água desinflamante — beber em jejum todos os dias</div>
+            <div style="font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic;margin-top:3px">500ml água morna + sumo ½ limão + 1 rodela gengibre + 1 pitada cúrcuma. Esperar 20 min antes de comer. Faz todos os dias.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.55);border-left:3px solid var(--sage);padding:10px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink)">🥣 Sopa detox cenoura + gengibre (Bimby) — 3× semana</div>
+            <div style="font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic;margin-top:3px">500g cenouras (stock) + 1 batata (stock) + 1 colher chá cúrcuma + 1 colher chá gengibre + 800ml água + sal. Bimby 25 min 100°C vel.1. Triturar. Fio azeite.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.55);border-left:3px solid var(--sage);padding:10px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink)">🍗 Frango com cúrcuma e alho (airfryer) — anti-inflamatório + proteína</div>
+            <div style="font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic;margin-top:3px">150g frango peito (stock) + 1 colher chá cúrcuma + 2 dentes alho + 1 colher sopa azeite + sal + pimenta preta. Marinar 30 min. Airfryer 180°C 15 min. Serve com arroz integral.</div>
+          </div>
+          <div style="background:rgba(255,255,255,.55);border-left:3px solid var(--sage);padding:10px 13px;border-radius:0 6px 6px 0">
+            <div style="font-family:Arial,sans-serif;font-size:.85rem;font-weight:700;color:var(--ink)">🥗 Bowl anti-inflamatório — almoço ou jantar leve</div>
+            <div style="font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic;margin-top:3px">80g arroz integral cozido (stock) + 120g frango desfiado (stock) + cenoura ralada crua (stock) + 1 colher sopa azeite + sumo limão + cúrcuma + sal. 420 kcal, completo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESAR OS ALIMENTOS -->
+      <div class="card" style="margin-bottom:12px"><div class="cc"></div>
+        <div class="ct" style="font-family:Arial,sans-serif;font-weight:700;font-size:.75rem">Pesar a comida — porquê e como fazer <hr></div>
+        <p style="font-family:Arial,sans-serif;font-size:.85rem;color:var(--ink3);font-style:italic;margin-bottom:12px;line-height:1.6">Pesar não é obsessão — é clareza. A maioria das pessoas come <strong style="color:var(--ink);font-style:normal">o dobro do que pensa</strong>. Sem balança, é impossível saber se estás em défice calórico.</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+          <div style="background:rgba(248,236,232,.6);border:1px solid rgba(122,48,64,.18);padding:11px 13px;border-radius:6px;text-align:center">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--rose);margin-bottom:4px">Proteína</div>
+            <div style="font-family:Arial,sans-serif;font-size:1.3rem;font-weight:900;color:var(--ink)">150g</div>
+            <div style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--ink3);font-style:italic">frango cru<br>= 110g cozido</div>
+          </div>
+          <div style="background:rgba(232,240,224,.6);border:1px solid rgba(58,80,48,.18);padding:11px 13px;border-radius:6px;text-align:center">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--sage);margin-bottom:4px">Hidratos</div>
+            <div style="font-family:Arial,sans-serif;font-size:1.3rem;font-weight:900;color:var(--ink)">70g</div>
+            <div style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--ink3);font-style:italic">arroz cru<br>= 200g cozido</div>
+          </div>
+          <div style="background:rgba(245,240,216,.6);border:1px solid rgba(122,96,32,.18);padding:11px 13px;border-radius:6px;text-align:center">
+            <div style="font-family:Arial,sans-serif;font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--gold);margin-bottom:4px">Azeite</div>
+            <div style="font-family:Arial,sans-serif;font-size:1.3rem;font-weight:900;color:var(--ink)">14g</div>
+            <div style="font-family:Arial,sans-serif;font-size:.75rem;color:var(--ink3);font-style:italic">1 colher sopa<br>= 120 kcal</div>
+          </div>
+        </div>
+        <div style="background:rgba(28,20,16,.05);padding:10px 13px;border-radius:6px">
+          <div style="font-family:Arial,sans-serif;font-size:.78rem;font-weight:700;color:var(--ink);margin-bottom:5px">Prato ideal por refeição principal</div>
+          <div style="font-family:Arial,sans-serif;font-size:.82rem;color:var(--ink2);line-height:1.8">
+            <strong>½ prato</strong> — legumes (cenoura, courgette, brócolos, espinafres)<br>
+            <strong>¼ prato</strong> — proteína pesada crua (150g frango, 150g peixe, 3 ovos)<br>
+            <strong>¼ prato</strong> — hidrato pesado cru (70g arroz, 80g batata)<br>
+            + <strong>1 colher sopa azeite</strong> para temperar
+          </div>
+        </div>
+      </div>
+
     </div>
     <!-- TEMÁTICOS -->
     <div id="s-tematicos" class="sec">
@@ -1642,6 +1819,72 @@ document.addEventListener('keydown',function(e){
   }
   if(e.key==='Enter'&&g('mm').classList.contains('on'))saveMeal();
 });
+
+// ── PLANEAMENTO ──
+function gerarListaSemanal(){
+  var out=document.getElementById('lista-semanal-output');
+  if(!out)return;
+  // Analisar stock em baixo
+  var baixo=[];
+  var ok=[];
+  Object.entries(state.stock).forEach(function(e){
+    var cat=e[0],items=e[1];
+    items.forEach(function(i){
+      if(i.q<=i.m)baixo.push(i);
+      else ok.push(i);
+    });
+  });
+  var semana=getSemanaAtual();
+  var html='<div style="font-family:Arial,sans-serif">';
+  html+='<div style="font-size:.78rem;font-weight:700;color:var(--rose);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em">'+semana+'</div>';
+  // Urgente
+  if(baixo.length){
+    html+='<div style="background:rgba(248,236,232,.7);border-left:3px solid var(--rose);padding:11px 14px;border-radius:0 6px 6px 0;margin-bottom:10px">';
+    html+='<div style="font-size:.75rem;font-weight:700;color:var(--rose);margin-bottom:6px;text-decoration:underline">⚠ URGENTE — Stock em baixo (comprar já)</div>';
+    baixo.forEach(function(i){
+      html+='<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid rgba(122,48,64,.1);font-size:.83rem">';
+      html+='<span style="font-weight:700">'+i.n+'</span>';
+      html+='<span style="color:var(--rose);font-style:italic">tem: '+i.q+i.u+' — mínimo: '+i.m+i.u+'</span>';
+      html+='</div>';
+    });
+    html+='</div>';
+  }
+  // Stock OK
+  if(ok.length){
+    html+='<div style="background:rgba(232,240,224,.6);border-left:3px solid var(--sage);padding:11px 14px;border-radius:0 6px 6px 0;margin-bottom:10px">';
+    html+='<div style="font-size:.75rem;font-weight:700;color:var(--sage);margin-bottom:6px;text-decoration:underline">✓ Stock suficiente — não precisas de comprar</div>';
+    var names=ok.slice(0,8).map(function(i){return i.n;}).join(' · ');
+    if(ok.length>8)names+=' · e mais '+(ok.length-8)+'...';
+    html+='<div style="font-size:.82rem;color:var(--ink3);font-style:italic">'+names+'</div>';
+    html+='</div>';
+  }
+  // Compras recomendadas independentes do stock
+  html+='<div style="background:rgba(245,240,216,.6);border-left:3px solid var(--gold);padding:11px 14px;border-radius:0 6px 6px 0;margin-bottom:10px">';
+  html+='<div style="font-size:.75rem;font-weight:700;color:var(--gold);margin-bottom:6px;text-decoration:underline">✦ Compras semanais recomendadas (frescos)</div>';
+  html+='<div style="font-size:.82rem;color:var(--ink2);line-height:1.8">';
+  html+='<strong>Mercado local:</strong> cenouras, courgette, tomates, alho, cebola, fruta da época<br>';
+  html+='<strong>E.Leclerc:</strong> iogurtes, ovos (se <6), leite, frutos vermelhos congelados<br>';
+  html+='<strong>Anti-inflamação:</strong> limão, gengibre fresco (se não tiver), cúrcuma';
+  html+='</div></div>';
+  // Economizar dica
+  html+='<div style="padding:8px 12px;background:rgba(28,20,16,.05);border-radius:6px;font-family:Arial,sans-serif;font-size:.8rem;color:var(--ink3);font-style:italic">';
+  html+='💡 Usa primeiro o que está a acabar no stock. Planeia os jantares da semana com base nos itens com menos quantidade.';
+  html+='</div></div>';
+  out.innerHTML=html;
+}
+
+function getSemanaAtual(){
+  var d=new Date();
+  var day=d.getDate();
+  var mes=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'][d.getMonth()];
+  var semN=1;
+  if(day>5&&day<=12)semN=1;
+  else if(day>12&&day<=19)semN=2;
+  else if(day>19&&day<=26)semN=3;
+  else semN=4;
+  return 'Semana '+semN+' do ciclo · '+d.getDate()+' de '+mes;
+}
+
 </script>
 
 <!-- LOADING OVERLAY -->
