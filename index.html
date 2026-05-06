@@ -582,6 +582,7 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
             <button class="btn b-sm b-gd" onclick="temAleatorio('sx')">↻ Aleatório</button>
           </div>
           <div class="tem-list" id="sx-list"></div>
+          <button class="btn b-sm b-gd" onclick="verMaisTemas('sx')" style="width:100%;margin-top:5px;font-family:Arial,sans-serif;font-size:.65rem">+ Ver mais sugestões</button>
           <div class="tem-detail" id="sx-det"></div>
         </div>
         <div class="tc sb"><h3>Sábado à noite a dois</h3><p>petiscos e jantares especiais com o stock</p>
@@ -590,6 +591,7 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
             <button class="btn b-sm b-ro" onclick="temAleatorio('sb')">↻ Aleatório</button>
           </div>
           <div class="tem-list" id="sb-list"></div>
+          <button class="btn b-sm b-ro" onclick="verMaisTemas('sb')" style="width:100%;margin-top:5px;font-family:Arial,sans-serif;font-size:.65rem">+ Ver mais sugestões</button>
           <div class="tem-detail" id="sb-det"></div>
         </div>
       </div>
@@ -607,7 +609,8 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
         <p id="sgd" style="font-family:var(--fb);font-size:.9rem;color:var(--ink3);font-style:italic;margin-bottom:9px">Sugestões de <strong style="color:var(--ink);font-style:normal">lanches</strong> com receita completa e quantidades — tudo com base no stock.</p>
         <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px">
           <input type="text" id="sgx" placeholder="Preferência? (sem açúcar, rápido, criança...)"/>
-          <button class="btn b-dk" id="bsg" onclick="mostrarSugs()">✦ Ver todas as sugestões</button>
+          <button class="btn b-dk" id="bsg" onclick="mostrarSugs()">✦ Gerar sugestões com o stock</button>
+          <button class="btn b-sm" id="bsg2" onclick="gerarNovasSugs()" style="display:none">↻ Gerar outras ideias</button>
         </div>
         <div class="sug-filters" id="sug-fltrs"></div>
       </div>
@@ -823,7 +826,7 @@ var state={
     frutas:[{id:40,n:'Maçãs',q:6,u:'un',m:3},{id:41,n:'Bananas',q:5,u:'un',m:3},{id:42,n:'Cenouras',q:4,u:'un',m:2},{id:43,n:'Batatas',q:2,u:'kg',m:1}]
   },
   ementa:{},
-  lista:[{id:100,n:'Frango peito',q:'1kg',l:'talho',done:false},{id:101,n:'Carne picada',q:'500g',l:'talho',done:false},{id:102,n:'Ovos',q:'1 dúzia',l:'leclerc',done:false},{id:103,n:'Iogurtes',q:'8un',l:'leclerc',done:true},{id:104,n:'Maçãs',q:'1kg',l:'mercado',done:false}],
+  lista:[],
   lojas:[{id:'leclerc',nome:'E.Leclerc Drive',cor:'#3a5030'},{id:'talho',nome:'Talho',cor:'#7a3040'},{id:'mercado',nome:'Mercado',cor:'#7a5c2e'}]
 };
 
@@ -848,6 +851,13 @@ var SEXTAS=[
   {t:'Empadas de atum',d:'Massa simples com atum ou feijão — forno',r:'INGREDIENTES (5p): 300g farinha, 150ml azeite (stock), 50ml leite (stock), 2 latas atum OU 1 lata feijão (stock), 2 ovos (stock).\n\nMASSA: farinha + azeite + leite + 1 ovo + sal até não pegar. RECHEIO: atum escorrido ou feijão temperado. FORNO: forminhas com massa, recheio e tampa de massa. 180°C 25min.'},
   {t:'Massa de forno',d:'Massa + carne + queijo — gratinada no forno',r:'INGREDIENTES (5p): 400g massa (stock), 300g carne picada (stock), 1 lata tomate pelado (stock), 100g queijo (stock), azeite.\n\nBOLONHESA: carne + tomate 15min. MASSA: cozer al dente. MISTURAR: massa + bolonhesa num tabuleiro. Queijo por cima. FORNO: 180°C 20min até gratinar.'},
   {t:'Batata frita + frango airfryer',d:'O clássico das crianças — airfryer em lote',r:'INGREDIENTES (5p): 1.2kg batatas (stock), 600g frango peito (stock), 2 ovos (stock) para empanar, 4c.s farinha, azeite, sal.\n\nBATATAS: airfryer 180°C 25min com fio azeite, sacudir a meio.\nFRANGO: fatiar, passar ovo batido + farinha + sal. Airfryer 200°C 15min.'}
+,
+  {t:'Tacos de feijão e ovo',d:'Feijão + ovos mexidos + pão marmita — 15 min',r:'INGREDIENTES (5p): 2 latas feijão (stock), 5 ovos (stock), 5 pãezinhos marmita (stock), cominhos, azeite, sal.\n\nFEIJÃO: aquecer com azeite + cominhos + sal 5min. OVOS: mexidos cremosos. MONTAR: pão + feijão + ovo. Cada um monta o seu.'},
+  {t:'Peixe com arroz de tomate',d:'Filetes + arroz de tomate — tudo do stock',r:'INGREDIENTES (5p): 600g filetes peixe (stock), 300g arroz (stock), 1 lata tomate pelado (stock), alho, azeite.\n\nARROZ TOMATE: refogar alho, juntar tomate, arroz + 600ml água, cozer 18min. PEIXE: airfryer 180°C 12min com azeite + sal.'},
+  {t:'Canja de galinha',d:'Frango Bimby + arroz — reconfortante para toda a família',r:'INGREDIENTES (5p): 500g frango (stock), 200g arroz (stock), 1.5L água, caldo, cenoura, sal.\n\nBIMBY: frango + água + cenoura + sal, 30min 100°C vel.1. Retirar frango, desfiar. Juntar arroz + caldo. 13min 100°C. Devolver frango desfiado.'},
+  {t:'Quiche de ovo e queijo',d:'Ovos + queijo + leite no forno — fácil e diferente',r:'INGREDIENTES (5p): 6 ovos (stock), 200ml leite (stock), 150g queijo fatiado (stock), sal, noz-moscada.\n\nBATER ovos + leite + sal + noz-moscada. Queijo no fundo da forma. Verter mistura. FORNO 180°C 25min.'},
+  {t:'Esparguete alho e azeite',d:'O clássico italiano com o que há — 10 minutos',r:'INGREDIENTES (5p): 500g esparguete (stock), 6 dentes alho, 5c.s azeite (stock), sal, pimenta, salsa opcional.\n\nCOZER esparguete al dente. SALTEAR alho fatiado em azeite 2min. Juntar esparguete escorrido + azeite + pimenta. Servir imediatamente.'}
+
 ];
 
 var SABADOS=[
@@ -863,6 +873,11 @@ var SABADOS=[
   {t:'Frango assado a dois',d:'Apenas para dois — frango simples e perfeito',r:'INGREDIENTES: 400g frango coxa (stock), 2 batatas (stock), 1 cenoura (stock), alho, azeite, limão, ervas.\n\nTudo num tabuleiro pequeno. MARINAR: alho + azeite + limão + ervas. FORNO: 180°C 45min. Simples mas especial para dois.',b:'Vinho tinto médio',s:'A mesma receita de sempre, mas feita com intenção.'},
   {t:'Tosta mista especial',d:'Pão marmita + queijo + ovo — conforto',r:'INGREDIENTES: 4 fatias pão marmita (stock), 4 fatias queijo (stock), 2 ovos (stock), manteiga.\n\nTOSTAS: pão com queijo, forno ou torradeira até gratinar. OVOS: fritos em manteiga. Servir ovo sobre tosta. Pimenta preta.',b:'Sumo de laranja fresco ou vinho rosé',s:'Às vezes o simples é o mais especial.'},
   {t:'Cenoura assada com ovo',d:'Cenouras lentas no forno + ovos — surpreendente',r:'INGREDIENTES: 4 cenouras grandes (stock), 4 ovos (stock), azeite, sal, cominhos, pão marmita (stock).\n\nCENOURAS: inteiras com azeite + cominhos, forno 200°C 35min. OVOS: estrelados. PRATO: cenoura assada + ovo por cima + pão tostado para acompanhar.',b:'Vinho branco leve',s:'Um prato diferente que surpreende positivamente.'}
+,
+  {t:'Queijo quente na frigideira',d:'Queijo derretido em pão marmita — 5 minutos',r:'INGREDIENTES: 4 fatias pão marmita (stock), 4 fatias queijo grossas (stock), 1c.ch manteiga.\n\nFRIGIDEIRA em lume médio com manteiga. Montar sanduíche queijo. Fritar 2min por lado pressionando com espátula. Queijo derretido por dentro.',b:'Vinho tinto suave',s:'Às vezes o mais simples é o mais especial.'},
+  {t:'Ovos mexidos com trufa',d:'Ovos cremosos com azeite de qualidade — luxo simples',r:'INGREDIENTES: 4 ovos (stock), 2c.s azeite virgem extra bom (stock), flor de sal, pimenta preta.\n\nFRIGIDEIRA em lume MUITO BAIXO. Ovos batidos + azeite. Mexer lentamente sem parar. Retirar antes de solidificar. Flor de sal + pimenta.',b:'Champagne ou espumante',s:'A qualidade do azeite faz toda a diferença.'},
+  {t:'Batatas ao murro com ovo',d:'Batatas assadas simples + ovos — conforto total',r:'INGREDIENTES: 600g batatas pequenas (stock), 4 ovos (stock), azeite, sal grosso, alho, rosmaninho.\n\nBATATAS: forno 200°C 30min, murrar com palma da mão, mais 15min. OVOS: escalfados ou estrelados. Servir juntos com fio azeite.',b:'Vinho tinto português',s:'Prática que sabe a fim de semana real.'}
+
 ];
 
 var SUGS={
@@ -1293,7 +1308,23 @@ function limparEmenta(){var days=getWkDays();days.forEach(function(d){var dd=d.t
 function gerarIA(){
   var btn=g('bia');btn.disabled=true;btn.textContent='a gerar...';
   var days=getWkDays();
-  var planos={PA:['Ovos mexidos (stock)','Tosta + ovo (stock)','Iogurte + banana (stock)','Panquecas aveia (stock)','Ovos cozidos + maçã (stock)','Iogurte grego + mel (stock)','Ovos estrelados + pão (stock)'],'Lanche M':['Banana + iogurte (stock)','Maçã + ovo cozido (stock)','Tosta queijo (stock)','Banana + leite (stock)','Iogurte natural (stock)','Cenoura + iogurte (stock)','Ovo cozido (stock)'],Almoço:['Frango grelhado+arroz Bimby (stock)','Omelete ovos+legumes (stock)','Arroz atum (stock)','Ovos mexidos+cenouras (stock)','Frango batata-doce airfryer (stock)','Bifes batatas airfryer (stock)','Cozido simples Bimby (stock)'],Jantar:['Sopa+Bacalhau à Brás (stock)','Sopa+Bolonhesa (stock)','Sopa+Frango assado (stock)','Sopa+Peixe no forno (stock)','Pizza caseira família (stock)','Petiscos a dois (stock)','Arroz frango Bimby (stock)'],'Lanche T':['Maçã (stock)','Iogurte (stock)','Banana (stock)','Ovos cozidos (stock)','Cenoura crua (stock)','Tosta queijo (stock)','Iogurte mel (stock)'],Ceia:['Iogurte natural (stock)','Leite morno (stock)','Banana (stock)','Iogurte grego (stock)','Maçã (stock)','Leite + cereais (stock)','Iogurte + mel (stock)']};
+  // Build menus from actual stock
+  var prot=Object.values(state.stock).flat().filter(function(i){return i.q>0&&(i.cat==='congelador'||['Frango','Peixe','Carne','Ovo','Atum','Queijo'].some(function(k){return i.n.includes(k);}));}).map(function(i){return i.n+' (stock)';});
+  var hidr=Object.values(state.stock).flat().filter(function(i){return i.q>0&&['Arroz','Massa','Batata','Pão','Aveia'].some(function(k){return i.n.includes(k);}); }).map(function(i){return i.n+' (stock)';});
+  var legum=Object.values(state.stock).flat().filter(function(i){return i.q>0&&(i.cat==='frutas'||['Cenoura','Batata','Tomate','Curg','Espina'].some(function(k){return i.n.includes(k);}));}).map(function(i){return i.n+' (stock)';});
+  // Fallbacks
+  if(!prot.length)prot=['Frango peito (stock)','Ovos (stock)','Peixe filetes (stock)'];
+  if(!hidr.length)hidr=['Arroz (stock)','Massa (stock)','Batatas (stock)'];
+  if(!legum.length)legum=['Cenouras (stock)','Batatas (stock)'];
+  function pick(arr,i){return arr[i%arr.length];}
+  var planos={
+    PA:['Ovos mexidos + tosta','Iogurte grego + banana (stock)','Panquecas aveia + ovo (stock)','Ovos cozidos + maçã (stock)','Iogurte + fruta (stock)','Ovo estrelado + pão (stock)','Batido leite + banana (stock)'],
+    'Lanche M':['Banana + iogurte (stock)','Maçã + ovo cozido (stock)','Iogurte natural (stock)','Cenoura crua + iogurte (stock)','Fruta da época (stock)','Iogurte + mel (stock)','Ovo cozido (stock)'],
+    Jantar:['Sopa Bimby + '+pick(prot,0)+' + '+pick(hidr,0),'Sopa + '+pick(prot,1)+' + '+pick(legum,0),'Sopa + '+pick(prot,2)+' + '+pick(hidr,1),'Sopa + '+pick(prot,0)+' assado','Sopa + omelete ovos (stock)','Pizza caseira (stock)','Petiscos a dois (stock)'],
+    Almoço:[pick(prot,0)+' + '+pick(hidr,0)+' + '+pick(legum,0),pick(prot,1)+' + '+pick(legum,1)+' + azeite','Omelete ovos (stock) + '+pick(hidr,1),pick(prot,2)+' + '+pick(hidr,2)+' + cenoura','Bowl stock: '+pick(prot,0)+' + '+pick(hidr,0),pick(prot,1)+' Bimby + '+pick(hidr,1),pick(prot,0)+' airfryer + '+pick(legum,0)],
+    'Lanche T':['Maçã (stock)','Iogurte (stock)','Banana (stock)','Ovo cozido (stock)','Cenoura crua (stock)','Tosta queijo (stock)','Iogurte mel (stock)'],
+    Ceia:['Iogurte natural (stock)','Leite morno (stock)','Banana (stock)','Iogurte grego (stock)','Maçã (stock)']
+  };
   setTimeout(function(){
     days.forEach(function(d,di){
       var dd=d.toISOString().split('T')[0];
@@ -1304,8 +1335,8 @@ function gerarIA(){
         state.ementa[k+'_ia']=true;
       });
     });
-    renderEmenta();updDash();toast('ementa gerada com o stock!');doSaved();
-    btn.disabled=false;btn.textContent='✦ Gerar com IA';scheduleSave();
+    renderEmenta();updDash();toast('ementa gerada com o stock!');scheduleSave();
+    btn.disabled=false;btn.textContent='✦ Gerar com IA';
   },700);
 }
 
@@ -1345,12 +1376,22 @@ function temAleatorio(which){
 var SUG_FILTERS={lanches:['Stock','Proteína','Sem açúcar','Rápido (<5min)','Lote'],sobremesas:['Stock','Bimby','Forno','Sem açúcar','Português'],bolos:['Forno','Bimby','Sem açúcar','Stock','Rápido'],receitas:['Bimby','Forno','Airfryer','Fogão','Stock','Familiar']};
 var activeSugFilters=[];
 function setST(t){
-  cST=t;activeSugFilters=[];
+  cST=t;activeSugFilters=[];_sugOffset=0;
   document.querySelectorAll('.sut').forEach(function(x){x.classList.toggle('on',x.dataset.t===t);});
   var d={lanches:'Lanches',sobremesas:'Sobremesas',bolos:'Bolos & Snacks',receitas:'Receitas completas'};
-  g('sgd').innerHTML='Sugestões de <strong style="color:var(--ink);font-style:normal">'+d[t]+'</strong> com receita completa e quantidades — tudo baseado no stock.';
+  // Show relevant stock items for this category
+  var stockStr=getStockResume();
+  g('sgd').innerHTML='Sugestões de <strong style="color:var(--ink)">'+d[t]+'</strong> com receita completa e quantidades — <strong style="color:var(--rose)">baseadas no teu stock</strong>'+stockStr+'. Carrega em "Gerar outras ideias" para ver sugestões diferentes.';
   renderSugFilters();
   renderSugsImediato();
+}
+
+function getStockResume(){
+  // Get top 5 stock items to show context
+  var all=Object.values(state.stock).flat().filter(function(i){return i.q>i.m;});
+  if(!all.length)return '';
+  var names=all.slice(0,5).map(function(i){return i.n;}).join(', ');
+  return ' <span style="font-size:.78rem;color:var(--ink4);font-style:italic">('+names+' e mais)</span>';
 }
 function renderSugFilters(){
   var c=g('sug-fltrs');if(!c)return;
@@ -1365,8 +1406,11 @@ function toggleSF(f){
   if(i>=0)activeSugFilters.splice(i,1);else activeSugFilters.push(f);
   renderSugFilters();renderSugsImediato();
 }
-function renderSugsImediato(){
+function renderSugsImediato(offset){
+  var offset=arguments[0]||0;
   var items=SUGS[cST]||[];
+  // Rotate items to show different results each time
+  if(offset>0){items=items.slice(offset).concat(items.slice(0,offset));}
   var q=(g('sgx')?g('sgx').value:'').toLowerCase();
   if(activeSugFilters.length>0){
     items=items.filter(function(s){return activeSugFilters.some(function(f){return s.tags.some(function(t){return t.toLowerCase().includes(f.toLowerCase());});});});
@@ -1378,7 +1422,18 @@ function renderSugsImediato(){
     return '<div class="sgc" id="sgc-'+i+'" onclick="toggleSug('+i+')">'+'<span class="sgi">'+s.e+'</span><div class="sgn">'+s.n+'</div><div class="sgd">'+s.d+'</div><div class="sgts"><span class="tg">⏱ '+s.t+'</span>'+s.tags.map(function(t){return '<span class="tg">'+t+'</span>';}).join('')+'</div><div class="sug-rec">'+s.r+'</div><div class="sug-close">▲ Fechar receita</div></div>';
   }).join('')+'</div>';
 }
-function mostrarSugs(){renderSugsImediato();}
+function mostrarSugs(){
+  renderSugsImediato();
+  var b2=g('bsg2');if(b2)b2.style.display='inline-flex';
+}
+var _sugOffset=0;
+function gerarNovasSugs(){
+  // Shuffle the current list to show different items
+  var items=SUGS[cST]||[];
+  _sugOffset=(_sugOffset+4)%Math.max(items.length,1);
+  renderSugsImediato(_sugOffset);
+  toast('Novas sugestões geradas!');
+}
 function toggleSug(i){
   var el=g('sgc-'+i);if(!el)return;
   if(el.classList.contains('open'))el.classList.remove('open');
@@ -1416,8 +1471,8 @@ function delLoja(id){if(!confirm('Remover esta loja e todos os itens?'))return;s
 function liH(i){return '<div class="li3'+(i.done?' done':'')+'" id="lic-'+i.id+'"><input type="checkbox"'+(i.done?' checked':'')+' onchange="togLi('+i.id+',this.checked)"/><span class="lin">'+i.n+'</span><span class="liq2">'+i.q+'</span><button class="xb" onclick="delLi('+i.id+')">✕</button></div>';}
 function addLista(){var n=g('lin').value.trim(),q=g('liq').value.trim()||'1',l=g('lil').value;if(!n){toast('escreve o produto');return;}var id=nx();state.lista.push({id:id,n:n,q:q,l:l,done:false});g('lin').value='';g('liq').value='';renderLista();toast('adicionado ✓');scheduleSave();}
 function togLi(id,done){var item=state.lista.find(function(i){return i.id===id;});if(item)item.done=done;scheduleSave();var el=g('lic-'+id);if(el)el.classList.toggle('done',done);doSaved();}
-function delLi(id){state.lista=state.lista.filter(function(i){return i.id!==id;});var el=g('lic-'+id);if(el)el.remove();}
-function limparLista(){state.lista=state.lista.filter(function(i){return !i.done;});renderLista();toast('lista limpa');scheduleSave();}
+function delLi(id){state.lista=state.lista.filter(function(i){return i.id!==id;});var el=g('lic-'+id);if(el)el.remove();scheduleSave();}
+function limparLista(){state.lista=state.lista.filter(function(i){return !i.done;});renderLista();toast('lista limpa');scheduleSave();scheduleSave();}
 
 // ── ABA PESSOAL ──
 function renderPicker(){
@@ -1885,6 +1940,37 @@ function getSemanaAtual(){
   return 'Semana '+semN+' do ciclo · '+d.getDate()+' de '+mes;
 }
 
+
+// ── VER MAIS TEMAS ──
+var _temOffset={sx:0,sb:0};
+function verMaisTemas(which){
+  var data=which==='sx'?SEXTAS:SABADOS;
+  _temOffset[which]=(_temOffset[which]+5)%data.length;
+  renderTemas(which);
+  // Scroll to list
+  var el=document.getElementById(which+'-list');
+  if(el)el.scrollTop=0;
+  toast('Mais sugestões!');
+}
+
+// Override renderTemas to use offset for variety
+var _origRenderTemas=renderTemas;
+function renderTemas(which){
+  var srch=document.getElementById(which+'-srch');
+  var list=document.getElementById(which+'-list');
+  if(!list)return;
+  var data=which==='sx'?SEXTAS:SABADOS;
+  var q=(srch?srch.value:'').toLowerCase();
+  var filtered=data.filter(function(x){return !q||x.t.toLowerCase().includes(q)||(x.d&&x.d.toLowerCase().includes(q));});
+  var off=_temOffset[which]||0;
+  if(!q&&off>0){filtered=filtered.slice(off).concat(filtered.slice(0,off));}
+  list.innerHTML=filtered.map(function(item){
+    var realIdx=data.indexOf(item);
+    var onclick='openTema('+JSON.stringify(which)+','+realIdx+')';
+    return '<div class="tem-item" onclick="'+onclick+'"><div class="ti-title">'+item.t+'</div><div class="ti-desc">'+item.d+'</div></div>';
+  }).join('');
+  if(!filtered.length)list.innerHTML='<p class="empty">Sem resultados.</p>';
+}
 </script>
 
 <!-- LOADING OVERLAY -->
