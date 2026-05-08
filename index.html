@@ -303,6 +303,32 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
     <div class="mbtns"><button class="btn b-sm" onclick="g('fm').classList.remove('on')">Fechar</button></div>
   </div>
 </div>
+<!-- MODAL NOVA CATEGORIA -->
+<div class="mbg" id="ncat-modal">
+  <div class="mod" style="max-width:360px">
+    <h3 style="font-family:Arial,sans-serif">Nova categoria de stock</h3>
+    <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Nome da categoria</label>
+      <input class="mod-input" type="text" id="ncat-nome" placeholder="ex: Higiene, Limpeza, Bebidas..."/>
+    </div>
+    <div class="fl"><label style="font-family:Arial,sans-serif;font-weight:700;font-size:.65rem">Ícone (emoji)</label>
+      <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px" id="ncat-icon-grid">
+        <div class="cor-opt sel" data-ico="🧴" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--ink);cursor:pointer;border-radius:4px;font-size:1.1rem">🧴</div>
+        <div class="cor-opt" data-ico="🧹" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">🧹</div>
+        <div class="cor-opt" data-ico="🍷" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">🍷</div>
+        <div class="cor-opt" data-ico="🍫" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">🍫</div>
+        <div class="cor-opt" data-ico="💊" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">💊</div>
+        <div class="cor-opt" data-ico="🐾" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">🐾</div>
+        <div class="cor-opt" data-ico="🥤" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">🥤</div>
+        <div class="cor-opt" data-ico="📦" onclick="selIcon(this)" style="padding:6px 10px;border:2px solid var(--bd2);cursor:pointer;border-radius:4px;font-size:1.1rem">📦</div>
+      </div>
+    </div>
+    <div class="mbtns" style="margin-top:12px">
+      <button class="btn b-sm" onclick="g('ncat-modal').classList.remove('on')">Cancelar</button>
+      <button class="btn b-dk b-sm" onclick="addCategoria()" style="font-family:Arial,sans-serif;font-weight:700">Criar categoria</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL EMENTA EDIT -->
 <div class="mbg" id="mm">
   <div class="mod"><h3 id="mt">Editar refeição</h3>
@@ -378,7 +404,7 @@ input[type=file]{padding:6px;cursor:pointer;font-size:.82rem;background:rgba(255
     <!-- STOCK -->
     <div id="s-stock" class="sec">
       <div class="ey">Inventário</div><div class="ptit"><em>Stock</em> da casa</div><div class="rule"><span>✦</span></div>
-      <div class="ir"><input type="text" id="stn" placeholder="Nome do produto..."/><select id="stc"><option value="despensa">Despensa</option><option value="congelador">Congelador</option><option value="frigorifico">Frigorífico</option><option value="frutas">Frutas/Legumes</option></select><input type="number" id="stq" value="1" min="0" style="max-width:65px"/><input type="text" id="stu" value="un" style="max-width:56px"/><button class="btn b-dk" onclick="addStock()">+ Adicionar</button></div>
+      <div class="ir"><input type="text" id="stn" placeholder="Nome do produto..."/><select id="stc" style="max-width:140px"></select><input type="number" id="stq" value="1" min="0" style="max-width:65px"/><input type="text" id="stu" value="un" style="max-width:56px"/><button class="btn b-dk" onclick="addStock()">+ Adicionar</button><button class="btn b-sm" onclick="g('ncat-modal').classList.add('on')" style="font-family:Arial,sans-serif;font-weight:700">+ Categoria</button></div>
       <div id="sa"></div>
     </div>
     <!-- EMENTA -->
@@ -793,6 +819,7 @@ var g=function(i){return document.getElementById(i);};
 function scheduleSave(){
   try{localStorage.setItem('co_state',JSON.stringify({stock:state.stock,ementa:state.ementa,lista:state.lista,lojas:state.lojas}));}catch(e){}
   try{localStorage.setItem('co_abas',JSON.stringify(abas));}catch(e){}
+  try{if(stockCats)localStorage.setItem('co_cats',JSON.stringify(stockCats));}catch(e){}
   doSaved();
   // Cloud em background - falha silenciosamente
   clearTimeout(window._ct);
@@ -818,12 +845,33 @@ var novaCorLoja='#3a5030';var quizData={};var quizStep=0;var quizResps=[];
 var activeMealTypes=['PA','Lanche M','Almoço','Lanche T','Jantar'];
 var ALL_MEAL_TYPES=['PA','Lanche M','Almoço','Lanche T','Jantar','Ceia'];
 
+// Default stock categories (user can add more)
+var DEFAULT_CATS={
+  despensa:{label:'Despensa',ico:'🧺'},
+  congelador:{label:'Congelador',ico:'🧊'},
+  frigorifico:{label:'Frigorífico',ico:'🥶'},
+  frutas:{label:'Frutas e Legumes',ico:'🥦'},
+  higiene:{label:'Higiene',ico:'🧴'},
+  limpeza:{label:'Limpeza',ico:'🧹'}
+};
+var stockCats=null; // null = use DEFAULT_CATS, populated from localStorage
+
+function getStockCats(){
+  if(stockCats)return stockCats;
+  var saved=localStorage.getItem('co_cats');
+  if(saved){try{stockCats=JSON.parse(saved);return stockCats;}catch(e){}}
+  stockCats=JSON.parse(JSON.stringify(DEFAULT_CATS));
+  return stockCats;
+}
+
 var state={
   stock:{
     despensa:[{id:1,n:'Arroz',q:3,u:'kg',m:1},{id:2,n:'Massa',q:2,u:'kg',m:1},{id:3,n:'Feijão (lata)',q:4,u:'un',m:2},{id:4,n:'Grão (lata)',q:3,u:'un',m:2},{id:5,n:'Lentilhas',q:1,u:'kg',m:1},{id:6,n:'Azeite',q:1,u:'L',m:1},{id:7,n:'Tomate pelado',q:4,u:'un',m:2},{id:8,n:'Sal',q:1,u:'un',m:1}],
     congelador:[{id:20,n:'Frango (peito)',q:2,u:'kg',m:1},{id:21,n:'Carne picada',q:1,u:'kg',m:1},{id:22,n:'Hambúrgueres',q:6,u:'un',m:2},{id:23,n:'Peixe (filetes)',q:1,u:'kg',m:1},{id:24,n:'Pão marmita',q:8,u:'un',m:4}],
     frigorifico:[{id:30,n:'Ovos',q:12,u:'un',m:6},{id:31,n:'Leite',q:2,u:'L',m:1},{id:32,n:'Iogurtes',q:8,u:'un',m:4},{id:33,n:'Queijo fatiado',q:1,u:'un',m:1}],
-    frutas:[{id:40,n:'Maçãs',q:6,u:'un',m:3},{id:41,n:'Bananas',q:5,u:'un',m:3},{id:42,n:'Cenouras',q:4,u:'un',m:2},{id:43,n:'Batatas',q:2,u:'kg',m:1}]
+    frutas:[{id:40,n:'Maçãs',q:6,u:'un',m:3},{id:41,n:'Bananas',q:5,u:'un',m:3},{id:42,n:'Cenouras',q:4,u:'un',m:2},{id:43,n:'Batatas',q:2,u:'kg',m:1}],
+    higiene:[],
+    limpeza:[]
   },
   ementa:{},
   lista:[],
@@ -1194,6 +1242,7 @@ window.addEventListener('DOMContentLoaded',function(){
   // Restaurar localStorage
   try{var ss=localStorage.getItem('co_state');if(ss){var d=JSON.parse(ss);if(d.stock)state.stock=d.stock;if(d.ementa)state.ementa=d.ementa;if(d.lista)state.lista=d.lista;if(d.lojas&&d.lojas.length)state.lojas=d.lojas;}}catch(e){}
   try{var sa=localStorage.getItem('co_abas');if(sa)abas=JSON.parse(sa);}catch(e){}
+  try{var sc=localStorage.getItem('co_cats');if(sc){stockCats=JSON.parse(sc);}}catch(e){}
   // UI
   try{var t=new Date();if(g('trd'))g('trd').valueAsDate=t;}catch(e){}
   try{var mon=getMonday(new Date());var sun=new Date(mon);sun.setDate(sun.getDate()+6);if(g('wk-s'))g('wk-s').valueAsDate=mon;if(g('wk-e'))g('wk-e').valueAsDate=sun;}catch(e){}
@@ -1441,11 +1490,63 @@ function toggleSug(i){
 }
 
 // ── STOCK ──
-function siH(i,cat){var low=i.q<=i.m;return '<div class="si'+(low?' low':'')+'" id="si-'+i.id+'"><div class="sn">'+i.n+'<span class="su">'+i.u+'</span></div><div class="qc"><button class="qb" onclick="chgQ(\''+cat+'\','+i.id+',-1)">−</button><span class="qv" id="qv-'+i.id+'">'+i.q+'</span><button class="qb" onclick="chgQ(\''+cat+'\','+i.id+',1)">+</button><button class="xb" onclick="delS(\''+cat+'\','+i.id+')">✕</button></div></div>';}
-function renderStock(){var lbls={despensa:'Despensa',congelador:'Congelador',frigorifico:'Frigorífico',frutas:'Frutas e Legumes'};g('sa').innerHTML=Object.entries(state.stock).map(function(e){var cat=e[0],items=e[1];return '<div class="dv">'+lbls[cat]+'</div><div class="sgr" id="sg-'+cat+'">'+(items.length?items.map(function(i){return siH(i,cat);}).join(''):'<p class="empty">sem itens</p>')+'</div>';}).join('');}
+function siH(i,cat){
+  var low=i.q<=i.m;
+  var qcat=JSON.stringify(cat);
+  return '<div class="si'+(low?' low':'')+'" id="si-'+i.id+'">'+
+    '<div class="sn">'+i.n+'<span class="su">'+i.u+'</span></div>'+
+    '<div class="qc">'+
+    '<button class="qb" onclick="chgQ('+qcat+','+i.id+',-1)">−</button>'+
+    '<span class="qv" id="qv-'+i.id+'">'+i.q+'</span>'+
+    '<button class="qb" onclick="chgQ('+qcat+','+i.id+',1)">+</button>'+
+    '<button class="xb" onclick="delS('+qcat+','+i.id+')">✕</button>'+
+    '</div></div>';
+}
+function renderStock(){
+  var cats=getStockCats();
+  Object.keys(state.stock).forEach(function(k){
+    if(!cats[k])cats[k]={label:k.charAt(0).toUpperCase()+k.slice(1),ico:'📦'};
+  });
+  var html='';
+  Object.entries(cats).forEach(function(e){
+    var cat=e[0],info=e[1];
+    if(!state.stock[cat])state.stock[cat]=[];
+    var items=state.stock[cat];
+    var isDefault=!!DEFAULT_CATS[cat];
+    var delBtn=isDefault?'':'<button onclick="delCat('+JSON.stringify(cat)+')" style="background:none;border:none;cursor:pointer;font-size:.7rem;color:var(--ink4);margin-left:5px" title="Eliminar">✕</button>';
+    html+='<div class="dv">'+info.ico+' '+info.label+delBtn+'</div>';
+    html+='<div class="sgr" id="sg-'+cat+'">';
+    html+=items.length?items.map(function(i){return siH(i,cat);}).join(''):'<p class="empty">sem itens</p>';
+    html+='</div>';
+  });
+  g('sa').innerHTML=html;
+  renderStockSelect();
+}
+function renderStockSelect(){
+  var cats=getStockCats();
+  var sel=g('stc');if(!sel)return;
+  var cur=sel.value;
+  sel.innerHTML=Object.entries(cats).map(function(e){
+    return '<option value="'+e[0]+'"'+(e[0]===cur?' selected':'')+'>'+e[1].ico+' '+e[1].label+'</option>';
+  }).join('');
+}
 function chgQ(cat,id,d){var item=state.stock[cat].find(function(i){return i.id===id;});if(!item)return;item.q=Math.max(0,item.q+d);var el=g('qv-'+id);if(el)el.textContent=item.q;var si=g('si-'+id);if(si)si.classList.toggle('low',item.q<=item.m);scheduleSave();}
 function delS(cat,id){state.stock[cat]=state.stock[cat].filter(function(i){return i.id!==id;});var el=g('si-'+id);if(el)el.remove();toast('removido');scheduleSave();}
-function addStock(){var n=g('stn').value.trim(),cat=g('stc').value,q=parseFloat(g('stq').value)||1,u=g('stu').value.trim()||'un';if(!n){toast('escreve o nome');return;}var id=nx();state.stock[cat].push({id:id,n:n,q:q,u:u,m:1});g('stn').value='';g('stq').value='1';g('stu').value='un';var gr=g('sg-'+cat);var ep=gr?gr.querySelector('.empty'):null;if(ep)ep.remove();if(gr)gr.insertAdjacentHTML('beforeend',siH({id:id,n:n,q:q,u:u,m:1},cat));scheduleSave();}
+function addStock(){
+  var n=g('stn').value.trim(),cat=g('stc').value,q=parseFloat(g('stq').value)||1,u=g('stu').value.trim()||'un';
+  if(!n){toast('escreve o nome');return;}
+  if(!cat){toast('escolhe uma categoria');return;}
+  // Garantir que a categoria existe no state
+  if(!state.stock[cat])state.stock[cat]=[];
+  var id=nx();
+  var item={id:id,n:n,q:q,u:u,m:1};
+  state.stock[cat].push(item);
+  g('stn').value='';g('stq').value='1';g('stu').value='un';
+  // Re-render stock completo para garantir que aparece
+  renderStock();
+  scheduleSave();
+  toast(n+' adicionado!');
+}
 
 // ── LISTA ──
 var COR_OPTS=['#3a5030','#7a3040','#7a5c2e','#2a4060','#5a3070','#1c4a4a','#6a3020','#404020','#2a2a60','#603020'];
@@ -1970,6 +2071,45 @@ function renderTemas(which){
     return '<div class="tem-item" onclick="'+onclick+'"><div class="ti-title">'+item.t+'</div><div class="ti-desc">'+item.d+'</div></div>';
   }).join('');
   if(!filtered.length)list.innerHTML='<p class="empty">Sem resultados.</p>';
+}
+
+// ── CATEGORIAS DE STOCK ──
+var _selIcon='🧴';
+function selIcon(el){
+  document.querySelectorAll('#ncat-icon-grid .cor-opt').forEach(function(x){
+    x.style.border='2px solid var(--bd2)';
+  });
+  el.style.border='2px solid var(--ink)';
+  _selIcon=el.dataset.ico;
+}
+
+function addCategoria(){
+  var nome=g('ncat-nome').value.trim();
+  if(!nome){toast('Escreve o nome da categoria');return;}
+  var key=nome.toLowerCase().replace(/[^a-z0-9]/g,'_');
+  var cats=getStockCats();
+  if(cats[key]){toast('Esta categoria já existe');return;}
+  cats[key]={label:nome,ico:_selIcon};
+  state.stock[key]=[];
+  stockCats=cats;
+  localStorage.setItem('co_cats',JSON.stringify(cats));
+  g('ncat-nome').value='';
+  g('ncat-modal').classList.remove('on');
+  renderStock();
+  scheduleSave();
+  toast(nome+' criada!','sv');
+}
+
+function delCat(cat){
+  if(!confirm('Eliminar categoria "'+cat+'" e todos os seus itens?'))return;
+  var cats=getStockCats();
+  delete cats[cat];
+  delete state.stock[cat];
+  stockCats=cats;
+  localStorage.setItem('co_cats',JSON.stringify(cats));
+  renderStock();
+  scheduleSave();
+  toast('categoria removida');
 }
 </script>
 
