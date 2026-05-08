@@ -1521,14 +1521,14 @@ function toggleSug(i){
 // ── STOCK ──
 function siH(i,cat){
   var low=i.q<=i.m;
-  var qcat=JSON.stringify(cat);
+  var sc=cat.replace(/'/g,"\\'"); // escape single quotes in cat name
   return '<div class="si'+(low?' low':'')+'" id="si-'+i.id+'">'+
     '<div class="sn">'+i.n+'<span class="su">'+i.u+'</span></div>'+
     '<div class="qc">'+
-    '<button class="qb" onclick="chgQ('+qcat+','+i.id+',-1)">−</button>'+
+    '<button class="qb" onclick="chgQ(\''+sc+'\','+i.id+',-1)">−</button>'+
     '<span class="qv" id="qv-'+i.id+'">'+i.q+'</span>'+
-    '<button class="qb" onclick="chgQ('+qcat+','+i.id+',1)">+</button>'+
-    '<button class="xb" onclick="delS('+qcat+','+i.id+')">✕</button>'+
+    '<button class="qb" onclick="chgQ(\''+sc+'\','+i.id+',1)">+</button>'+
+    '<button class="xb" onclick="delS(\''+sc+'\','+i.id+')">✕</button>'+
     '</div></div>';
 }
 function renderStock(){
