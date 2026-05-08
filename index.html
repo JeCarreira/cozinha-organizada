@@ -817,18 +817,19 @@ var g=function(i){return document.getElementById(i);};
 
 // ── GUARDAR NO LOCALSTORAGE (funciona sempre) ──
 function scheduleSave(){
-  try{localStorage.setItem('co_state',JSON.stringify({stock:state.stock,ementa:state.ementa,lista:state.lista,lojas:state.lojas}));}catch(e){}
-  try{localStorage.setItem('co_abas',JSON.stringify(abas));}catch(e){}
-  try{if(stockCats)localStorage.setItem('co_cats',JSON.stringify(stockCats));}catch(e){}
+  // Guardar cada parte separadamente para maior robustez
+  try{localStorage.setItem('co_stock', JSON.stringify(state.stock));}catch(e){console.error('Save stock:',e);}
+  try{localStorage.setItem('co_ementa', JSON.stringify(state.ementa));}catch(e){}
+  try{localStorage.setItem('co_lista', JSON.stringify(state.lista));}catch(e){}
+  try{localStorage.setItem('co_lojas2', JSON.stringify(state.lojas));}catch(e){}
+  try{if(stockCats)localStorage.setItem('co_cats', JSON.stringify(stockCats));}catch(e){}
+  try{localStorage.setItem('co_abas', JSON.stringify(abas));}catch(e){}
   doSaved();
-  // Cloud em background - falha silenciosamente
   clearTimeout(window._ct);
   window._ct=setTimeout(function(){
     var code=localStorage.getItem('co_code');if(!code)return;
-    var st={action:'save',table:'familias',codigo:code,payload:{dados:JSON.stringify({stock:state.stock,ementa:state.ementa,lista:state.lista,lojas:state.lojas})}};
-    var ab={action:'save',table:'abas_pessoais',codigo:code,payload:{abas:JSON.stringify(abas)}};
-    fetch('/api/db',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(st)}).catch(function(){});
-    fetch('/api/db',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(ab)}).catch(function(){});
+    fetch('/api/db',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',table:'familias',codigo:code,payload:{dados:JSON.stringify({stock:state.stock,ementa:state.ementa,lista:state.lista,lojas:state.lojas})}})}).catch(function(){});
+    fetch('/api/db',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',table:'abas_pessoais',codigo:code,payload:{abas:JSON.stringify(abas)}})}).catch(function(){});
   },3000);
 }
 function showSyncBar(){}
@@ -1240,9 +1241,13 @@ function showForgot(){
 g('ci').addEventListener('keydown',function(e){if(e.key==='Enter')doLogin();});
 window.addEventListener('DOMContentLoaded',function(){
   // Restaurar localStorage
-  try{var ss=localStorage.getItem('co_state');if(ss){var d=JSON.parse(ss);if(d.stock)state.stock=d.stock;if(d.ementa)state.ementa=d.ementa;if(d.lista)state.lista=d.lista;if(d.lojas&&d.lojas.length)state.lojas=d.lojas;}}catch(e){}
-  try{var sa=localStorage.getItem('co_abas');if(sa)abas=JSON.parse(sa);}catch(e){}
-  try{var sc=localStorage.getItem('co_cats');if(sc){stockCats=JSON.parse(sc);}}catch(e){}
+  // Carregar cada parte separadamente (mais robusto)
+  try{var _s=localStorage.getItem('co_stock');if(_s){var _sp=JSON.parse(_s);if(_sp&&typeof _sp==='object')state.stock=_sp;}}catch(e){console.error('Load stock:',e);}
+  try{var _e=localStorage.getItem('co_ementa');if(_e)state.ementa=JSON.parse(_e);}catch(e){}
+  try{var _l=localStorage.getItem('co_lista');if(_l)state.lista=JSON.parse(_l);}catch(e){}
+  try{var _lj=localStorage.getItem('co_lojas2');if(_lj){var _ljp=JSON.parse(_lj);if(_ljp&&_ljp.length)state.lojas=_ljp;}}catch(e){}
+  try{var _c=localStorage.getItem('co_cats');if(_c)stockCats=JSON.parse(_c);}catch(e){}
+  try{var _a=localStorage.getItem('co_abas');if(_a)abas=JSON.parse(_a);}catch(e){}
   // UI
   try{var t=new Date();if(g('trd'))g('trd').valueAsDate=t;}catch(e){}
   try{var mon=getMonday(new Date());var sun=new Date(mon);sun.setDate(sun.getDate()+6);if(g('wk-s'))g('wk-s').valueAsDate=mon;if(g('wk-e'))g('wk-e').valueAsDate=sun;}catch(e){}
@@ -1357,36 +1362,60 @@ function limparEmenta(){var days=getWkDays();days.forEach(function(d){var dd=d.t
 function gerarIA(){
   var btn=g('bia');btn.disabled=true;btn.textContent='a gerar...';
   var days=getWkDays();
-  // Build menus from actual stock
-  var prot=Object.values(state.stock).flat().filter(function(i){return i.q>0&&(i.cat==='congelador'||['Frango','Peixe','Carne','Ovo','Atum','Queijo'].some(function(k){return i.n.includes(k);}));}).map(function(i){return i.n+' (stock)';});
-  var hidr=Object.values(state.stock).flat().filter(function(i){return i.q>0&&['Arroz','Massa','Batata','Pão','Aveia'].some(function(k){return i.n.includes(k);}); }).map(function(i){return i.n+' (stock)';});
-  var legum=Object.values(state.stock).flat().filter(function(i){return i.q>0&&(i.cat==='frutas'||['Cenoura','Batata','Tomate','Curg','Espina'].some(function(k){return i.n.includes(k);}));}).map(function(i){return i.n+' (stock)';});
-  // Fallbacks
-  if(!prot.length)prot=['Frango peito (stock)','Ovos (stock)','Peixe filetes (stock)'];
-  if(!hidr.length)hidr=['Arroz (stock)','Massa (stock)','Batatas (stock)'];
-  if(!legum.length)legum=['Cenouras (stock)','Batatas (stock)'];
-  function pick(arr,i){return arr[i%arr.length];}
+
+  // Usar nomes REAIS do stock
+  function stockItems(keywords){
+    var all=Object.values(state.stock).flat();
+    var found=all.filter(function(i){
+      return i.q>0&&keywords.some(function(k){return i.n.toLowerCase().includes(k.toLowerCase());});
+    });
+    return found.map(function(i){return i.n;});
+  }
+
+  var prots=stockItems(['frango','peixe','carne','ovo','atum','queijo','iogurte']);
+  var hidrats=stockItems(['arroz','massa','batata','pão','aveia','feijão','grão']);
+  var legums=stockItems(['cenoura','tomate','batata','courgette','brócolos','espinafre','fruta','maçã','banana','fruta']);
+
+  // Fallbacks se stock vazio
+  if(!prots.length)prots=['Ovos','Frango peito'];
+  if(!hidrats.length)hidrats=['Arroz','Batatas'];
+  if(!legums.length)legums=['Cenouras'];
+
+  function rnd(arr){return arr[Math.floor(Math.random()*arr.length)];}
+
   var planos={
-    PA:['Ovos mexidos + tosta','Iogurte grego + banana (stock)','Panquecas aveia + ovo (stock)','Ovos cozidos + maçã (stock)','Iogurte + fruta (stock)','Ovo estrelado + pão (stock)','Batido leite + banana (stock)'],
-    'Lanche M':['Banana + iogurte (stock)','Maçã + ovo cozido (stock)','Iogurte natural (stock)','Cenoura crua + iogurte (stock)','Fruta da época (stock)','Iogurte + mel (stock)','Ovo cozido (stock)'],
-    Jantar:['Sopa Bimby + '+pick(prot,0)+' + '+pick(hidr,0),'Sopa + '+pick(prot,1)+' + '+pick(legum,0),'Sopa + '+pick(prot,2)+' + '+pick(hidr,1),'Sopa + '+pick(prot,0)+' assado','Sopa + omelete ovos (stock)','Pizza caseira (stock)','Petiscos a dois (stock)'],
-    Almoço:[pick(prot,0)+' + '+pick(hidr,0)+' + '+pick(legum,0),pick(prot,1)+' + '+pick(legum,1)+' + azeite','Omelete ovos (stock) + '+pick(hidr,1),pick(prot,2)+' + '+pick(hidr,2)+' + cenoura','Bowl stock: '+pick(prot,0)+' + '+pick(hidr,0),pick(prot,1)+' Bimby + '+pick(hidr,1),pick(prot,0)+' airfryer + '+pick(legum,0)],
-    'Lanche T':['Maçã (stock)','Iogurte (stock)','Banana (stock)','Ovo cozido (stock)','Cenoura crua (stock)','Tosta queijo (stock)','Iogurte mel (stock)'],
-    Ceia:['Iogurte natural (stock)','Leite morno (stock)','Banana (stock)','Iogurte grego (stock)','Maçã (stock)']
+    PA:['Ovos mexidos + tosta','Iogurte + banana','Panquecas aveia e ovo','Ovo cozido + fruta','Iogurte grego + mel','Ovo estrelado + pão','Batido leite + banana'],
+    'Lanche M':['Iogurte + fruta','Ovo cozido','Fruta + iogurte','Cenoura crua + iogurte','Banana','Iogurte natural','Maçã + ovo cozido'],
+    'Lanche T':['Fruta','Iogurte','Cenoura crua','Ovo cozido','Tosta + queijo','Banana','Iogurte + mel'],
+    Ceia:['Iogurte natural','Leite morno','Banana','Iogurte grego']
   };
+
   setTimeout(function(){
     days.forEach(function(d,di){
       var dd=d.toISOString().split('T')[0];
       activeMealTypes.forEach(function(mt){
         var k='d_'+dd+'_'+mt;
-        var opts=planos[mt]||planos['Almoço'];
-        state.ementa[k]=opts[di%opts.length];
+        var meal='';
+        if(mt==='Almoço'){
+          meal=rnd(prots)+' + '+rnd(hidrats)+' + '+rnd(legums);
+        } else if(mt==='Jantar'){
+          var dow=d.getDay();
+          if(dow===5)meal='Jantar temático família — '+rnd(prots)+' + '+rnd(hidrats);
+          else if(dow===6)meal='Petiscos a dois';
+          else meal='Sopa + '+rnd(prots)+' + '+rnd(legums);
+        } else {
+          var opts=planos[mt]||planos['Lanche T'];
+          meal=opts[di%opts.length];
+        }
+        state.ementa[k]=meal;
         state.ementa[k+'_ia']=true;
       });
     });
-    renderEmenta();updDash();toast('ementa gerada com o stock!');scheduleSave();
+    renderEmenta();updDash();
+    toast('Ementa gerada com o teu stock!');
+    scheduleSave();
     btn.disabled=false;btn.textContent='✦ Gerar com IA';
-  },700);
+  },600);
 }
 
 // ── TEMÁTICOS ──
